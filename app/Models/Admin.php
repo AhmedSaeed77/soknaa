@@ -37,4 +37,15 @@ class Admin extends Authenticatable implements JWTSubject
         return \JWTAuth::fromUser($this);
     }
     
+    public function getStatusAttribute()
+    {
+        if( $this->attributes['status'] == 1)
+        {
+            return __('dashboard.active');
+        }
+        elseif($this->attributes['status'] == 0)
+        {
+            return __('dashboard.unactive');
+        } 
+    }
 }

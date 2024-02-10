@@ -127,4 +127,11 @@ return [
     'admin_not_active' => 'الحساب غبر مفعل',
     'admin_Is_Login' => 'تم تسجيل الدخول بنجاح',
     'admin_Not_Found' => 'المشرف غير موجود',
+    'item_is_added' => 'تم الاضافه  بنجاح',
+    'item_is_updated' => 'تم التعديل بنجاح',
+    'item_is_deleted' => 'تم الحذف بنجاح',
+    'admin_is_unblocked' => 'تم فك الحظر بنجاح',
+    'admin_is_blocked' => 'تم حظر المشرف بنجاح',
+    'active' => 'نشط',
+    'unactive' => 'غير نشط',
 ];

@@ -22,7 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'Lang'], function () {
 
     Route::post('login', [AdminController::class, 'login']);
-    
+
+    Route::group(['middleware' => 'auth:admin'], function () {
+        Route::resource('admins', AdminController::class);
+        Route::post('admin/block/{id}', [AdminController::class, 'block']);
+    });
 });
 
 

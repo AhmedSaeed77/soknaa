@@ -128,4 +128,11 @@ return [
     'admin_not_active' => 'Admin Not Active',
     'admin_Is_Login' => 'Admin Is Login',
     'admin_Not_Found' => 'Admin Not Found',
+    'item_is_added' => 'Item Is Added',
+    'item_is_updated' => 'Item Is Updated',
+    'item_is_deleted' => 'Item Is Deleted',
+    'admin_is_unblocked' => 'Admin Is Unblocked',
+    'admin_is_blocked' => 'Admin Is Blocked',
+    'active' => 'Active',
+    'unactive' => 'Un Active',
 ];
