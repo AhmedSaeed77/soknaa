@@ -134,4 +134,5 @@ return [
     'admin_is_blocked' => 'تم حظر المشرف بنجاح',
     'active' => 'نشط',
     'unactive' => 'غير نشط',
+    'Incorrect email or password' => 'البريد الالكترونى او كله المرور غير صحيحه',
 ];

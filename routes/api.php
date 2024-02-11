@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,13 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => 'Lang'], function () {
+///////////////////////////////// dashboard  //////////////////////////////
+
+Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
 
     Route::post('login', [AdminController::class, 'login']);
 
@@ -30,3 +33,16 @@ Route::group(['middleware' => 'Lang'], function () {
 });
 
 
+
+///////////////////////////////// mobile  //////////////////////////////
+
+
+Route::group(['middleware' => 'Lang'], function () {
+
+    Route::post('login', [UserAuthController::class, 'login']);
+
+    Route::group(['middleware' => 'auth'], function () {
+
+        
+    });
+});

@@ -34,7 +34,7 @@ class AdminController extends Controller
                 
             return $this->returnData('data',['admin_data' => $admin , 'token' => $token] , __('dashboard.admin_Is_Login'));
         }
-        return $this->returnError(422,__('dashboard.admin_Not_Found'));
+        return $this->returnError(422,__('dashboard.Incorrect email or password'));
     }
 
     public function logout()
