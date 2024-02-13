@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\api\StandardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +41,14 @@ Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
 Route::group(['middleware' => 'Lang'], function () {
 
     Route::post('login', [UserAuthController::class, 'login']);
+    Route::post('/reset', [UserAuthController::class, 'reset']);
+    Route::post('/resetUserconfirm', [UserAuthController::class, 'resetUserconfirm']);
+    Route::post('/changePassword', [UserAuthController::class, 'changePassword']);
 
     Route::group(['middleware' => 'auth'], function () {
 
         
     });
+
+    Route::get('standard', [StandardController::class, 'standard']);
 });
