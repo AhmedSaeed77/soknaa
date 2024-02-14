@@ -19,11 +19,13 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    // protected $fillable = [
+    //     'name',
+    //     'email',
+    //     'password',
+    // ];
+
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -62,4 +64,48 @@ class User extends Authenticatable implements JWTSubject
     {
         return \JWTAuth::fromUser($this);
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(User::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(User::class, 'parent_id');
+    }
+
+    public function location()
+    {
+        return $this->hasOne(Location::class);
+    }
+
+    public function personalInformation()
+    {
+        return $this->hasOne(PersonalInformation::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user)
+        {
+            if (is_null($user->membership_num))
+            {
+                $user->membership_num = static::generateMembershipNumber();
+            }
+        });
+    }
+
+    protected static function generateMembershipNumber()
+    {
+        $lastMembershipNumber = static::max('membership_num') ?? 999;
+        return $lastMembershipNumber + 1;
+    }
+
 }

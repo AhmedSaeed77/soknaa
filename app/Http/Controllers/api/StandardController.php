@@ -18,6 +18,7 @@ use App\Models\Religiosity;
 use App\Models\SkinColour;
 use App\Models\TypeMarriage;
 use App\Models\Weight;
+use App\Models\FamilySituationMan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\api\AgeResource;
@@ -47,7 +48,9 @@ class StandardController extends Controller
         $skinColours = SkinColour::all();
         $typeMarriages = TypeMarriage::all();
         $weights = Weight::all();
+        $familySituationMans = FamilySituationMan::all();
 
+        $familySituationMans_data = AgeResource::collection($familySituationMans);
         $ages_data = AgeResource::collection($ages);
         $beards_data = AgeResource::collection($beards);
         $countries_data = CountryResource::collection($countries);
@@ -84,7 +87,7 @@ class StandardController extends Controller
                     'skinColours_data' => $skinColours_data,
                     'typeMarriages_data' => $typeMarriages_data,
                     'weights_data' => $weights_data,
-                    
+                    'familySituationMans_data' => $familySituationMans_data,
                 ];
         return $this->returnData('data',$data);
     }

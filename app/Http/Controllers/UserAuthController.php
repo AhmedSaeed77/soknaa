@@ -2,14 +2,111 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\Image;
+use App\Models\Location;
+use App\Models\PersonalInformation;
 use App\Http\Requests\api\UserLoginRequest;
+use App\Http\Requests\api\RegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\GeneralTrait;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserAuthController extends Controller
 {
     use GeneralTrait;
+
+    public function register(RegisterRequest $request)
+    {
+        
+        try
+        {
+            if($request->type == 'خاطبه')
+            {
+                DB::beginTransaction();   
+                User::create([
+                                'name' => $request->name,
+                                'email' => $request->email,
+                                'password' => Hash::make($request->password),
+                                'nickname' => $request->nickname,
+                                'phone' => $request->phone,
+                                'type' => $request->type,
+                                'sex' => $request->sex,
+                            ]);
+                DB::commit();
+                return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
+            }
+            else
+            {
+                DB::beginTransaction();
+                $user = User::create([
+                                        'name' => $request->name,
+                                        'email' => $request->email,
+                                        'password' => Hash::make($request->password),
+                                        'nickname' => $request->nickname,
+                                        'phone' => $request->phone,
+                                        'type' => $request->type,
+                                        'age' => $request->age,
+                                        'child_num' => $request->child_num,
+                                        'sex' => $request->sex,
+                                        'typemerrage' => $request->typemerrage,
+                                        'familysitiation' => $request->familysitiation,
+                                    ]);
+
+                Location::create([
+                                    'user_id' => $user->id,
+                                    'country' => $request->country,
+                                    'nationality' => $request->nationality,
+                                    'city' => $request->city,
+                                    'religion' => $request->religion,
+                                ]);
+
+                PersonalInformation::create([
+                                                'user_id' => $user->id,
+                                                'weight' => $request->weight,
+                                                'length' => $request->length,
+                                                'skin_colour' => $request->skin_colour,
+                                                'physique' => $request->physique,
+                                                'health_statuse' => $request->health_statuse,
+                                                'religion' => $request->religion,
+                                                'prayer' => $request->prayer,
+                                                'smoking' => $request->smoking,
+                                                'beard' => $request->beard,
+                                                'hijab' => $request->hijab,
+                                                'educational_level' => $request->educational_level,
+                                                'financial_statuse' => $request->financial_statuse,
+                                                'employment' => $request->employment,
+                                                'job' => $request->job,
+                                                'monthly_income' => $request->monthly_income,
+                                                'life_partner_info' => $request->life_partner_info,
+                                                'my_information' => $request->my_information,
+                                            ]);
+
+                if($request->hasFile('images'))
+                {
+                    $i=0;
+                    foreach($request->file('images') as $image)
+                    {
+                        $fileimage = $this->handle('images.'.$i, 'users');
+                        Image::create([
+                                        'user_id' => $user->id,
+                                        'image' => $fileimage,
+                                    ]);
+                        $i++;
+                    }
+                }
+            }
+                                   
+            DB::commit();
+            return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
+        }
+        catch (\Exception $e)
+        {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
     public function login(UserLoginRequest $request)
     {

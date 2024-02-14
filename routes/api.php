@@ -40,15 +40,20 @@ Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
 
 Route::group(['middleware' => 'Lang'], function () {
 
+    Route::post('register', [UserAuthController::class, 'register']);
+
     Route::post('login', [UserAuthController::class, 'login']);
     Route::post('/reset', [UserAuthController::class, 'reset']);
     Route::post('/resetUserconfirm', [UserAuthController::class, 'resetUserconfirm']);
     Route::post('/changePassword', [UserAuthController::class, 'changePassword']);
+
+    Route::get('standard', [StandardController::class, 'standard']);
+
 
     Route::group(['middleware' => 'auth'], function () {
 
         
     });
 
-    Route::get('standard', [StandardController::class, 'standard']);
+    
 });
