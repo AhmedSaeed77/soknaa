@@ -218,6 +218,7 @@ return [
         'oldpassword'           => 'كلمه المرور القديمه',
         'newpassword'           => 'كلمه المرور الجديده',
         'confirmpassword'           => 'تاكيد كلمه المرور الجديده ',
+        'parent_phone' => 'هاتف ولى الامر',
 
         'country_id'               => 'الدولة',
         'address'               => 'العنوان',

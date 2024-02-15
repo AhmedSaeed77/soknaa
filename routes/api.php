@@ -52,7 +52,9 @@ Route::group(['middleware' => 'Lang'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
 
-        
+        Route::post('/adduser', [UserAuthController::class, 'adduser']);
+        Route::get('/getAllUserByFinance', [UserAuthController::class, 'getAllUserByFinance']);
+
     });
 
     

@@ -7,6 +7,8 @@ use App\Models\Location;
 use App\Models\PersonalInformation;
 use App\Http\Requests\api\UserLoginRequest;
 use App\Http\Requests\api\RegisterRequest;
+use App\Http\Requests\api\AddUserRequest;
+use App\Http\Resources\api\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\GeneralTrait;
@@ -19,7 +21,6 @@ class UserAuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        
         try
         {
             if($request->type == 'خاطبه')
@@ -115,10 +116,10 @@ class UserAuthController extends Controller
         if($token)
         {
             $user = User::where('email',$request->email)->first();
-            // if (\auth('web')->user()->status == 0)
-            // {
-            //     return $this->returnError(422,__('dashboard.admin_not_active'));
-            // }
+            if (\auth('web')->user()->is_active == 0)
+            {
+                return $this->returnError(422,__('dashboard.admin_not_active'));
+            }
                 
             return $this->returnData('data',['user_data' => $user , 'token' => $token] , __('dashboard.admin_Is_Login'));
         }
@@ -191,5 +192,82 @@ class UserAuthController extends Controller
         {
             return response()->json($e->getMessage(), 401);
         }
+    }
+
+    public function adduser(AddUserRequest $request)
+    {
+        DB::beginTransaction();  
+        try
+        {
+            $user = User::create([
+                                    'name' => $request->name,
+                                    'parent_phone' => $request->parent_phone,
+                                    'phone' => $request->phone,
+                                    'type' => $request->type,
+                                    'sex' => $request->sex,
+                                    'age' => $request->age,
+                                    'child_num' => $request->child_num,
+                                    'sex' => $request->sex,
+                                    'typemerrage' => $request->typemerrage,
+                                    'familysitiation' => $request->familysitiation,
+                                    'parent_id' => auth()->user()->id
+                                ]);
+
+            Location::create([
+                                'user_id' => $user->id,
+                                'country' => $request->country,
+                                'nationality' => $request->nationality,
+                                'city' => $request->city,
+                                'religion' => $request->religion,
+                            ]);
+
+            PersonalInformation::create([
+                                            'user_id' => $user->id,
+                                            'weight' => $request->weight,
+                                            'length' => $request->length,
+                                            'skin_colour' => $request->skin_colour,
+                                            'physique' => $request->physique,
+                                            'health_statuse' => $request->health_statuse,
+                                            'religion' => $request->religion,
+                                            'prayer' => $request->prayer,
+                                            'smoking' => $request->smoking,
+                                            'beard' => $request->beard,
+                                            'hijab' => $request->hijab,
+                                            'educational_level' => $request->educational_level,
+                                            'financial_statuse' => $request->financial_statuse,
+                                            'employment' => $request->employment,
+                                            'job' => $request->job,
+                                            'monthly_income' => $request->monthly_income,
+                                            'life_partner_info' => $request->life_partner_info,
+                                            'my_information' => $request->my_information,
+                                        ]);  
+            if($request->hasFile('images'))
+            {
+                $i=0;
+                foreach($request->file('images') as $image)
+                {
+                    $fileimage = $this->handle('images.'.$i, 'users');
+                    Image::create([
+                                    'user_id' => $user->id,
+                                    'image' => $fileimage,
+                                ]);
+                    $i++;
+                }
+            }
+            DB::commit();
+            return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));                                       
+        }
+        catch (\Exception $e)
+        {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getAllUserByFinance()
+    {
+        $users = User::where('parent_id','!=',null)->where('parent_id',auth()->user()->id)->get();
+        $users_data = UserResource::collection($users);
+        return $this->returnData('data',$users_data);
     }
 }
