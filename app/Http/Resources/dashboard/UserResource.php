@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\api;
+namespace App\Http\Resources\dashboard;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,11 +19,13 @@ class UserResource extends JsonResource
                     'id' => $this->id,
                     'name' => $this->name,
                     'nickname' => $this->nickname,
+                    'membership_num' => $this->membership_num,
+                    'email' => $this->email,
                     'type' => $this->type,
                     'sex' => $this->sex,
-                    'country' => $this->location->country,
-                    'membership_num' => $this->membership_num,
-                    'image' => url($this->images->first()->image),
+                    'phone' => $this->phone,
+                    'date' => $this->created_at->format('Y-m-d'),
+                    'status' => $this->status,
                 ];
     }
 }

@@ -49,5 +49,6 @@ return [
     'admin_not_active' => '',
     'admin_Is_Login' => '',
     'admin_Not_Found' => '',
-    '' => '',
+    'code_Is_Confirm' => 'الكود صحيح',
+    'type_of_user_not_suitable' => 'نوع المستخدم غير مناسب',
 ];

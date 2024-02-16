@@ -50,6 +50,16 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    public function getStatusAttribute()
+    {
+        if($this->attributes['status'] == 0)
+            return "معلق";
+        elseif($this->attributes['status'] == 1)
+            return 'مقبول';
+        elseif($this->attributes['status'] == 2)
+            return 'مرفوض';
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -83,6 +93,14 @@ class User extends Authenticatable implements JWTSubject
     public function personalInformation()
     {
         return $this->hasOne(PersonalInformation::class);
+    }
+
+    public function getAllImageUrlsAttribute()
+    {
+        $imageUrls = $this->images->map(function ($image)
+        {
+            return url($image->image);
+        });
     }
 
     public function images()

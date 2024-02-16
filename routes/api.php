@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\api\StandardController;
+use App\Http\Controllers\api\SiteController;
+use App\Http\Controllers\dashboard\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +32,16 @@ Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
     Route::group(['middleware' => 'auth:admin'], function () {
         Route::resource('admins', AdminController::class);
         Route::post('admin/block/{id}', [AdminController::class, 'block']);
+
+        Route::get('getRequestsToJoin', [UserController::class, 'getRequestsToJoin']);
+        Route::get('getOneRequestToJoin/{id}', [UserController::class, 'getOneRequestToJoin']);
+        Route::post('acceptReject', [UserController::class, 'acceptReject']);
+
+        Route::get('getAllMembers', [UserController::class, 'getAllMembers']);
+        Route::get('getOneMember/{id}', [UserController::class, 'getOneMember']);
+        Route::get('block/{id}', [UserController::class, 'block']);
+        Route::post('deleteMember/{id}', [UserController::class, 'deleteMember']);
+
     });
 });
 
@@ -54,6 +66,13 @@ Route::group(['middleware' => 'Lang'], function () {
 
         Route::post('/adduser', [UserAuthController::class, 'adduser']);
         Route::get('/getAllUserByFinance', [UserAuthController::class, 'getAllUserByFinance']);
+        Route::get('/getOneUser/{id}', [UserAuthController::class, 'getOneUser']);
+        Route::post('/showProfile', [UserAuthController::class, 'isShowProfile']);
+
+        Route::get('/getAllUsers', [SiteController::class, 'getAllUsers']);
+        Route::get('/getOneUserSite/{id}', [SiteController::class, 'getOneUserSite']);
+
+        Route::get('/search', [SiteController::class, 'search']);
 
     });
 

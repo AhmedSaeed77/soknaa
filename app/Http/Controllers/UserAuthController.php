@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Image;
 use App\Models\Location;
@@ -8,12 +9,19 @@ use App\Models\PersonalInformation;
 use App\Http\Requests\api\UserLoginRequest;
 use App\Http\Requests\api\RegisterRequest;
 use App\Http\Requests\api\AddUserRequest;
+use App\Http\Requests\api\UserResetRequest;
+use App\Http\Requests\api\UserConfirmRequest;
+use App\Http\Requests\api\UserChangePasswordDashboardRequest;
+use App\Http\Requests\api\ShowProfileRequest;
 use App\Http\Resources\api\UserResource;
+use App\Http\Resources\api\OneUserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Mail\NotifyMail;
+use Mail;
 
 class UserAuthController extends Controller
 {
@@ -140,8 +148,8 @@ class UserAuthController extends Controller
                             ];
 
                 Mail::to($request->email)->send(new NotifyMail($details));
-                $this->resetpasswordRepository->deleteItem('user_id',$user->id);
-                $this->resetpasswordRepository->create(['user_id' => $user->id, 'reset' => $randomNumber]);
+                DB::table('password_reset_tokens')->where('email',$request->email)->delete();
+                DB::table('password_reset_tokens')->insert(['email' => $request->email , 'token' => $randomNumber]);
                 return $this->returnData('data',__('site.Email_Send'), __('site.Email_Send'));
             }
             else
@@ -159,7 +167,7 @@ class UserAuthController extends Controller
     {
         try
         {
-            $reset = $this->resetpasswordRepository->checkItem('reset',$request->confirm);
+            $reset = DB::table('password_reset_tokens')->where('token',$request->confirm)->first();
             if($reset)
             {
                 return $this->returnData('data',__('site.code_Is_Confirm'), __('site.code_Is_Confirm'));
@@ -179,12 +187,12 @@ class UserAuthController extends Controller
     {
         try
         {
-            $user = $this->userRepository->checkItem('email',$request->email);
+            $user = User::where('email',$request->email)->first();
             if($user)
             {
-                $this->userRepository->update($user->id,['password' => Hash::make($request->newpassword)]);
-                $this->resetpasswordRepository->deleteItem('user_id',$user->id);
-                return $this->returnData('data',__('site.password_Is_Changed'));
+                $user->update(['password' => Hash::make($request->password)]);
+                DB::table('password_reset_tokens')->where('email',$request->email)->delete();
+                return $this->returnData('data',__('site.password_Is_Changed'),__('site.password_Is_Changed'));
             }
             return $this->returnError('',__('site.User_Not_Found'));
         }
@@ -269,5 +277,38 @@ class UserAuthController extends Controller
         $users = User::where('parent_id','!=',null)->where('parent_id',auth()->user()->id)->get();
         $users_data = UserResource::collection($users);
         return $this->returnData('data',$users_data);
+    }
+
+    public function isShowProfile(ShowProfileRequest $request)
+    {
+        $user = User::find(auth()->user()->id);
+        if($user->type == 'خاطبه')
+        {
+            $newuser = User::find($request->user_id);
+            if($newuser)
+            {
+                $newuser->update(['is_showprofile' => $request->is_showprofile]);
+                return $this->returnData('data',__('site.User_Profile_Updated'), __('site.User_Profile_Updated'));
+            }
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.type_of_user_not_suitable'));
+        }
+    }
+
+    public function getOneUser($id)
+    {
+        $user = User::find($id);
+        if($user)
+        {
+            $user_data = new OneUserResource($user);
+            return $this->returnData('data',$user_data);
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
     }
 }
