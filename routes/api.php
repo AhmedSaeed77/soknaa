@@ -6,7 +6,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\api\StandardController;
 use App\Http\Controllers\api\SiteController;
+use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\dashboard\UserController;
+use App\Http\Controllers\dashboard\OrderDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,11 @@ Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
         Route::get('block/{id}', [UserController::class, 'block']);
         Route::post('deleteMember/{id}', [UserController::class, 'deleteMember']);
 
+        Route::get('getAllorders', [OrderDashboardController::class, 'getAllorders']);
+        Route::get('getOneOrder/{id}', [OrderDashboardController::class, 'getOneOrder']);
+        Route::post('changestatus/{id}', [OrderDashboardController::class, 'changestatus']);
+
+
     });
 });
 
@@ -73,6 +80,10 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::get('/getOneUserSite/{id}', [SiteController::class, 'getOneUserSite']);
 
         Route::get('/search', [SiteController::class, 'search']);
+
+        Route::post('createOrder', [OrderController::class, 'createOrder']);
+        Route::get('getAllOrders', [OrderController::class, 'getAllOrders']);
+        Route::get('getOneOrder/{id}', [OrderController::class, 'getOneOrder']);
 
     });
 

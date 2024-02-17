@@ -108,6 +108,16 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Image::class);
     }
 
+    public function fromOrder()
+    {
+        return $this->hasMany(Order::class,'from');
+    }
+
+    public function toOrder()
+    {
+        return $this->hasMany(Order::class,'to');
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -47,7 +47,7 @@ return [
     'No_Data' => 'No Data',
     'code_Is_Confirm' =>  'code_Is_Confirm',
     'type_of_user_not_suitable' => 'Type Of User Not Suitable',
-    '' => '',
-    '' => '',
+    'can_not_do_another_request' => 'Can Not Do Another Request',
+    'Order_Not_Found' => 'Order Not Found',
     '' => '',
 ];

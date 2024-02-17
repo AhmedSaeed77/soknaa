@@ -51,4 +51,6 @@ return [
     'admin_Not_Found' => '',
     'code_Is_Confirm' => 'الكود صحيح',
     'type_of_user_not_suitable' => 'نوع المستخدم غير مناسب',
+    'can_not_do_another_request' => 'لا تستطيع عمل طلب خطبه مره اخرى',
+    'Order_Not_Found' => 'الطلب غير موجود',
 ];

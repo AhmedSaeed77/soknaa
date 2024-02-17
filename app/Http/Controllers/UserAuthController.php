@@ -263,7 +263,7 @@ class UserAuthController extends Controller
                 }
             }
             DB::commit();
-            return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));                                       
+            return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
         }
         catch (\Exception $e)
         {
