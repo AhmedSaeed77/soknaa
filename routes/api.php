@@ -67,6 +67,7 @@ Route::group(['middleware' => 'Lang'], function () {
     Route::post('/changePassword', [UserAuthController::class, 'changePassword']);
 
     Route::get('standard', [StandardController::class, 'standard']);
+    Route::get('getAllCitiesByCountry/{id}', [StandardController::class, 'getAllCitiesByCountry']);
 
 
     Route::group(['middleware' => 'auth'], function () {

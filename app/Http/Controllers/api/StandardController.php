@@ -11,6 +11,7 @@ use App\Models\FinancialStatus;
 use App\Models\HealthStatus;
 use App\Models\Height;
 use App\Models\Hijab;
+use App\Models\City;
 use App\Models\MonthlyIncome;
 use App\Models\Physique;
 use App\Models\Prayer;
@@ -23,7 +24,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\api\AgeResource;
 use App\Http\Resources\api\CountryResource;
+use App\Http\Resources\api\NationatyResource;
 use App\Traits\GeneralTrait;
+use Illuminate\Support\Facades\DB;
 
 class StandardController extends Controller
 {
@@ -34,6 +37,7 @@ class StandardController extends Controller
         $ages = Age::all();
         $beards = Beard::all();
         $countries = Country::all();
+        $nationalities = DB::table('all_countries')->get();
         $educationalLevels = EducationalLevel::all();
         $employments = Employment::all();
         $familySituations = FamilySituation::all();
@@ -68,11 +72,13 @@ class StandardController extends Controller
         $skinColours_data = AgeResource::collection($skinColours);
         $typeMarriages_data = AgeResource::collection($typeMarriages);
         $weights_data = AgeResource::collection($weights);
+        $nationalities_data = NationatyResource::collection($nationalities);
 
         $data = [
                     'ages_data' => $ages_data,
                     'beards_data' => $beards_data,
                     'countries_data' => $countries_data,
+                    'nationalities_data' => $nationalities_data,
                     'educationalLevels_data' => $educationalLevels_data,
                     'employments_data' => $employments_data,
                     'familySituations_data' => $familySituations_data,
@@ -90,5 +96,12 @@ class StandardController extends Controller
                     'familySituationMans_data' => $familySituationMans_data,
                 ];
         return $this->returnData('data',$data);
+    }
+
+    public function getAllCitiesByCountry($id)
+    {
+        $cities = City::where('country_id',$id)->get();
+        $cities_data = CountryResource::collection($cities);
+        return $this->returnData('data',$cities_data);
     }
 }
