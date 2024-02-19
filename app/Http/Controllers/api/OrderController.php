@@ -8,6 +8,7 @@ use App\Http\Requests\api\OrderRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\api\OrdersResource;
 use App\Http\Resources\api\OneOrderResource;
+use App\Http\Resources\api\OrdersSuccessResource;
 
 use App\Traits\GeneralTrait;
 
@@ -61,6 +62,20 @@ class OrderController extends Controller
                 return $this->returnData('data',$order_data);
             }
             return $this->returnError('',__('site.Order_Not_Found'));
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getAllOrdersSuccess()
+    {
+        try
+        {
+            $orders = Order::where('status',1)->orderBy('created_at', 'desc')->get();
+            $orders_data = OrdersSuccessResource::collection($orders);
+            return $this->returnData('data',$orders_data);
         }
         catch (\Exception $e)
         {

@@ -80,13 +80,15 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::get('/getAllUsers', [SiteController::class, 'getAllUsers']);
         Route::get('/getOneUserSite/{id}', [SiteController::class, 'getOneUserSite']);
 
-        Route::get('/search', [SiteController::class, 'search']);
+        Route::post('/search', [SiteController::class, 'search']);
 
         Route::post('createOrder', [OrderController::class, 'createOrder']);
         Route::get('getAllOrders', [OrderController::class, 'getAllOrders']);
         Route::get('getOneOrder/{id}', [OrderController::class, 'getOneOrder']);
 
+        Route::get('getAllOrdersSuccess', [OrderController::class, 'getAllOrdersSuccess']);
+
     });
 
-    
+
 });

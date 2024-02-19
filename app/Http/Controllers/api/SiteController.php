@@ -38,8 +38,59 @@ class SiteController extends Controller
         }
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        
+        $users = User::when($request->has('name'), function ($query) use ($request) {
+                $query->where('name', 'like', '%' . $request->input('name') . '%');
+            })
+            ->when($request->has('nickname'), function ($query) use ($request) {
+                $query->where('nickname', 'like', '%' . $request->input('nickname') . '%');
+            })
+            ->when($request->has('familysitiation'), function ($query) use ($request) {
+                $query->where('familysitiation', 'like', '%' . $request->input('familysitiation') . '%');
+            })
+//            ->when($request->has('min_age') && $request->has('max_age'), function ($query) use ($request) {
+//                $query->whereBetween('age', [$request->input('min_age'), $request->input('max_age')]);
+//            })
+            ->when($request->has('min_age') && $request->has('max_age'), function ($query) use ($request) {
+                $minAge = $request->input('min_age');
+                $maxAge = $request->input('max_age');
+
+                // Adjust the condition to include the specified age range
+                $query->where(function ($subQuery) use ($minAge, $maxAge) {
+                    $subQuery->whereBetween('age', [$minAge, $maxAge])
+                        ->orWhere('age', $minAge)
+                        ->orWhere('age', $maxAge);
+                });
+            })
+            ->when($request->has('nationality'), function ($query) use ($request) {
+                $query->whereHas('location', function ($subQuery) use ($request) {
+                    $subQuery->where('nationality', $request->input('nationality'));
+                });
+            })
+            ->when($request->has('country'), function ($query) use ($request) {
+                $query->whereHas('location', function ($subQuery) use ($request) {
+                    $subQuery->where('country', $request->input('country'));
+                });
+            })
+            ->when($request->has('length'), function ($query) use ($request) {
+                $query->whereHas('personalInformation', function ($subQuery) use ($request) {
+                    $subQuery->where('length', $request->input('length'));
+                });
+            })
+            ->when($request->has('weight'), function ($query) use ($request) {
+                $query->whereHas('personalInformation', function ($subQuery) use ($request) {
+                    $subQuery->where('weight', $request->input('weight'));
+                });
+            })
+            ->when($request->has('skin_colour'), function ($query) use ($request) {
+                $query->whereHas('personalInformation', function ($subQuery) use ($request) {
+                    $subQuery->where('skin_colour', $request->input('skin_colour'));
+                });
+            })
+            ->get();
+
+        $users_data = UserResource::collection($users);
+        return $this->returnData('data',$users_data);
     }
 }
