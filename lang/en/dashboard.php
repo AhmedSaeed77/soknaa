@@ -135,5 +135,5 @@ return [
     'admin_is_blocked' => 'Admin Is Blocked',
     'active' => 'Active',
     'unactive' => 'Un Active',
-    'Incorrect email or password' => 'Incorrect email or password',
+    'Incorrect nickname or password' => 'Incorrect nickname or password',
 ];

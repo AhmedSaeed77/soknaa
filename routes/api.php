@@ -77,6 +77,20 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::get('/getOneUser/{id}', [UserAuthController::class, 'getOneUser']);
         Route::post('/showProfile', [UserAuthController::class, 'isShowProfile']);
 
+        Route::get('getUser', [UserAuthController::class, 'getUser']);
+        Route::post('updateUserName', [UserAuthController::class, 'updateUserName']);
+        Route::post('updateUserPhone', [UserAuthController::class, 'updateUserPhone']);
+        Route::post('updateUserEmail', [UserAuthController::class, 'updateUserEmail']);
+        Route::post('updateUserPassword', [UserAuthController::class, 'updateUserPassword']);
+        Route::post('updateUserLocation', [UserAuthController::class, 'updateUserLocation']);
+        Route::post('updateUserMaritalStatus', [UserAuthController::class, 'updateUserMaritalStatus']);
+        Route::post('updateUserDescription', [UserAuthController::class, 'updateUserDescription']);
+        Route::post('updateUserReligiousCommitment', [UserAuthController::class, 'updateUserReligiousCommitment']);
+        Route::post('updateUserStudyAndWork', [UserAuthController::class, 'updateUserStudyAndWork']);
+        Route::post('updateUserAbout', [UserAuthController::class, 'updateUserAbout']);
+        Route::post('updateUserLifePartnerInfo', [UserAuthController::class, 'updateUserLifePartnerInfo']);
+
+
         Route::get('/getAllUsers', [SiteController::class, 'getAllUsers']);
         Route::get('/getOneUserSite/{id}', [SiteController::class, 'getOneUserSite']);
 

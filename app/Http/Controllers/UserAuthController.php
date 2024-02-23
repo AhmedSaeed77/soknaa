@@ -33,7 +33,7 @@ class UserAuthController extends Controller
         {
             if($request->type == 'خاطبه')
             {
-                DB::beginTransaction();   
+                DB::beginTransaction();
                 User::create([
                                 'name' => $request->name,
                                 'email' => $request->email,
@@ -106,7 +106,7 @@ class UserAuthController extends Controller
                     }
                 }
             }
-                                   
+
             DB::commit();
             return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
         }
@@ -119,19 +119,19 @@ class UserAuthController extends Controller
 
     public function login(UserLoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('nickname', 'password');
         $token = Auth::guard('web')->attempt($credentials);
         if($token)
         {
-            $user = User::where('email',$request->email)->first();
+            $user = User::where('nickname',$request->nickname)->first();
             if (\auth('web')->user()->is_active == 0)
             {
                 return $this->returnError(422,__('dashboard.admin_not_active'));
             }
-                
+
             return $this->returnData('data',['user_data' => $user , 'token' => $token] , __('dashboard.admin_Is_Login'));
         }
-        return $this->returnError(422,__('dashboard.Incorrect email or password'));
+        return $this->returnError(422,__('dashboard.Incorrect nickname or password'));
     }
 
     public function reset(UserResetRequest $request)
@@ -204,7 +204,7 @@ class UserAuthController extends Controller
 
     public function adduser(AddUserRequest $request)
     {
-        DB::beginTransaction();  
+        DB::beginTransaction();
         try
         {
             $user = User::create([
@@ -248,7 +248,7 @@ class UserAuthController extends Controller
                                             'monthly_income' => $request->monthly_income,
                                             'life_partner_info' => $request->life_partner_info,
                                             'my_information' => $request->my_information,
-                                        ]);  
+                                        ]);
             if($request->hasFile('images'))
             {
                 $i=0;
@@ -305,6 +305,265 @@ class UserAuthController extends Controller
         {
             $user_data = new OneUserResource($user);
             return $this->returnData('data',$user_data);
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function getUser()
+    {
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user_data = new OneUserResource($user);
+            return $this->returnData('data',$user_data);
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserName(Request $request)
+    {
+        $request->validate([
+                                'nickname' => 'required',
+                            ]
+
+                        );
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->update(['nickname' => $request->nickname]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserPhone(Request $request)
+    {
+        $request->validate([
+                                'phone' => 'required',
+                            ]
+
+                        );
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->update(['phone' => $request->phone]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserEmail(Request $request)
+    {
+        $request->validate([
+                                'email' => 'required',
+                            ]
+
+                        );
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->update(['email' => $request->email]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserPassword(Request $request)
+    {
+        $request->validate([
+                                'password' => 'required|confirmed',
+                            ]
+
+                        );
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->update(['password' => Hash::make($request->password)]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserLocation(Request $request)
+    {
+        $request->validate([
+                                'country'       => 'required',
+                                'nationality'   => 'required',
+                                'city'          => 'required',
+                                'religion'      => 'required',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->location->update([
+                                        'country' => $request->country,
+                                        'nationality' => $request->nationality,
+                                        'city' => $request->city,
+                                        'religion' => $request->religion,
+                                    ]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserMaritalStatus(Request $request)
+    {
+        $request->validate([
+                                'familysitiation'   => 'required',
+                                'typemerrage'       => 'required',
+                                'child_num'         => 'required',
+                                'age'               => 'required',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->update([
+                                'familysitiation' => $request->familysitiation,
+                                'typemerrage' => $request->typemerrage,
+                                'child_num' => $request->child_num,
+                                'age' => $request->age,
+                            ]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserDescription(Request $request)
+    {
+        $request->validate([
+                                'weight'            => 'required',
+                                'length'            => 'required',
+                                'skin_colour'       => 'required',
+                                'physique'          => 'required',
+                                'health_statuse'    => 'required',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->personalInformation->update([
+                                                    'weight' => $request->weight,
+                                                    'length' => $request->length,
+                                                    'skin_colour' => $request->skin_colour,
+                                                    'physique' => $request->physique,
+                                                    'health_statuse' => $request->health_statuse,
+                                                ]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserReligiousCommitment(Request $request)
+    {
+        $request->validate([
+                                'religion'  => 'required',
+                                'prayer'    => 'required',
+                                'smoking'   => 'required',
+                                'beard'     => 'nullable',
+                                'hijab'     => 'nullable',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->personalInformation->update([
+                                                    'religion'  => $request->religion,
+                                                    'prayer'    => $request->prayer,
+                                                    'smoking'   => $request->smoking,
+                                                    'beard'      => $request?->beard,
+                                                    'hijab'     => $request?->hijab,
+                                                ]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserStudyAndWork(Request $request)
+    {
+        $request->validate([
+                                'educational_level'     => 'required',
+                                'financial_statuse'     => 'required',
+                                'employment'            => 'required',
+                                'job'                   => 'nullable',
+                                'monthly_income'        => 'nullable',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->personalInformation->update([
+                                                    'educational_level'  => $request->educational_level,
+                                                    'financial_statuse'    => $request->financial_statuse,
+                                                    'employment'   => $request->employment,
+                                                    'job'      => $request?->job,
+                                                    'monthly_income'     => $request?->monthly_income,
+                                                ]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserAbout(Request $request)
+    {
+        $request->validate([
+                                'my_information' => 'required',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->personalInformation->update([
+                                                    'my_information'  => $request->my_information,
+                                                ]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function updateUserLifePartnerInfo(Request $request)
+    {
+        $request->validate([
+                                'life_partner_info' => 'required',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $user->personalInformation->update([
+                                                    'life_partner_info'  => $request->life_partner_info,
+                                                ]);
+            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
         }
         else
         {
