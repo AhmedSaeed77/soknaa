@@ -26,7 +26,7 @@ class OneUserResource extends JsonResource
                     'child_num' => $this->child_num,
                     'membership_num' => $this->membership_num,
                     'status' => $this->status,
-                    'sex' => $this->sex,
+                    'gender' => $this->sex,
                     'typemerrage' => $this->typemerrage,
                     'familysitiation' => $this->familysitiation,
 

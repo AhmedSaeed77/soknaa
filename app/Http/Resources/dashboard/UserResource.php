@@ -22,7 +22,7 @@ class UserResource extends JsonResource
                     'membership_num' => $this->membership_num,
                     'email' => $this->email,
                     'type' => $this->type,
-                    'sex' => $this->sex,
+                    'gender' => $this->sex,
                     'phone' => $this->phone,
                     'date' => $this->created_at->format('Y-m-d'),
                     'status' => $this->status,
