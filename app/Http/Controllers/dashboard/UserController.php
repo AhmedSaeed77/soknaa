@@ -65,7 +65,7 @@ class UserController extends Controller
     {
         try
         {
-            $users = User::where('status',1)->where('is_active',1)->get();
+            $users = User::where('status',0)->where('is_active',0)->get();
             $users_data = UserResource::collection($users);
             return $this->returnData('data',$users_data);
         }
