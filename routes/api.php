@@ -28,27 +28,29 @@ Route::middleware('auth:sanctum')->get('user', function (Request $request) {
 ///////////////////////////////// dashboard  //////////////////////////////
 
 Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
+    Route::group(['middleware' => 'cors'], function () {
 
-    Route::post('login', [AdminController::class, 'login']);
+        Route::post('login', [AdminController::class, 'login']);
 
-    Route::group(['middleware' => 'auth:admin'], function () {
-        Route::resource('admins', AdminController::class);
-        Route::post('admin/block/{id}', [AdminController::class, 'block']);
+        Route::group(['middleware' => 'auth:admin'], function () {
+            Route::resource('admins', AdminController::class);
+            Route::post('admin/block/{id}', [AdminController::class, 'block']);
 
-        Route::get('getRequestsToJoin', [UserController::class, 'getRequestsToJoin']);
-        Route::get('getOneRequestToJoin/{id}', [UserController::class, 'getOneRequestToJoin']);
-        Route::post('acceptReject', [UserController::class, 'acceptReject']);
+            Route::get('getRequestsToJoin', [UserController::class, 'getRequestsToJoin']);
+            Route::get('getOneRequestToJoin/{id}', [UserController::class, 'getOneRequestToJoin']);
+            Route::post('acceptReject', [UserController::class, 'acceptReject']);
 
-        Route::get('getAllMembers', [UserController::class, 'getAllMembers']);
-        Route::get('getOneMember/{id}', [UserController::class, 'getOneMember']);
-        Route::get('block/{id}', [UserController::class, 'block']);
-        Route::post('deleteMember/{id}', [UserController::class, 'deleteMember']);
+            Route::get('getAllMembers', [UserController::class, 'getAllMembers']);
+            Route::get('getOneMember/{id}', [UserController::class, 'getOneMember']);
+            Route::get('block/{id}', [UserController::class, 'block']);
+            Route::post('deleteMember/{id}', [UserController::class, 'deleteMember']);
 
-        Route::get('getAllorders', [OrderDashboardController::class, 'getAllorders']);
-        Route::get('getOneOrder/{id}', [OrderDashboardController::class, 'getOneOrder']);
-        Route::post('changestatus/{id}', [OrderDashboardController::class, 'changestatus']);
+            Route::get('getAllorders', [OrderDashboardController::class, 'getAllorders']);
+            Route::get('getOneOrder/{id}', [OrderDashboardController::class, 'getOneOrder']);
+            Route::post('changestatus/{id}', [OrderDashboardController::class, 'changestatus']);
 
 
+        });
     });
 });
 
