@@ -26,9 +26,10 @@ Route::middleware('auth:sanctum')->get('user', function (Request $request) {
 });
 
 ///////////////////////////////// dashboard  //////////////////////////////
+Route::group(['middleware' => 'cors'], function () {
 
-Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
-    Route::group(['middleware' => 'cors'], function () {
+    Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
+
 
         Route::post('login', [AdminController::class, 'login']);
 
