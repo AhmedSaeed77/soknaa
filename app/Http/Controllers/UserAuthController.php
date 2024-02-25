@@ -29,6 +29,7 @@ class UserAuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        return $request;
         try
         {
             if($request->type == 'خاطبه')
