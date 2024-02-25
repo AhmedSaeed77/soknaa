@@ -92,7 +92,8 @@ class UserAuthController extends Controller
                                                 'my_information' => $request->my_information,
                                             ]);
 
-                if($request->hasFile('images'))
+                // if($request->hasFile('images'))
+                if (is_array($request->images))
                 {
                     $i=0;
                     foreach($request->file('images') as $image)
