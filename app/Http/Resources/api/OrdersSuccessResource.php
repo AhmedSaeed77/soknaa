@@ -27,7 +27,7 @@ class OrdersSuccessResource extends JsonResource
                     'from_phone' => $this->fromUser->phone,
                     'from_familysitiation' => $this->fromUser->familysitiation,
                     // 'from_image' => url($this->fromUser->images->first()->image),
-                    'from_image' => $this->fromUser->images->first() ? url($this->images->first()->image) : null,
+                    'from_image' => $this->fromUser->images->first() ? url($this->fromUser->images->first()->image) : null,
                     'date' => $this->updated_at->format('Y-m-d'),
                 ];
     }
