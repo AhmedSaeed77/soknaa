@@ -305,6 +305,7 @@ class UserAuthController extends Controller
         $user = User::find($id);
         if($user)
         {
+            $user->is_ordered = 1;
             $user_data = new OneUserResource($user);
             return $this->returnData('data',$user_data);
         }
