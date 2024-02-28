@@ -23,7 +23,8 @@ class UserResource extends JsonResource
                     'sex' => $this->sex,
                     'country' => $this->location->country,
                     'membership_num' => $this->membership_num,
-                    'image' => url($this->images->first()->image),
+                    // 'image' => url($this->images->first()->image),
+                    'image' => $this->images->first() ? url($this->images->first()->image) : null,
                 ];
     }
 }
