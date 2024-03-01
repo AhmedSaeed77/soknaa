@@ -302,7 +302,7 @@ class UserAuthController extends Controller
 
     public function getOneUser($id)
     {
-        $user = User::withCount(['toOrder' => function($q){
+        $user = User::withCount(['fromOrder' => function($q){
             $q->where('status','=',0);
         }])->find($id);
         if($user)
