@@ -32,7 +32,7 @@ class SiteController extends Controller
                         ->where('is_showprofile',1)
                         ->where('block',0)
                         ->latest()
-                        ->limit(1)
+                        ->limit(12)
                         ->get();
         $users_data = UserResource::collection($users);
         return $this->returnData('data',$users_data);

@@ -28,3 +28,10 @@ Route::get('/storage', function () {
     \Artisan::call('storage:link');
     return "done";
 });
+
+
+Route::get('/tets', function () {
+    $order = \App\Models\Order::find(3);
+    $order->update(['status' => 1]);
+    return "done";
+});
