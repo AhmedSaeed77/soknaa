@@ -15,6 +15,7 @@ use App\Http\Requests\api\UserChangePasswordDashboardRequest;
 use App\Http\Requests\api\ShowProfileRequest;
 use App\Http\Resources\api\UserResource;
 use App\Http\Resources\api\OneUserResource;
+use App\Http\Resources\api\OneFinanceResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\GeneralTrait;
@@ -323,8 +324,16 @@ class UserAuthController extends Controller
         $user = User::find(auth()->user()->id);
         if($user)
         {
-            $user_data = new OneUserResource($user);
-            return $this->returnData('data',$user_data);
+            if($user->type == 'خاطبه')
+            {
+                $user_data = new OneFinanceResource($user);
+                return $this->returnData('data',$user_data);
+            }
+            else
+            {
+                $user_data = new OneUserResource($user);
+                return $this->returnData('data',$user_data);
+            }
         }
         else
         {
