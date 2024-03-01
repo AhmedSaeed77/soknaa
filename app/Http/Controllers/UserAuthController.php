@@ -305,9 +305,9 @@ class UserAuthController extends Controller
         $user = User::withCount(['toOrder' => function($q){
             $q->where('status','=',0);
         }])->find($id);
+        // return $user;
         if($user)
         {
-            return $user->to_order_count;
             $is_ordered = $user->to_order_count > 0 ? 1 : 0;
             $user->is_ordered = $is_ordered;
             $user_data = new OneUserResource($user);
