@@ -24,6 +24,20 @@ class SiteController extends Controller
         return $this->returnData('data',$users_data);
     }
 
+    public function getAllUsersHome()
+    {
+        $user = User::find(auth()->user()->id);
+        $type = ($user->type == 'زوج') ? 'زوجه' : 'زوج';
+        $users = User::where('type',$type)->where('is_active',1)
+                        ->where('is_showprofile',1)
+                        ->where('block',0)
+                        ->latest()
+                        ->limit(1)
+                        ->get();
+        $users_data = UserResource::collection($users);
+        return $this->returnData('data',$users_data);
+    }
+
     public function getOneUserSite($id)
     {
         $user = User::find($id);

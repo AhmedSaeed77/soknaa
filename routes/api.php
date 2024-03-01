@@ -95,6 +95,7 @@ Route::group(['middleware' => 'Lang'], function () {
 
 
         Route::get('/getAllUsers', [SiteController::class, 'getAllUsers']);
+        Route::get('/getAllUsersHome', [SiteController::class, 'getAllUsersHome']);
         Route::get('/getOneUserSite/{id}', [SiteController::class, 'getOneUserSite']);
 
         Route::post('/search', [SiteController::class, 'search']);
