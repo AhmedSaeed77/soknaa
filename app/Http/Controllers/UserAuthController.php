@@ -307,7 +307,7 @@ class UserAuthController extends Controller
         }])->find($id);
         if($user)
         {
-            $is_ordered = $user->to_order_count > 0 ? 1 : 0;
+            $is_ordered = $user->from_order_count > 0 ? 1 : 0;
             $user->is_ordered = $is_ordered;
             $user_data = new OneUserResource($user);
             return $this->returnData('data',$user_data);
