@@ -28,7 +28,7 @@ class OrdersResource extends JsonResource
                     'familysitiation' => $this->toUser->familysitiation,
                     'country' => $this->toUser->location->country,
                     'date' => $this->toUser->created_at->format('Y-m-d'),
-                    'image' => url($this->toUser->images->first()->image),
+                    'image' => url($this->toUser->images->first()->image) ?? null,
                     'status' => $this->status,
                 ];
     }
