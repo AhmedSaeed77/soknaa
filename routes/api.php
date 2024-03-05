@@ -9,6 +9,7 @@ use App\Http\Controllers\api\SiteController;
 use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\OrderDashboardController;
+use App\Http\Controllers\dashboard\IndexDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,8 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('getAllorders', [OrderDashboardController::class, 'getAllorders']);
             Route::get('getOneOrder/{id}', [OrderDashboardController::class, 'getOneOrder']);
             Route::post('changestatus/{id}', [OrderDashboardController::class, 'changestatus']);
+
+            Route::get('index', [IndexDashboardController::class, 'index']);
 
 
         });

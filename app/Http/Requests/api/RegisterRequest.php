@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
                     'name' => 'required',
                     'email' => 'required|email',
                     'password' => 'required|confirmed',
-                    'nickname' => 'required',
+                    'nickname' => 'required|regex:/^[^\s]+$/',
                     'phone' => 'required',
                     'type' => 'required',
                     'sex' => 'required',
