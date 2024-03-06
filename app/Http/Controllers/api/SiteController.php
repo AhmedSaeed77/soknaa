@@ -54,7 +54,9 @@ class SiteController extends Controller
 
     public function search(Request $request)
     {
-        $users = User::when($request->has('name'), function ($query) use ($request) {
+        $olduser = User::find(auth()->user()->id);
+        $users = User::where('type','!=',$olduser->type)
+        ->when($request->has('name'), function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->input('name') . '%');
             })
             ->when($request->has('nickname'), function ($query) use ($request) {
