@@ -48,6 +48,20 @@ class AdminController extends Controller
         $admins = Admin::when($request->name, function ($query) use ($request) {
             return $query->where('name', 'like', '%' . $request->name . '%');
         })
+        ->when($request->role, function ($query) use ($request) {
+            return $query->where('role', 'like', '%' . $request->role . '%');
+        })
+        ->when($request->date == 1, function ($query) {
+            return $query->whereDate('created_at', now()->toDateString());
+        })
+        ->when($request->date == 2, function ($query) {
+            $startOfWeek = now()->startOfWeek();
+            $endOfWeek = now()->endOfWeek();
+            return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+        })
+        ->when($request->date == 3, function ($query) {
+            return $query->whereMonth('created_at', now()->month);
+        })
         ->orderBy('created_at', 'desc')
         ->paginate(15);
         $admins_data = AdminResource::collection($admins)->response()->getData(true);;

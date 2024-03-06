@@ -15,9 +15,24 @@ class UserController extends Controller
 {
     use GeneralTrait;
 
-    public function getRequestsToJoin()
+    public function getRequestsToJoin(Request $request)
     {
-        $users = User::where('is_active',0)->paginate(15);
+        $users = User::where('is_active',0)
+                        ->when($request->gender, function ($query) use ($request) {
+                            return $query->where('sex', 'like', '%' . $request->gender . '%');
+                        })
+                        ->when($request->date == 1, function ($query) {
+                            return $query->whereDate('created_at', now()->toDateString());
+                        })
+                        ->when($request->date == 2, function ($query) {
+                            $startOfWeek = now()->startOfWeek();
+                            $endOfWeek = now()->endOfWeek();
+                            return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+                        })
+                        ->when($request->date == 3, function ($query) {
+                            return $query->whereMonth('created_at', now()->month);
+                        })
+                        ->paginate(15);
         $users_data = UserResource::collection($users)->response()->getData(true);
         return $this->returnData('data',$users_data);
     }
@@ -61,11 +76,32 @@ class UserController extends Controller
         }
     }
 
-    public function getAllMembers()
+    public function getAllMembers(Request $request)
     {
         try
         {
-            $users = User::where('status',0)->where('is_active',0)->paginate(15);
+            $users = User::where('status',0)->where('is_active',0)
+                            ->when($request->gender, function ($query) use ($request) {
+                                return $query->where('sex', 'like', '%' . $request->gender . '%');
+                            })
+                            ->when($request->type, function ($query) use ($request) {
+                                return $query->where('type', 'like', '%' . $request->type . '%');
+                            })
+                            ->when($request->name, function ($query) use ($request) {
+                                return $query->where('name', 'like', '%' . $request->name . '%');
+                            })
+                            ->when($request->date == 1, function ($query) {
+                                return $query->whereDate('created_at', now()->toDateString());
+                            })
+                            ->when($request->date == 2, function ($query) {
+                                $startOfWeek = now()->startOfWeek();
+                                $endOfWeek = now()->endOfWeek();
+                                return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+                            })
+                            ->when($request->date == 3, function ($query) {
+                                return $query->whereMonth('created_at', now()->month);
+                            })
+                            ->paginate(15);
             $users_data = UserResource::collection($users)->response()->getData(true);
             return $this->returnData('data',$users_data);
         }
