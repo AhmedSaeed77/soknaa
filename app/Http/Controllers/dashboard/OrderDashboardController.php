@@ -19,8 +19,8 @@ class OrderDashboardController extends Controller
     {
         try
         {
-            $orders = Order::all();
-            $orders_data = DashboardOrderResource::collection($orders);
+            $orders = Order::paginate(15);
+            $orders_data = DashboardOrderResource::collection($orders)->response()->getData(true);
             return $this->returnData('data',$orders_data);
         }
         catch (\Exception $e)

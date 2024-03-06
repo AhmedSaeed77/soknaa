@@ -17,8 +17,8 @@ class UserController extends Controller
 
     public function getRequestsToJoin()
     {
-        $users = User::where('is_active',0)->get();
-        $users_data = UserResource::collection($users);
+        $users = User::where('is_active',0)->paginate(15);
+        $users_data = UserResource::collection($users)->response()->getData(true);
         return $this->returnData('data',$users_data);
     }
 
@@ -65,8 +65,8 @@ class UserController extends Controller
     {
         try
         {
-            $users = User::where('status',0)->where('is_active',0)->get();
-            $users_data = UserResource::collection($users);
+            $users = User::where('status',0)->where('is_active',0)->paginate(15);
+            $users_data = UserResource::collection($users)->response()->getData(true);
             return $this->returnData('data',$users_data);
         }
         catch (\Exception $e)
