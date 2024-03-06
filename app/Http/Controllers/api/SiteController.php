@@ -58,6 +58,7 @@ class SiteController extends Controller
     {
         $olduser = User::find(auth()->user()->id);
         $users = User::where('type','!=',$olduser->type)
+        ->where('is_active',1)
         ->when($request->has('name'), function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->input('name') . '%');
             })
