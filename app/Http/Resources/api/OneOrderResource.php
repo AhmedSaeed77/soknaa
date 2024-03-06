@@ -18,6 +18,7 @@ class OneOrderResource extends JsonResource
         return [
                     'id' => $this->id,
                     'order_num' => $this->order_num,
+                    'to' => $this->to,
                     'from' => $this->from,
                     'name' => $this->toUser->name,
                     'membership_num' => $this->toUser->membership_num,

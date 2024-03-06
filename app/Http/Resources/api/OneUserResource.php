@@ -55,8 +55,8 @@ class OneUserResource extends JsonResource
                     'life_partner_info' => $this->personalInformation->life_partner_info ?? null,
                     'my_information' => $this->personalInformation->my_information ?? null,
                     
-                    // 'images' => ImageUserResource::collection($this->images),
-                    'image' => $this->images->first() ? url($this->images->first()->image) : null,
+                    'images' => ImageUserResource::collection($this->images),
+                    // 'image' => $this->images->first() ? url($this->images->first()->image) : null,
                 ];
     }
 }

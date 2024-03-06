@@ -53,4 +53,5 @@ return [
     'type_of_user_not_suitable' => 'نوع المستخدم غير مناسب',
     'can_not_do_another_request' => 'لا تستطيع عمل طلب خطبه مره اخرى',
     'Order_Not_Found' => 'الطلب غير موجود',
+    'this_account_can_not_do_request' => 'هذا الحساب لا يمكنه عمل طلب خطبه',
 ];

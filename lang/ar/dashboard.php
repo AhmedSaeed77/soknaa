@@ -135,4 +135,5 @@ return [
     'active' => 'نشط',
     'unactive' => 'غير نشط',
     'Incorrect nickname or password' => 'اسم المستخدم او كله المرور غير صحيحه',
+    
 ];

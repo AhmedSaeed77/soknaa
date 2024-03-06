@@ -20,6 +20,11 @@ class OrderController extends Controller
     {
         try
         {
+            $user = User::find(auth()->user()->id);
+            if($user->type == 'خاطبه')
+            {
+                return $this->returnError('',__('site.this_account_can_not_do_request'));
+            }
             $old_order = Order::where('from',auth()->user()->id)->where('status',0)->first();
             if($old_order)
             {
@@ -43,6 +48,14 @@ class OrderController extends Controller
     {
         try
         {
+            $user = User::find(auth()->user()->id);
+            if($user->type == 'خاطبه')
+            {
+                $users = User::where('parent_id', $user->id)->pluck('id')->toArray();
+                $orders = Order::whereIn('to', $users)->orderBy('created_at', 'desc')->get();
+                $orders_data = OrdersResource::collection($orders);
+                return $this->returnData('data',$orders_data);
+            }
             $orders = Order::where('from',auth()->user()->id)->orderBy('created_at', 'desc')->get();
             $orders_data = OrdersResource::collection($orders);
             return $this->returnData('data',$orders_data);
