@@ -19,6 +19,7 @@ class SiteController extends Controller
         $users = User::where('type',$type)->where('is_active',1)
                         ->where('is_showprofile',1)
                         ->where('block',0)
+                        ->where('is_active',1)
                         ->get();
         $users_data = UserResource::collection($users);
         return $this->returnData('data',$users_data);
@@ -31,6 +32,7 @@ class SiteController extends Controller
         $users = User::where('type',$type)->where('is_active',1)
                         ->where('is_showprofile',1)
                         ->where('block',0)
+                        ->where('is_active',1)
                         ->latest()
                         ->limit(12)
                         ->get();
