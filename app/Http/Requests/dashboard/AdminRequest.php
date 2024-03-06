@@ -35,7 +35,7 @@ class AdminRequest extends FormRequest
         {
             $rules = [
                         'name' => 'required',
-                        'email' => 'required|email|unique:admins,email',
+                        'email' => 'required|email|unique:admins,email,' . $this->id,
                         'password' => 'nullable',
                         'phone' => 'required',
                         'role' => 'required',

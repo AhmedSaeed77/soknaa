@@ -43,10 +43,14 @@ class AdminController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $admins = Admin::orderBy('created_at', 'desc')->get();
-        $admins_data = AdminResource::collection($admins);
+        $admins = Admin::when($request->name, function ($query) use ($request) {
+            return $query->where('name', 'like', '%' . $request->name . '%');
+        })
+        ->orderBy('created_at', 'desc')
+        ->paginate(15);
+        $admins_data = AdminResource::collection($admins)->response()->getData(true);;
         return $this->returnData('data',$admins_data);
     }
 
@@ -118,12 +122,14 @@ class AdminController extends Controller
             {
                 $admin = Admin::find($id);
                 $admin->update(['block' => $request->block]);
+                $admin->update(['status' => 0]);
                 return $this->returnData('data',__('dashboard.admin_is_blocked'),__('dashboard.admin_is_blocked'));
             }
             else
             {
                 $admin = Admin::find($id);
                 $admin->update(['block' => $request->block]);
+                $admin->update(['status' => 1]);
                 return $this->returnData('data',__('dashboard.admin_is_unblocked'),__('dashboard.admin_is_unblocked'));
             }
             

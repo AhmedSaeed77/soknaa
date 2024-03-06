@@ -133,7 +133,7 @@ return [
     'admin_is_unblocked' => 'تم فك الحظر بنجاح',
     'admin_is_blocked' => 'تم حظر المشرف بنجاح',
     'active' => 'نشط',
-    'unactive' => 'غير نشط',
+    'unactive' => 'محظور',
     'Incorrect nickname or password' => 'اسم المستخدم او كله المرور غير صحيحه',
     
 ];
