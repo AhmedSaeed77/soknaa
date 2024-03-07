@@ -26,6 +26,14 @@ class DashboardOneOrderResource extends JsonResource
                     'from_sex' => $this->fromUser->sex,
                     'from_phone' => $this->fromUser->phone,
                     'from_familysitiation' => $this->fromUser->familysitiation,
+                    'from_parentphone' => $this->fromUser->parent_id ?? null,
+                    'from_typemerrage' => $this->fromUser->typemerrage ?? null,
+                    'from_child_num' => $this->fromUser->child_num ?? null,
+                    'from_age' => $this->fromUser->age ?? null,
+                    'from_country' => $this->fromUser->location->country ?? null,
+                    'from_city' => $this->fromUser->location->city ?? null,
+                    'from_nationality' => $this->fromUser->location->nationality ?? null,
+                    'from_religion' => $this->fromUser->location->religion ?? null,
                     'from_image' => url($this->fromUser->images->first()->image),
 
                     'to' => $this->to,
@@ -36,6 +44,16 @@ class DashboardOneOrderResource extends JsonResource
                     'to_sex' => $this->toUser->sex,
                     'to_phone' => $this->toUser->phone,
                     'to_familysitiation' => $this->toUser->familysitiation,
+
+                    'to_parentphone' => $this->toUser->parent_id ?? null,
+                    'to_typemerrage' => $this->toUser->typemerrage ?? null,
+                    'to_child_num' => $this->toUser->child_num ?? null,
+                    'to_age' => $this->toUser->age ?? null,
+                    'to_country' => $this->toUser->location->country ?? null,
+                    'to_city' => $this->toUser->location->city ?? null,
+                    'to_nationality' => $this->toUser->location->nationality ?? null,
+                    'to_religion' => $this->toUser->location->religion ?? null,
+
                     'to_image' => url($this->toUser->images->first()->image),
 
                     'status' => $this->status,
