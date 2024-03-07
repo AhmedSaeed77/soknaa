@@ -30,6 +30,11 @@ class OrderController extends Controller
             {
                 return $this->returnError('',__('site.can_not_do_another_request'));
             }
+            $old_order2 = Order::where('to',$request->to_user)->where('status',0)->first();
+            if($old_order2)
+            {
+                return $this->returnError('',__('site.can_not_do_another_request'));
+            }
             Order::create([
                                 'from' => auth()->user()->id,
                                 'to' => $request->to_user,
