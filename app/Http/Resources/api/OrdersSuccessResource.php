@@ -22,6 +22,7 @@ class OrdersSuccessResource extends JsonResource
                     'from_name' => $this->fromUser->name,
                     'from_membership_num' => $this->fromUser->membership_num,
                     'from_email' => $this->fromUser->email,
+                    'from_country' => $this->fromUser->location->country,
                     'from_type' => $this->fromUser->type,
                     'from_sex' => $this->fromUser->sex,
                     'from_phone' => $this->fromUser->phone,
