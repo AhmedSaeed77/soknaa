@@ -80,12 +80,19 @@ class UserController extends Controller
     {
         try
         {
-            $users = User::where('status',0)->where('is_active',0)
-                            ->when($request->gender, function ($query) use ($request) {
+            $users = User::
+                            when($request->gender, function ($query) use ($request) {
                                 return $query->where('sex', 'like', '%' . $request->gender . '%');
                             })
                             ->when($request->type, function ($query) use ($request) {
-                                return $query->where('type', 'like', '%' . $request->type . '%');
+                                return $query->where(function ($query) use ($request) {
+                                    if ($request->type == 'خاطبه') {
+                                        $query->where('type', '=', 'خاطبه');
+                                    } elseif ($request->type == 'عادى') {
+                                        $query->where('type', 'like', '%زوج%')
+                                            ->orWhere('type', 'like', '%زوجه%');
+                                    }
+                                });
                             })
                             ->when($request->name, function ($query) use ($request) {
                                 return $query->where('name', 'like', '%' . $request->name . '%');

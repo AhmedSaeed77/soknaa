@@ -50,19 +50,41 @@ class UserAuthController extends Controller
             else
             {
                 DB::beginTransaction();
-                $user = User::create([
-                                        'name' => $request->name,
-                                        'email' => $request->email,
-                                        'password' => Hash::make($request->password),
-                                        'nickname' => $request->nickname,
-                                        'phone' => $request->phone,
-                                        'type' => $request->type,
-                                        'age' => $request->age,
-                                        'child_num' => $request->child_num,
-                                        'sex' => $request->sex,
-                                        'typemerrage' => $request->typemerrage,
-                                        'familysitiation' => $request->familysitiation,
-                                    ]);
+                if($request->type == 'زوج')
+                {
+                    $user = User::create([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'nickname' => $request->nickname,
+                        'phone' => $request->phone,
+                        'type' => $request->type,
+                        'age' => $request->age,
+                        'child_num' => $request->child_num,
+                        'sex' => $request->sex,
+                        'typemerrage' => $request->typemerrage,
+                        'familysitiation' => $request->familysitiation,
+                        'is_active' => 1,
+                        'status' => 1,
+                    ]);
+                }
+                else
+                {
+                    $user = User::create([
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'password' => Hash::make($request->password),
+                        'nickname' => $request->nickname,
+                        'phone' => $request->phone,
+                        'type' => $request->type,
+                        'age' => $request->age,
+                        'child_num' => $request->child_num,
+                        'sex' => $request->sex,
+                        'typemerrage' => $request->typemerrage,
+                        'familysitiation' => $request->familysitiation,
+                    ]);
+                }
+                
 
                 Location::create([
                                     'user_id' => $user->id,

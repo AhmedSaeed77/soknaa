@@ -16,19 +16,78 @@ class IndexDashboardController extends Controller
 {
     use GeneralTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         try
         {
-            $allusers = User::count();
-            $malecounter = User::where('type','زوج')->count();
-            $fmalecounter = User::where('type','زوجه')->count();
+            $allusers = User::
+            when($request->date == 1, function ($query) {
+                return $query->whereDate('created_at', now()->toDateString());
+            })
+            ->when($request->date == 2, function ($query) {
+                $startOfWeek = now()->startOfWeek();
+                $endOfWeek = now()->endOfWeek();
+                return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            })
+            ->when($request->date == 3, function ($query) {
+                return $query->whereMonth('created_at', now()->month);
+            })
+            ->count();
+
+            $malecounter = User::when($request->date == 1, function ($query) {
+                return $query->whereDate('created_at', now()->toDateString());
+            })
+            ->when($request->date == 2, function ($query) {
+                $startOfWeek = now()->startOfWeek();
+                $endOfWeek = now()->endOfWeek();
+                return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            })
+            ->when($request->date == 3, function ($query) {
+                return $query->whereMonth('created_at', now()->month);
+            })
+            ->where('type','زوج')->count();
+
+            $fmalecounter = User::when($request->date == 1, function ($query) {
+                return $query->whereDate('created_at', now()->toDateString());
+            })
+            ->when($request->date == 2, function ($query) {
+                $startOfWeek = now()->startOfWeek();
+                $endOfWeek = now()->endOfWeek();
+                return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            })
+            ->when($request->date == 3, function ($query) {
+                return $query->whereMonth('created_at', now()->month);
+            })
+            ->where('type','زوجه')->count();
             $financecounter = User::where('type','خاطبه')->count();
 
-            $ordercounter = Order::count();
+            $ordercounter = Order::
+            when($request->date == 1, function ($query) {
+                return $query->whereDate('created_at', now()->toDateString());
+            })
+            ->when($request->date == 2, function ($query) {
+                $startOfWeek = now()->startOfWeek();
+                $endOfWeek = now()->endOfWeek();
+                return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            })
+            ->when($request->date == 3, function ($query) {
+                return $query->whereMonth('created_at', now()->month);
+            })->count();
             $ordersuccesscounter = Order::where('status',1)->count();
 
-            $orders = Order::orderBy('created_at', 'desc')->take(10)->get();
+            $orders = Order::when($request->date == 1, function ($query) {
+                return $query->whereDate('created_at', now()->toDateString());
+            })
+            ->when($request->date == 2, function ($query) {
+                $startOfWeek = now()->startOfWeek();
+                $endOfWeek = now()->endOfWeek();
+                return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+            })
+            ->when($request->date == 3, function ($query) {
+                return $query->whereMonth('created_at', now()->month);
+            })
+            ->orderBy('created_at', 'desc')->take(10)->get();
+            
             $orders_data = OrdersIndexResource::collection($orders);
 
             $data = [

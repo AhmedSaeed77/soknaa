@@ -34,7 +34,8 @@ class DashboardOneOrderResource extends JsonResource
                     'from_city' => $this->fromUser->location->city ?? null,
                     'from_nationality' => $this->fromUser->location->nationality ?? null,
                     'from_religion' => $this->fromUser->location->religion ?? null,
-                    'from_image' => url($this->fromUser->images->first()->image),
+                    // 'from_image' => url($this->fromUser->images->first()->image),
+                    'from_images' => ImageUserResource::collection($this->fromUser->images),
 
                     'to' => $this->to,
                     'to_name' => $this->toUser->name,
@@ -53,8 +54,8 @@ class DashboardOneOrderResource extends JsonResource
                     'to_city' => $this->toUser->location->city ?? null,
                     'to_nationality' => $this->toUser->location->nationality ?? null,
                     'to_religion' => $this->toUser->location->religion ?? null,
-
-                    'to_image' => url($this->toUser->images->first()->image),
+                    // 'to_image' => url($this->toUser->images->first()->image),
+                    'to_images' => ImageUserResource::collection($this->toUser->images),
 
                     'status' => $this->status,
                     
