@@ -22,6 +22,7 @@ class AdminResource extends JsonResource
                     'role' => $this->role,
                     'status' => $this->status,
                     'block' => $this->block,
+                    'date' => $this->created_at->format('Y-m-d'),
                 ];
     }
 }
