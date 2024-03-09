@@ -75,6 +75,7 @@ Route::group(['middleware' => 'Lang'], function () {
     Route::get('standard', [StandardController::class, 'standard']);
     Route::get('getAllCitiesByCountry/{id}', [StandardController::class, 'getAllCitiesByCountry']);
 
+    Route::get('/getAllUsersNotAut', [SiteController::class, 'getAllUsersNotAut']);
 
     Route::group(['middleware' => 'auth'], function () {
 

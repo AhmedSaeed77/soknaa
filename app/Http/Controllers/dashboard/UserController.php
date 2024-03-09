@@ -145,7 +145,15 @@ class UserController extends Controller
             $user = User::find($id);
             if($user)
             {
-                $user->update(['block' => 1]);
+                if($user->block == 1)
+                {
+                    $user->update(['block' => 0]);
+                }
+                else
+                {
+                    $user->update(['block' => 1]);
+                }
+                
                 return $this->returnData('data',__('site.User_Profile_Updated'), __('site.User_Profile_Updated'));
             }
             else
