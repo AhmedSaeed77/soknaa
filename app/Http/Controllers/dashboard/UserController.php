@@ -18,6 +18,12 @@ class UserController extends Controller
     public function getRequestsToJoin(Request $request)
     {
         $users = User::where('is_active',0)
+                        ->when($request->search, function ($query) use ($request) {
+                            return $query->where('name', 'like', '%' . $request->search . '%');
+                        })
+                        ->when($request->search, function ($query) use ($request) {
+                            return $query->where('nickname', 'like', '%' . $request->search . '%');
+                        })
                         ->when($request->gender, function ($query) use ($request) {
                             return $query->where('sex', 'like', '%' . $request->gender . '%');
                         })

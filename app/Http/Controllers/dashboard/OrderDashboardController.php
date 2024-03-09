@@ -15,11 +15,21 @@ class OrderDashboardController extends Controller
 {
     use GeneralTrait;
 
-    public function getAllorders()
+    public function getAllorders(Request $request)
     {
         try
         {
-            $orders = Order::paginate(15);
+            $search = $request->search;
+            $orders = Order::when($search, function ($query) use ($search) {
+                $query->whereHas('fromUser', function ($subquery) use ($search) {
+                    $subquery->where('name', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($search, function ($query) use ($search) {
+                $query->whereHas('fromUser', function ($subquery) use ($search) {
+                    $subquery->where('nickname', 'like', '%' . $search . '%');
+                });
+            })->paginate(15);
             $orders_data = DashboardOrderResource::collection($orders)->response()->getData(true);
             return $this->returnData('data',$orders_data);
         }
