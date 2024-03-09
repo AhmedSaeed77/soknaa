@@ -18,6 +18,7 @@ class OneUserResource extends JsonResource
         return [
                     'id' => $this->id,
                     'name' => $this->name,
+                    'email' => $this->email,
                     'nickname' => $this->nickname,
                     'phone' => $this->phone,
                     'parent_phone' => $this->parent_phone,

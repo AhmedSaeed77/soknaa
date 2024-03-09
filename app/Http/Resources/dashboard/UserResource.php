@@ -26,6 +26,7 @@ class UserResource extends JsonResource
                     'phone' => $this->phone,
                     'date' => $this->created_at->format('Y-m-d'),
                     'status' => $this->status,
+                    'block' => $this->block == 0 ? 'غير مفعل' : 'مفعل',
                 ];
     }
 }
