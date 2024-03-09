@@ -34,7 +34,7 @@ class IndexDashboardController extends Controller
             })
             ->count();
 
-            $malecounter = User::when($request->date == 1, function ($query) {
+            $malecounter = User::where('type','زوج')->when($request->date == 1, function ($query) {
                 return $query->whereDate('created_at', now()->toDateString());
             })
             ->when($request->date == 2, function ($query) {
@@ -45,9 +45,9 @@ class IndexDashboardController extends Controller
             ->when($request->date == 3, function ($query) {
                 return $query->whereMonth('created_at', now()->month);
             })
-            ->where('type','زوج')->count();
+            ->count();
 
-            $fmalecounter = User::when($request->date == 1, function ($query) {
+            $fmalecounter = User::where('type','زوجه')->when($request->date == 1, function ($query) {
                 return $query->whereDate('created_at', now()->toDateString());
             })
             ->when($request->date == 2, function ($query) {
@@ -58,7 +58,7 @@ class IndexDashboardController extends Controller
             ->when($request->date == 3, function ($query) {
                 return $query->whereMonth('created_at', now()->month);
             })
-            ->where('type','زوجه')->count();
+            ->count();
             $financecounter = User::where('type','خاطبه')->count();
 
             $ordercounter = Order::
