@@ -86,7 +86,7 @@ class UserController extends Controller
     {
         try
         {
-            $users = User::
+            $users = User::where('is_active',1)->
                             when($request->gender, function ($query) use ($request) {
                                 return $query->where('sex', 'like', '%' . $request->gender . '%');
                             })
