@@ -65,7 +65,7 @@ class UserAuthController extends Controller
                         'typemerrage' => $request->typemerrage,
                         'familysitiation' => $request->familysitiation,
                         'is_active' => 1,
-                        'block' => 1,
+                        'block' => 0,
                         'status' => 1,
                     ]);
                 }
