@@ -30,6 +30,11 @@ class UserAuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        $olduser = User::where('email',$request->email)->first();
+        if($olduser)
+        {
+            return $this->returnError(422,'الايميل موجود سابقا');
+        }
         try
         {
             if($request->type == 'خاطبه')
