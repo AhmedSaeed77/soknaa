@@ -20,6 +20,7 @@ class DashboardOrderResource extends JsonResource
                     'order_num' => $this->order_num,
                     'from' => $this->from,
                     'name' => $this->fromUser->name,
+                    'country' => $this->fromUser->location->country,
                     'membership_num' => $this->fromUser->membership_num,
                     'email' => $this->fromUser->email,
                     'type' => $this->fromUser->type,
