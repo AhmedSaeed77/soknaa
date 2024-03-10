@@ -87,6 +87,7 @@ class UserAuthController extends Controller
                         'password' => Hash::make($request->password),
                         'nickname' => $request->nickname,
                         'phone' => $request->phone,
+                        'parent_phone' => $request->parent_phone,
                         'type' => $request->type,
                         'age' => $request->age,
                         'child_num' => $request->child_num,
