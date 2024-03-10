@@ -35,6 +35,11 @@ class UserAuthController extends Controller
         {
             return $this->returnError(422,'الايميل موجود سابقا');
         }
+        $olduser = User::where('nickname',$request->nickname)->first();
+        if($olduser)
+        {
+            return $this->returnError(422,'اسم المستخدم موجود سابقا');
+        }
         try
         {
             if($request->type == 'خاطبه')
