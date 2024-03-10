@@ -40,7 +40,9 @@ class OrderController extends Controller
                                 'to' => $request->to_user,
                         ]);
             $user = User::find(auth()->user()->id);
-            $user->update(['is_ordered' => 1]);            
+            $user->update(['is_ordered' => 1]);
+            $touser = User::find($request->to_user);
+            $touser->update(['is_ordered' => 1]);            
             return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
         }
         catch (\Exception $e)
