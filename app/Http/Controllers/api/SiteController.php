@@ -16,7 +16,7 @@ class SiteController extends Controller
     {
         $user = User::find(auth()->user()->id);
         $type = ($user->type == 'زوج') ? 'زوجه' : 'زوج';
-        $users = User::where('type',$type)->where('is_active',1)
+        $users = User::where('type',$type)
                         ->where('is_showprofile',1)
                         ->where('block',0)
                         ->where('is_active',1)
@@ -73,6 +73,7 @@ class SiteController extends Controller
         {
             $users = User::where('parent_id',$olduser->id)
             ->where('is_active',1)
+            ->where('block',0)
             ->when($request->has('name'), function ($query) use ($request) {
                     $query->where('name', 'like', '%' . $request->input('name') . '%');
             })
