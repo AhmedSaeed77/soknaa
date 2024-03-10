@@ -24,6 +24,7 @@ class UserResource extends JsonResource
                     'familysitiation' => $this->familysitiation ?? null,
                     'country' => $this->location->country ?? null,
                     'membership_num' => $this->membership_num,
+                    'is_showprofile' => $this->is_showprofile,
                     // 'image' => url($this->images->first()->image),
                     'image' => $this->images->first() ? url($this->images->first()->image) : null,
                 ];
