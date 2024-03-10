@@ -50,5 +50,6 @@ return [
     'can_not_do_another_request' => 'Can Not Do Another Request',
     'Order_Not_Found' => 'Order Not Found',
     'this_account_can_not_do_request' => 'This Account Can Not Do Request',
-    '' => '',
+    'profile_blocked' => 'Profile Blocked',
+    'profile_active' => 'Profile Actived',
 ];

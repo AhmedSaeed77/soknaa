@@ -148,13 +148,13 @@ class UserController extends Controller
                 if($user->block == 1)
                 {
                     $user->update(['block' => 0]);
+                    return $this->returnData('data',__('site.profile_active'), __('site.profile_active'));
                 }
                 else
                 {
                     $user->update(['block' => 1]);
+                    return $this->returnData('data',__('site.profile_blocked'), __('site.profile_blocked'));
                 }
-                
-                return $this->returnData('data',__('site.User_Profile_Updated'), __('site.User_Profile_Updated'));
             }
             else
             {
