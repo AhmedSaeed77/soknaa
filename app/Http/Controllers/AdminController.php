@@ -48,19 +48,8 @@ class AdminController extends Controller
         $admins = Admin::when($request->name, function ($query) use ($request) {
             return $query->where('name', 'like', '%' . $request->name . '%');
         })
-        // ->when($request->role, function ($query) use ($request) {
-        //     return $query->where('role', 'like', '%' . $request->role . '%');
-        // })
         ->when($request->role, function ($query) use ($request) {
-            $roleMapping = [
-                'admin' => ['super admin', 'admin'],
-                // Add more mappings if needed
-            ];
-        
-            $role = $request->role;
-            $mappedRoles = $roleMapping[$role] ?? [$role];
-        
-            return $query->whereIn('role', $mappedRoles);
+            return $query->where('role',$request->role);
         })
         ->when($request->date == 1, function ($query) {
             return $query->whereDate('created_at', now()->toDateString());
