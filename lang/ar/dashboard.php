@@ -136,6 +136,6 @@ return [
     'active' => 'نشط',
     'unactive' => 'محظور',
     'Incorrect nickname or password' => 'اسم المستخدم او كله المرور غير صحيحه',
-    
+    'married_accept' => 'تم الزواج بنجاح',
     
 ];

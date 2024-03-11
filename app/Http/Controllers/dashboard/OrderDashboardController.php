@@ -63,7 +63,7 @@ class OrderDashboardController extends Controller
                 $order->update([ 'status' => $request->status]);
                 $user = User::find($order->from);
                 $user->update(['is_ordered' => 0]);
-                return $this->returnData('data',__('dashboard.item_is_updated'),__('dashboard.item_is_updated'));
+                return $this->returnData('data',__('dashboard.married_accept'),__('dashboard.married_accept'));
             }
             return $this->returnError('',__('site.Order_Not_Found'));
         }

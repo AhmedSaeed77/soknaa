@@ -137,4 +137,5 @@ return [
     'unactive' => 'Un Active',
     'Incorrect nickname or password' => 'Incorrect nickname or password',
     'Incorrect email or password' => 'Incorrect email or password',
+    'married_accept' => 'married_accept',
 ];
