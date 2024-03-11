@@ -9,6 +9,7 @@ return [
     'Remember Me' => 'تذكرني',
     'Not specified yet' => 'لم يُحدد بعد',
     'Home' => 'الرئيسية',
+    'Incorrect email or password' => 'الايميل او كلمه المرور غير صحيحه',
     'Administration' => 'الإدارة',
     'Choose_type' => 'اختر النوع',
     'Admins' => 'المديرين',
