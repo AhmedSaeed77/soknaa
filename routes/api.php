@@ -97,7 +97,7 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::post('updateUserAbout', [UserAuthController::class, 'updateUserAbout']);
         Route::post('updateUserLifePartnerInfo', [UserAuthController::class, 'updateUserLifePartnerInfo']);
 
-        Route::post('deleteImage', [UserAuthController::class, 'deleteImage']);
+        Route::post('deleteImage', [UserAuthController::class, 'deleteIMage']);
         Route::post('storeImage', [UserAuthController::class, 'storeImage']);
 
 

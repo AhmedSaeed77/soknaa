@@ -620,7 +620,7 @@ class UserAuthController extends Controller
         }
     }
 
-    public function deleteImage(Request $request)
+    public function deleteIMage(Request $request)
     {
         $request->validate([
                                 'image_id' => 'required',
@@ -629,7 +629,7 @@ class UserAuthController extends Controller
         if($user)
         {
             $image = Image::find($request->image_id);
-            $this->deleteImage($image->image);
+            // $this->deleteImage($image->image);
             $image->delete();
             return $this->returnData('data',$user,__('site.Image_deleted'));
         }
