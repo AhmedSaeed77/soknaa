@@ -57,4 +57,6 @@ return [
     'profile_blocked' => 'تم حظر الحساب',
     'profile_active' => 'تم تفعيل الحساب',
     'Image_deleted' => 'تم حذف الصوره بنجاح',
+    'request_reject' => 'تم رفض الطلب بنجاح',
+    'request_accept' => 'تم قبول الطلب بنجاح',
 ];

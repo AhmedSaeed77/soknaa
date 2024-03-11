@@ -53,4 +53,6 @@ return [
     'profile_blocked' => 'Profile Blocked',
     'profile_active' => 'Profile Actived',
     'Image_deleted' => 'Image Deleted',
+    'request_reject' => 'request_reject',
+    'request_accept' => 'request_accept',
 ];

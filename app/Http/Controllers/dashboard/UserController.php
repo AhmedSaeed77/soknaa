@@ -68,8 +68,9 @@ class UserController extends Controller
                 if($request->accept == 1)
                 {
                     $user->update(['is_active' => 1]);
+                    return $this->returnData('data',__('site.request_accept'), __('site.request_accept'));
                 }
-                return $this->returnData('data',__('site.User_Profile_Updated'), __('site.User_Profile_Updated'));
+                return $this->returnData('data',__('site.request_reject'), __('site.request_reject'));
             }
             else
             {
