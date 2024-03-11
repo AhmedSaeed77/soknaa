@@ -56,4 +56,5 @@ return [
     'this_account_can_not_do_request' => 'هذا الحساب لا يمكنه عمل طلب خطبه',
     'profile_blocked' => 'تم حظر الحساب',
     'profile_active' => 'تم تفعيل الحساب',
+    'Image_deleted' => 'تم حذف الصوره بنجاح',
 ];

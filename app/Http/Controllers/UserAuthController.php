@@ -619,4 +619,46 @@ class UserAuthController extends Controller
             return $this->returnError('',__('site.User_Not_Found'));
         }
     }
+
+    public function deleteImage(Request $request)
+    {
+        $request->validate([
+                                'image_id' => 'required',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if($user)
+        {
+            $image = Image::find($request->image_id);
+            $this->deleteImage($image->image);
+            $image->delete();
+            return $this->returnData('data',$user,__('site.Image_deleted'));
+        }
+        else
+        {
+            return $this->returnError('',__('site.User_Not_Found'));
+        }
+    }
+
+    public function storeImage(Request $request)
+    {
+        $request->validate([
+                                'images' => 'required|array',
+                                'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                            ]);
+        $user = User::find(auth()->user()->id);
+        if (is_array($request->images))
+        {
+            $i=0;
+            foreach($request->file('images') as $image)
+            {
+                $fileimage = $this->handle('images.'.$i, 'users');
+                Image::create([
+                                'user_id' => $user->id,
+                                'image' => $fileimage,
+                            ]);
+                $i++;
+            }
+        }
+        return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));                   
+    }
 }

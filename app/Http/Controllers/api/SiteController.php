@@ -43,6 +43,7 @@ class SiteController extends Controller
     public function getAllUsersNotAut()
     {
         $users = User::where('is_active',1)
+                        ->where('type','!=','خاطبه')
                         ->where('is_showprofile',1)
                         ->where('block',0)
                         ->latest()

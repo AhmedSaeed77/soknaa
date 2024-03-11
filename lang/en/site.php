@@ -52,4 +52,5 @@ return [
     'this_account_can_not_do_request' => 'This Account Can Not Do Request',
     'profile_blocked' => 'Profile Blocked',
     'profile_active' => 'Profile Actived',
+    'Image_deleted' => 'Image Deleted',
 ];

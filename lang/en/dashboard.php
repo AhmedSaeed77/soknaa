@@ -136,4 +136,5 @@ return [
     'active' => 'Active',
     'unactive' => 'Un Active',
     'Incorrect nickname or password' => 'Incorrect nickname or password',
+    
 ];

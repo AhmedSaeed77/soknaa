@@ -80,6 +80,11 @@ Trait GeneralTrait
         return $path;
     }
 
+    public function deleteImage($path)
+    {
+        File::delete(ltrim(parse_url($path)['path'],'/'));
+    }
+
 }
 
 ?>

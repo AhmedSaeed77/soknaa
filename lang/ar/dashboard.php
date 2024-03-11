@@ -136,4 +136,5 @@ return [
     'unactive' => 'محظور',
     'Incorrect nickname or password' => 'اسم المستخدم او كله المرور غير صحيحه',
     
+    
 ];
