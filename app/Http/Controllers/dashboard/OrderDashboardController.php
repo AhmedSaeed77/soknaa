@@ -29,7 +29,9 @@ class OrderDashboardController extends Controller
                 $query->whereHas('fromUser', function ($subquery) use ($search) {
                     $subquery->where('nickname', 'like', '%' . $search . '%');
                 });
-            })->paginate(15);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
             $orders_data = DashboardOrderResource::collection($orders)->response()->getData(true);
             return $this->returnData('data',$orders_data);
         }

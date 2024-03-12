@@ -38,6 +38,7 @@ class UserController extends Controller
                         ->when($request->date == 3, function ($query) {
                             return $query->whereMonth('created_at', now()->month);
                         })
+                        ->orderBy('created_at', 'desc')
                         ->paginate(15);
         $users_data = UserResource::collection($users)->response()->getData(true);
         return $this->returnData('data',$users_data);
@@ -115,6 +116,7 @@ class UserController extends Controller
                             ->when($request->date == 3, function ($query) {
                                 return $query->whereMonth('created_at', now()->month);
                             })
+                            ->orderBy('created_at', 'desc')
                             ->paginate(15);
             $users_data = UserResource::collection($users)->response()->getData(true);
             return $this->returnData('data',$users_data);

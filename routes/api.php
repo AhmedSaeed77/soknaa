@@ -7,9 +7,11 @@ use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\api\StandardController;
 use App\Http\Controllers\api\SiteController;
 use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\ChatMobileController;
 use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\OrderDashboardController;
 use App\Http\Controllers\dashboard\IndexDashboardController;
+use App\Http\Controllers\dashboard\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +54,9 @@ Route::group(['middleware' => 'cors'], function () {
             Route::post('changestatus/{id}', [OrderDashboardController::class, 'changestatus']);
 
             Route::get('index', [IndexDashboardController::class, 'index']);
+
+            Route::post('create/message', [ChatController::class, 'create']);
+            Route::get('getAllMessagesForUser/{id}', [ChatController::class, 'getAllMessagesForUser']);
 
 
         });
@@ -112,6 +117,9 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::get('getOneOrder/{id}', [OrderController::class, 'getOneOrder']);
 
         Route::get('getAllOrdersSuccess', [OrderController::class, 'getAllOrdersSuccess']);
+
+        Route::post('createmessage', [ChatMobileController::class, 'createmessage']);
+        Route::get('getAllMessagesForUser', [ChatMobileController::class, 'getAllMessagesForUser']);
 
     });
 
