@@ -39,8 +39,8 @@ class ChatMobileController extends Controller
 
     public function getAllMessagesForUser()
     {
-        $frommessages = Chat::where('from_user',auth()->user()->id)->orderBy('created_at', 'desc')->get();
-        $tomessages = Chat::where('to_user',auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        $frommessages = Chat::where('from_user',auth()->user()->id)->get();
+        $tomessages = Chat::where('to_user',auth()->user()->id)->get();
 
         $frommessages_data = FromMesageResource::collection($frommessages);
         $tomessages_data = ToMessageResource::collection($tomessages);
