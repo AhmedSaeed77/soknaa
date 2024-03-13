@@ -40,29 +40,19 @@ class ChatController extends Controller
 
     public function getAllMessagesForUser($id)
     {
-        // $fromMessages = Chat::where('from_user', $id)->get();
-        // $toMessages = Chat::where('to_user', $id)->get();
-
-        // $allMessages = $fromMessages->map(function ($message) {
-        //     return ['type' => 0, 'message' => $message];
-        // })->merge($toMessages->map(function ($message) {
-        //     return ['type' => 1, 'message' => $message];
-        // }))->sortBy(function ($item) {
-        //     return $item['message']['created_at'];
-        // });
-
-
-
         $fromMessages = Chat::where('from_user', $id)->get();
         $toMessages = Chat::where('to_user', $id)->get();
 
         $allMessages = $fromMessages->map(function ($message) {
-            return ['type' => 0, 'message' => $message]; // Here, $message is an Eloquent model instance
+            return ['type' => 0, 'message' => $message]; // Ensure $message is an Eloquent model instance
         })->merge($toMessages->map(function ($message) {
-            return ['type' => 1, 'message' => $message]; // Here, $message is an Eloquent model instance
+            return ['type' => 1, 'message' => $message]; // Ensure $message is an Eloquent model instance
         }))->sortBy(function ($item) {
             return $item['message']->created_at; // Accessing created_at directly on the Eloquent model instance
         });
+
+        // Debugging: Log the contents of $allMessages to inspect its structure
+        \Log::info($allMessages);
 
         $allMessages = $allMessages->values();
         $allMessages = FromMesageResource::collection($allMessages);
