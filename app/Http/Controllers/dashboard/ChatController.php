@@ -40,18 +40,32 @@ class ChatController extends Controller
 
     public function getAllMessagesForUser($id)
     {
-        $frommessages = Chat::where('from_user',$id)->get();
-        $tomessages = Chat::where('to_user',$id)->get();
+        $fromMessages = Chat::where('from_user', auth()->user()->id)->get();
+        $toMessages = Chat::where('to_user', auth()->user()->id)->get();
 
-        $frommessages_data = FromMesageResource::collection($frommessages);
-        $tomessages_data = ToMessageResource::collection($tomessages);
+        $allMessages = $fromMessages->map(function ($message) {
+            return ['type' => 0, 'message' => $message];
+        })->merge($toMessages->map(function ($message) {
+            return ['type' => 1, 'message' => $message];
+        }))->sortByDesc(function ($item) {
+            return $item['message']['created_at'];
+        });
+        $allMessages = $allMessages->values();
+        $allMessages = FromMesageResource::collection($allMessages);
+        return $this->returnData('data', $allMessages);
+
+        // $frommessages = Chat::where('from_user',$id)->get();
+        // $tomessages = Chat::where('to_user',$id)->get();
+
+        // $frommessages_data = FromMesageResource::collection($frommessages);
+        // $tomessages_data = ToMessageResource::collection($tomessages);
         
-        $data = [
-                    'frommessages_data' => $frommessages_data,
-                    'tomessages_data' => $tomessages_data,
-                ];
+        // $data = [
+        //             'frommessages_data' => $frommessages_data,
+        //             'tomessages_data' => $tomessages_data,
+        //         ];
 
-        return $this->returnData('data',$data);
+        // return $this->returnData('data',$data);
     }
 
 }
