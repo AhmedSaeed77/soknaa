@@ -40,8 +40,8 @@ class ChatController extends Controller
 
     public function getAllMessagesForUser($id)
     {
-        $fromMessages = Chat::where('from_user', auth()->user()->id)->get();
-        $toMessages = Chat::where('to_user', auth()->user()->id)->get();
+        $fromMessages = Chat::where('from_user', $id)->get();
+        $toMessages = Chat::where('to_user', $id)->get();
 
         $allMessages = $fromMessages->map(function ($message) {
             return ['type' => 0, 'message' => $message];
