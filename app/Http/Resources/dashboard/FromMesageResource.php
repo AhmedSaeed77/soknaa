@@ -16,10 +16,10 @@ class FromMesageResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-                    // 'id' => $this->id,
+                    'id' => $this->message->id,
                     'type' => $this->type,
-                    'date' => $this->created_at->format('l, H:i'),
-                    'message' => $this->message,
+                    'date' => $this->message->created_at->format('l, H:i'),
+                    'message' => $this->message->message,
                 ];
     }
 }
