@@ -39,8 +39,8 @@ class ChatMobileController extends Controller
 
     public function getAllMessagesForUser()
     {
-        $frommessages = Chat::where('from_user',auth()->user()->id)->get();
-        $tomessages = Chat::where('to_user',auth()->user()->id)->get();
+        $fromMessages = Chat::where('from_user', auth()->user()->id)->get();
+        $toMessages = Chat::where('to_user', auth()->user()->id)->get();
 
         $allMessages = $fromMessages->map(function ($message) {
             return ['type' => 0, 'message' => $message];
@@ -49,6 +49,8 @@ class ChatMobileController extends Controller
         }));
 
         $allMessages = FromMesageResource::collection($allMessages);
+        return $this->returnData('data', $allMessages);
+
         // $tomessages_data = ToMessageResource::collection($tomessages);
         
         // $data = [
@@ -56,7 +58,7 @@ class ChatMobileController extends Controller
         //             'tomessages_data' => $tomessages_data,
         //         ];
 
-        return $this->returnData('data',$allMessages);
+        // return $this->returnData('data',$allMessages);
 
         
     }
