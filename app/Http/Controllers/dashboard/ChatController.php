@@ -47,7 +47,7 @@ class ChatController extends Controller
             return ['type' => 0, 'message' => $message];
         })->merge($toMessages->map(function ($message) {
             return ['type' => 1, 'message' => $message];
-        }))->sortByDesc(function ($item) {
+        }))->sortBy(function ($item) {
             return $item['message']['created_at'];
         });
         $allMessages = $allMessages->values();
