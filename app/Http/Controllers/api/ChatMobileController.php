@@ -50,9 +50,7 @@ class ChatMobileController extends Controller
             return $item['message']['created_at'];
         });
         $allMessages = $allMessages->values();
-        return $allMessages;
         $allMessages = FromMesageResource::collection($allMessages);
-        
         return $this->returnData('data', $allMessages);
 
         // $tomessages_data = ToMessageResource::collection($tomessages);
