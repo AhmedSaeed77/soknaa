@@ -661,4 +661,11 @@ class UserAuthController extends Controller
         }
         return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));                   
     }
+
+    public function deleteaccount()
+    {
+        $user = User::find(auth()->user()->id);
+        $user->delete();
+        return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+    }
 }

@@ -84,6 +84,8 @@ Route::group(['middleware' => 'Lang'], function () {
 
     Route::group(['middleware' => 'auth'], function () {
 
+        Route::post('/deleteaccount', [UserAuthController::class, 'deleteaccount']);
+
         Route::post('/adduser', [UserAuthController::class, 'adduser']);
         Route::get('/getAllUserByFinance', [UserAuthController::class, 'getAllUserByFinance']);
         Route::get('/getOneUser/{id}', [UserAuthController::class, 'getOneUser']);
