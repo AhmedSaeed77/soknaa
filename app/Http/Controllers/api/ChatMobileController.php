@@ -47,8 +47,9 @@ class ChatMobileController extends Controller
         })->merge($toMessages->map(function ($message) {
             return ['type' => 1, 'message' => $message];
         }));
-        $allMessages = FromMesageResource::collection($allMessages);
         return $allMessages;
+        $allMessages = FromMesageResource::collection($allMessages);
+        
         return $this->returnData('data', $allMessages);
 
         // $tomessages_data = ToMessageResource::collection($tomessages);
