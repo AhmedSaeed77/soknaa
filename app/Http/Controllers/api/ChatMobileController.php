@@ -48,6 +48,7 @@ class ChatMobileController extends Controller
             return ['type' => 1, 'message' => $message];
         }));
         $allMessages = FromMesageResource::collection($allMessages);
+        return $allMessages;
         return $this->returnData('data', $allMessages);
 
         // $tomessages_data = ToMessageResource::collection($tomessages);
