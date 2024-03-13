@@ -63,7 +63,7 @@ class OrderController extends Controller
                 $orders_data = OrdersResource::collection($orders);
                 return $this->returnData('data',$orders_data);
             }
-            $orders = Order::where('from',auth()->user()->id)->orderBy('created_at', 'desc')->get();
+            $orders = Order::where('from',auth()->user()->id)->orWhere('to',auth()->user()->id)->orderBy('created_at', 'desc')->get();
             $orders_data = OrdersResource::collection($orders);
             return $this->returnData('data',$orders_data);
         }
