@@ -49,6 +49,7 @@ class ChatMobileController extends Controller
         }))->sortByDesc(function ($item) {
             return $item['message']['created_at'];
         });
+        $allMessages = $allMessages->values();
         return $allMessages;
         $allMessages = FromMesageResource::collection($allMessages);
         
