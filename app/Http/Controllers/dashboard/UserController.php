@@ -177,8 +177,17 @@ class UserController extends Controller
             $user = User::find($id);
             if($user)
             {
-                $user->delete();
-                return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+                if($user->type == 'خاطبه')
+                {
+                    $user->children()->delete();
+                    $user->delete();
+                    return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+                }
+                else
+                {
+                    $user->delete();
+                    return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+                }
             }
             else
             {

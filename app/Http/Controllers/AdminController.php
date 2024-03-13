@@ -119,7 +119,6 @@ class AdminController extends Controller
         try
         {
             $admin = Admin::find($id);
-            return $admin;
             if($admin->role == 'super admin')
             {
                 $superAdminCount = Admin::where('role', 'super admin')->count();
@@ -133,9 +132,11 @@ class AdminController extends Controller
                     return $this->returnError(422,'لا يمكن الحذف هذا اخر حساب للمشرفين');
                 }
             }
-            $admin->delete();
-            return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
-            
+            else
+            {
+                $admin->delete();
+                return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+            } 
         }
         catch (\Exception $e)
         {
@@ -150,9 +151,21 @@ class AdminController extends Controller
             if($request->block == 1)
             {
                 $admin = Admin::find($id);
-                $admin->update(['block' => $request->block]);
-                $admin->update(['status' => 0]);
-                return $this->returnData('data',__('dashboard.admin_is_blocked'),__('dashboard.admin_is_blocked'));
+                if($admin->role == 'super admin')
+                {
+                    $superAdminCount = Admin::where('role', 'super admin')->count();
+                    if ($superAdminCount > 1)
+                    {
+                        $admin->update(['block' => $request->block]);
+                        $admin->update(['status' => 0]);
+                        return $this->returnData('data','تم الحظر بنجاح','تم الحظر بنجاح');
+                    }
+                    else
+                    {
+                        return $this->returnError(422,'لا يمكن حظر هذا اخر حساب للمشرفين');
+                    }
+                }
+                return $this->returnData('data','تم الحظر بنجاح','تم الحطر بنجاح');
             }
             else
             {

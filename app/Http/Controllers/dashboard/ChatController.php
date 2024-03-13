@@ -48,42 +48,27 @@ class ChatController extends Controller
         if (!$fromMessages->isEmpty())
         {
             $allMessages = $allMessages->merge($fromMessages->map(function ($message) {
-                return ['type' => 0, 'message' => $message]; // Ensure $message is an Eloquent model instance
+                return ['type' => 0, 'message' => $message];
             }));
         }
 
         if (!$toMessages->isEmpty())
         {
             $allMessages = $allMessages->merge($toMessages->map(function ($message) {
-                return ['type' => 1, 'message' => $message]; // Ensure $message is an Eloquent model instance
+                return ['type' => 1, 'message' => $message];
             }));
         }
 
         if (!$allMessages->isEmpty())
         {
             $allMessages = $allMessages->sortBy(function ($item) {
-                return $item['message']->created_at; // Accessing created_at directly on the Eloquent model instance
+                return $item['message']->created_at;
             });
         }
-        // Debugging: Log the contents of $allMessages to inspect its structure
-        \Log::info($allMessages);
-
+        // \Log::info($allMessages);
         $allMessages = $allMessages->values();
         $allMessages = FromMesageResource::collection($allMessages);
         return $this->returnData('data', $allMessages);
-
-        // $frommessages = Chat::where('from_user',$id)->get();
-        // $tomessages = Chat::where('to_user',$id)->get();
-
-        // $frommessages_data = FromMesageResource::collection($frommessages);
-        // $tomessages_data = ToMessageResource::collection($tomessages);
-        
-        // $data = [
-        //             'frommessages_data' => $frommessages_data,
-        //             'tomessages_data' => $tomessages_data,
-        //         ];
-
-        // return $this->returnData('data',$data);
     }
   
 }
