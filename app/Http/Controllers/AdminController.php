@@ -119,8 +119,23 @@ class AdminController extends Controller
         try
         {
             $admin = Admin::find($id);
+            return $admin;
+            if($admin->role == 'super admin')
+            {
+                $superAdminCount = Admin::where('role', 'super admin')->count();
+                if ($superAdminCount > 1)
+                {
+                    $admin->delete();
+                    return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+                }
+                else
+                {
+                    return $this->returnError(422,'لا يمكن الحذف هذا اخر حساب للمشرفين');
+                }
+            }
             $admin->delete();
             return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+            
         }
         catch (\Exception $e)
         {
