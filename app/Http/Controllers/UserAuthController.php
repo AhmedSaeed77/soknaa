@@ -63,8 +63,8 @@ class UserAuthController extends Controller
                 if($request->type == 'زوج')
                 {
                     $user = User::create([
-                        'name' => $request->name,
-                        'email' => $request->email,
+                        // 'name' => $request->name,
+                        // 'email' => $request->email,
                         'password' => Hash::make($request->password),
                         'nickname' => $request->nickname,
                         'phone' => $request->phone,
