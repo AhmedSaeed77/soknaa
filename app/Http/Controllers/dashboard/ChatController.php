@@ -45,23 +45,26 @@ class ChatController extends Controller
 
         $allMessages = collect([]);
 
-        if (!$fromMessages->isEmpty()) {
+        if (!$fromMessages->isEmpty())
+        {
             $allMessages = $allMessages->merge($fromMessages->map(function ($message) {
                 return ['type' => 0, 'message' => $message]; // Ensure $message is an Eloquent model instance
             }));
         }
 
-        if (!$toMessages->isEmpty()) {
+        if (!$toMessages->isEmpty())
+        {
             $allMessages = $allMessages->merge($toMessages->map(function ($message) {
                 return ['type' => 1, 'message' => $message]; // Ensure $message is an Eloquent model instance
             }));
         }
 
-        if (!$allMessages->isEmpty()) {
+        if (!$allMessages->isEmpty())
+        {
             $allMessages = $allMessages->sortBy(function ($item) {
                 return $item['message']->created_at; // Accessing created_at directly on the Eloquent model instance
             });
-
+        }
         // Debugging: Log the contents of $allMessages to inspect its structure
         \Log::info($allMessages);
 
@@ -82,5 +85,5 @@ class ChatController extends Controller
 
         // return $this->returnData('data',$data);
     }
-
+  
 }
