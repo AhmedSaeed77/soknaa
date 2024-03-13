@@ -42,15 +42,23 @@ class ChatMobileController extends Controller
         $frommessages = Chat::where('from_user',auth()->user()->id)->get();
         $tomessages = Chat::where('to_user',auth()->user()->id)->get();
 
-        $frommessages_data = FromMesageResource::collection($frommessages);
-        $tomessages_data = ToMessageResource::collection($tomessages);
-        
-        $data = [
-                    'frommessages_data' => $frommessages_data,
-                    'tomessages_data' => $tomessages_data,
-                ];
+        $allMessages = $fromMessages->map(function ($message) {
+            return ['type' => 0, 'message' => $message];
+        })->merge($toMessages->map(function ($message) {
+            return ['type' => 1, 'message' => $message];
+        }));
 
-        return $this->returnData('data',$data);
+        $allMessages = FromMesageResource::collection($allMessages);
+        // $tomessages_data = ToMessageResource::collection($tomessages);
+        
+        // $data = [
+        //             'frommessages_data' => $frommessages_data,
+        //             'tomessages_data' => $tomessages_data,
+        //         ];
+
+        return $this->returnData('data',$allMessages);
+
+        
     }
 
 }
