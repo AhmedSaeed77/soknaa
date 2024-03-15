@@ -32,9 +32,9 @@ class OneUserResource extends JsonResource
                     'familysitiation' => $this->familysitiation,
 
                     'country' => $this->location?->country,
-                    'nationality' => $this->location->nationality,
-                    'city' => $this->location->city,
-                    'religion' => $this->location->religion,
+                    'nationality' => $this->location?->nationality,
+                    'city' => $this->location?->city,
+                    'religion' => $this->location?->religion,
 
                     'weight' => $this->personalInformation->weight,
                     'length' => $this->personalInformation->length,
