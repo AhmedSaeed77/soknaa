@@ -31,7 +31,7 @@ class OneUserResource extends JsonResource
                     'typemerrage' => $this->typemerrage,
                     'familysitiation' => $this->familysitiation,
 
-                    'country' => $this->location->country,
+                    'country' => $this->location?->country,
                     'nationality' => $this->location->nationality,
                     'city' => $this->location->city,
                     'religion' => $this->location->religion,
