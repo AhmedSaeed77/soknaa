@@ -281,6 +281,7 @@ return [
         'is_worked_before_in_ksa'              => 'العمل في السعودية مسبقاً',
         'more_skills' => 'مهارات آخرى',
         'default_profile_image' => 'صورة الحساب الإفتراضية',
+        'old_password' => 'كلمه المرور القديمه',
 
 
     ],

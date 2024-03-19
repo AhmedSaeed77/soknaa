@@ -203,7 +203,8 @@ return [
         'info.*.image'          => 'ticket image',
         'info.*.chair_number'   => 'ticket chair number',
         'info.*.row'            => 'ticket row',
-        'image.required_if'     => 'Receipt'
+        'image.required_if'     => 'Receipt',
+        'old_password' =>  'Old Password',
     ],
 
 ];
