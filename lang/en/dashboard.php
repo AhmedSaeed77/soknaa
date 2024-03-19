@@ -138,4 +138,5 @@ return [
     'Incorrect nickname or password' => 'Incorrect nickname or password',
     'Incorrect email or password' => 'Incorrect email or password',
     'married_accept' => 'married_accept',
+    'Old_password_does_not_matched' => 'Old Password Does Not Matched',
 ];

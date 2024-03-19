@@ -59,4 +59,5 @@ return [
     'Image_deleted' => 'تم حذف الصوره بنجاح',
     'request_reject' => 'تم رفض الطلب بنجاح',
     'request_accept' => 'تم قبول الطلب بنجاح',
+    'Old_password_does_not_matched' => 'كلمه المرور القديمه غير صحيحه',
 ];

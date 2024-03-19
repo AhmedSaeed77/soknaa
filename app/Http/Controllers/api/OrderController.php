@@ -42,7 +42,10 @@ class OrderController extends Controller
             $user = User::find(auth()->user()->id);
             $user->update(['is_ordered' => 1]);
             $touser = User::find($request->to_user);
-            $touser->update(['is_ordered' => 1]);            
+            $touser->update(['is_ordered' => 1]);
+            $devicetokens = User::where('id',$request->to_user)->pluck('fcm')->toArray();
+            $title = "طلب خطبه جديد";
+            $this->notify($devicetokens,$title,$request->message);          
             return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
         }
         catch (\Exception $e)
@@ -50,6 +53,43 @@ class OrderController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function notify($deviceTokens,$title,$content)
+    {
+        $notification = $this->notificationScheme($deviceTokens,$title,$content);
+        $serverApiKey = 'AAAA5TQDlA8:APA91bE6PDdJigtCOwjLW9eTxZ4aOZNlBNo9GEbrle3zH6i5E8V8O5av3fZVEv_YvZSSvkhSggelHPR5qmCYzIdhxdEEqV_ftLz9_EicHprFKCufQJPcC4HTgM31VmjAr6yMD69xqBAt';
+        
+        $headers = [
+                        'Authorization: key=' .$serverApiKey,
+                        'Content-Type: application/json',
+                    ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $notification);
+        curl_exec($ch);
+    }
+
+    private function notificationScheme(array $deviceTokens, string $title, string $content)
+    {
+        return json_encode([
+                                'to'  => $deviceTokens,
+                                'notification'      => [
+                                                            'title' => $title,
+                                                            'body' => $content,
+                                                        ],                 
+                            ]);
+    }
+
+    // private function preparePush($deviceTokens,$title,$content)
+    // {
+    //     return $this->notificationScheme(deviceTokens: $deviceTokens, title: $title, content: $content);
+    // }
 
     public function getAllorders()
     {

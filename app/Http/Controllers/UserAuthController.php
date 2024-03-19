@@ -438,19 +438,27 @@ class UserAuthController extends Controller
     public function updateUserPassword(Request $request)
     {
         $request->validate([
+                                'old_password' => 'required',
                                 'password' => 'required|confirmed',
                             ]
 
                         );
         $user = User::find(auth()->user()->id);
-        if($user)
+        if(Hash::check($request->old_password,$user->password))
         {
-            $user->update(['password' => Hash::make($request->password)]);
-            return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+            if($user)
+            {
+                $user->update(['password' => Hash::make($request->password)]);
+                return $this->returnData('data',$user,__('site.User_Profile_Updated'));
+            }
+            else
+            {
+                return $this->returnError('',__('site.User_Not_Found'));
+            }
         }
         else
         {
-            return $this->returnError('',__('site.User_Not_Found'));
+            return $this->returnError('',__('site.Old_password_does_not_matched'));
         }
     }
 
