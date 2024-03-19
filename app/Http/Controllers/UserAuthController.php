@@ -53,6 +53,7 @@ class UserAuthController extends Controller
                                 'phone' => $request->phone,
                                 'type' => $request->type,
                                 'sex' => $request->sex,
+                                'fcm' => $request->fcm,
                             ]);
                 DB::commit();
                 return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
@@ -77,6 +78,7 @@ class UserAuthController extends Controller
                         'is_active' => 1,
                         'block' => 0,
                         'status' => 1,
+                        'fcm' => $request->fcm,
                     ]);
                 }
                 else
@@ -94,6 +96,7 @@ class UserAuthController extends Controller
                         'sex' => $request->sex,
                         'typemerrage' => $request->typemerrage,
                         'familysitiation' => $request->familysitiation,
+                        'fcm' => $request->fcm,
                     ]);
                 }
                 
@@ -164,7 +167,7 @@ class UserAuthController extends Controller
             {
                 return $this->returnError(422,__('dashboard.admin_not_active'));
             }
-
+            $user->update(['fcm' => $request->fcm]);
             return $this->returnData('data',['user_data' => $user , 'token' => $token] , __('dashboard.admin_Is_Login'));
         }
         return $this->returnError(422,__('dashboard.Incorrect nickname or password'));
