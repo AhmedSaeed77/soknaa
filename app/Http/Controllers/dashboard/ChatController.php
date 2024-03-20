@@ -67,7 +67,7 @@ class ChatController extends Controller
     private function notificationScheme(array $deviceTokens, string $title, string $content)
     {
         return json_encode([
-                                'to'  => $deviceTokens,
+                                'registration_ids'  => $deviceTokens,
                                 'notification'      => [
                                                             'title' => $title,
                                                             'body' => $content,
