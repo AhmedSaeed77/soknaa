@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\dashboard;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\Chat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\dashboard\ChangeStatusOrderRequest;
 use App\Http\Resources\dashboard\DashboardOrderResource;
 use App\Http\Resources\dashboard\DashboardOneOrderResource;
 use App\Http\Resources\dashboard\OrdersIndexResource;
+use App\Http\Resources\dashboard\ChatIndexResource;
 
 use App\Traits\GeneralTrait;
 
@@ -90,6 +92,8 @@ class IndexDashboardController extends Controller
             
             $orders_data = OrdersIndexResource::collection($orders);
 
+            $chats = Chat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
+            $chats_data = ChatIndexResource::collection($chats);
             $data = [
                         'allusers' => $allusers,
                         'malecounter' => $malecounter,
@@ -98,8 +102,8 @@ class IndexDashboardController extends Controller
                         'ordercounter' => $ordercounter,
                         'ordersuccesscounter' => $ordersuccesscounter,
                         'orders_data' => $orders_data,
+                        'chats_data' => $chats_data,
                     ];
-            // $orders_data = DashboardOrderResource::collection($orders);
             return $this->returnData('data',$data);
         }
         catch (\Exception $e)

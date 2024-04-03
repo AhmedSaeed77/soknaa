@@ -136,4 +136,9 @@ class User extends Authenticatable implements JWTSubject
         return $lastMembershipNumber + 1;
     }
 
+    public function chats()
+    {
+        return $this->hasMany(User::class, 'from_user');
+    }
+
 }
