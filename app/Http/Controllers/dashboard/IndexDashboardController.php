@@ -95,7 +95,7 @@ class IndexDashboardController extends Controller
             $chats = Chat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
             foreach($chats as $chat)
             {
-                $chat->flag = $this->getTypeOrder($chat>fromUser->id);
+                $chat->flag = $this->getTypeOrder($chat->fromUser->id);
             }
             $chats_data = ChatIndexResource::collection($chats);
             $data = [
