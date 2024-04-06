@@ -93,6 +93,10 @@ class IndexDashboardController extends Controller
             $orders_data = OrdersIndexResource::collection($orders);
 
             $chats = Chat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
+            foreach($chats as $chat)
+            {
+                $chat->flag = $this->getTypeOrder($chat>fromUser->id);
+            }
             $chats_data = ChatIndexResource::collection($chats);
             $data = [
                         'allusers' => $allusers,
@@ -110,6 +114,46 @@ class IndexDashboardController extends Controller
         {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+
+    public function getTypeOrder($id)
+    {
+        $userId = $id;
+        $lastOrder = Order::latest()->first();
+        $receiverType = null;
+        if ($lastOrder)
+        {
+            if ($lastOrder->from == $userId)
+            {
+                $receiverType = 1;
+            }
+            elseif ($lastOrder->to == $userId)
+            {
+                $receiverType = 2;
+            }
+        }
+        if($lastOrder)
+        {
+            if (!$receiverType)
+            {
+                $previousOrders = Order::where('id', '<', $lastOrder->id)->latest()->get();
+                foreach ($previousOrders as $order) 
+                {
+                    if ($order->from == $userId)
+                    {
+                        $receiverType = 1;
+                        break;
+                    }
+                    elseif ($order->to == $userId)
+                    {
+                        $receiverType = 2;
+                        break;
+                    }
+                }
+            }
+        }
+        return $receiverType;
     }
 
 }
