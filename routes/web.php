@@ -37,7 +37,7 @@ Route::get('/tets', function () {
 });
 
 Route::get('/ttt', function () {
-    $userId = 47;
+    $userId = 178;
     $lastOrder = \App\Models\Order::latest()->first();
     $receiverType = null;
     if ($lastOrder)
