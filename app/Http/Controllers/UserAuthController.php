@@ -144,6 +144,24 @@ class UserAuthController extends Controller
                         $i++;
                     }
                 }
+                else
+                {
+                    if($user->type == 'زوج')
+                    {
+                        Image::create([
+                                            'user_id' => $user->id,
+                                            'image' => 'storage/users/boy.png',
+                                        ]);
+                    }
+                    elseif($user->type == 'زوجه')
+                    {
+                        Image::create([
+                                            'user_id' => $user->id,
+                                            'image' => 'storage/users/girl.png',
+                                        ]);
+                    }
+                    
+                }
             }
 
             DB::commit();

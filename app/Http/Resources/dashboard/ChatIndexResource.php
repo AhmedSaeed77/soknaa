@@ -20,7 +20,8 @@ class ChatIndexResource extends JsonResource
                     'user_name' => $this->fromUser->name,
                     'user_image' => $this->fromUser->images->first() ? url($this->fromUser->images->first()->image) : null,
                     'message' => $this->message,
-                    'date' => $this->created_at->format('Y-m-d'),
+                    'flag' => 1,
+                    'date' => $this->created_at->format('h:i A'),
                 ];
     }
 }
