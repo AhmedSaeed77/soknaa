@@ -60,4 +60,6 @@ return [
     'request_reject' => 'تم رفض الطلب بنجاح',
     'request_accept' => 'تم قبول الطلب بنجاح',
     'Old_password_does_not_matched' => 'كلمه المرور القديمه غير صحيحه',
+    
+    'this_user_not_active' => 'هذا لمستخدم غير مفعل',
 ];

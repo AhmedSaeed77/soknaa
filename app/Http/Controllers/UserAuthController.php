@@ -97,6 +97,9 @@ class UserAuthController extends Controller
                         'typemerrage' => $request->typemerrage,
                         'familysitiation' => $request->familysitiation,
                         'fcm' => $request->fcm,
+                        'is_active' => 1,
+                        'block' => 0,
+                        'is_active_order' => 0,
                     ]);
                 }
                 

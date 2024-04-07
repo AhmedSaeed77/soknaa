@@ -35,6 +35,11 @@ class OrderController extends Controller
             {
                 return $this->returnError('',__('site.can_not_do_another_request'));
             }
+            $to_userData = User::find($request->to_user);
+            if($to_userData->is_active_order == 0)
+            {
+                return $this->returnError('',__('site.this_user_not_active'));
+            }
             Order::create([
                                 'from' => auth()->user()->id,
                                 'to' => $request->to_user,
