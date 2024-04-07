@@ -96,6 +96,15 @@ class IndexDashboardController extends Controller
             foreach($chats as $chat)
             {
                 $chat->flag = $this->getTypeOrder($chat->fromUser->id);
+                if($chat->flag == 1)
+                {
+                    $chat->order_id = $this->getOrderIdFrom($chat->fromUser->id);
+                }
+                else
+                {
+                    $chat->order_id = $this->getOrderIdTo($chat->toUser->id);
+                }
+                
             }
             $chats_data = ChatIndexResource::collection($chats);
             $data = [
@@ -154,6 +163,22 @@ class IndexDashboardController extends Controller
             }
         }
         return $receiverType;
+    }
+
+    public function getOrderIdFrom($id)
+    {
+        $userId = $id;
+        $last_order = Order::where('from', $userId)
+                   ->orderBy('order_date', 'desc')
+                   ->first();
+    }
+
+    public function getOrderIdTo($id)
+    {
+        $userId = $id;
+        $last_order = Order::where('to', $userId)
+                   ->orderBy('order_date', 'desc')
+                   ->first();
     }
 
 }
