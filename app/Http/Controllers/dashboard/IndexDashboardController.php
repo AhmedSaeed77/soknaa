@@ -169,7 +169,7 @@ class IndexDashboardController extends Controller
     {
         $userId = $id;
         $last_order = Order::where('from', $userId)
-                   ->orderBy('order_date', 'desc')
+                   ->orderBy('created_at', 'desc')
                    ->first();
     }
 
@@ -177,7 +177,7 @@ class IndexDashboardController extends Controller
     {
         $userId = $id;
         $last_order = Order::where('to', $userId)
-                   ->orderBy('order_date', 'desc')
+                   ->orderBy('created_at', 'desc')
                    ->first();
     }
 
