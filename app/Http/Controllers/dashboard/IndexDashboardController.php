@@ -171,6 +171,7 @@ class IndexDashboardController extends Controller
         $last_order = Order::where('from', $userId)
                    ->orderBy('created_at', 'desc')
                    ->first();
+        return $last_order;
     }
 
     public function getOrderIdTo($id)
@@ -179,6 +180,7 @@ class IndexDashboardController extends Controller
         $last_order = Order::where('to', $userId)
                    ->orderBy('created_at', 'desc')
                    ->first();
+        return $last_order;
     }
 
 }
