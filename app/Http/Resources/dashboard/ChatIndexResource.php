@@ -21,7 +21,7 @@ class ChatIndexResource extends JsonResource
                     'user_image' => $this->fromUser->images->first() ? url($this->fromUser->images->first()->image) : null,
                     'message' => $this->message,
                     'flag' => $this->flag,
-                    'order_id' => $this->order_id->id,
+                    'order_id' => $this->order_id,
                     'date' => $this->created_at->format('h:i A'),
                 ];
     }
