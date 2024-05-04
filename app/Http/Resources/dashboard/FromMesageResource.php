@@ -15,11 +15,26 @@ class FromMesageResource extends JsonResource
     public function toArray(Request $request): array
     {
         // return parent::toArray($request);
-        return [
+        if($this->resource['message']['type'] == 0)
+        {
+            return [
                     'id' => $this->resource['message']['id'],
                     'type' => $this->resource['type'],
+                    'image' => 0,
                     'date' => $this->resource['message']['created_at']->format('l, H:i'),
                     'message' => $this->resource['message']['message'],
                 ];
+        }
+        else
+        {
+            return [
+                    'id' => $this->resource['message']['id'],
+                    'type' => $this->resource['type'],
+                    'image' => 1,
+                    'date' => $this->resource['message']['created_at']->format('l, H:i'),
+                    'message' => url($this->resource['message']['message']),
+                ];
+        }
+        
     }
 }

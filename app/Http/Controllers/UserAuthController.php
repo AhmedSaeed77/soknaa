@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Mail\NotifyMail;
 use Mail;
+use Carbon\Carbon;
 
 class UserAuthController extends Controller
 {
@@ -98,7 +99,8 @@ class UserAuthController extends Controller
                         'familysitiation' => $request->familysitiation,
                         'fcm' => $request->fcm,
                         'is_active' => 1,
-                        'block' => 0,
+                        // 'block' => 0,
+                        'is_showprofile' => 0,
                         'is_active_order' => 0,
                     ]);
                 }
@@ -129,22 +131,28 @@ class UserAuthController extends Controller
                                                 'employment' => $request->employment,
                                                 'job' => $request->job,
                                                 'monthly_income' => $request->monthly_income,
-                                                'life_partner_info' => $request->life_partner_info,
-                                                'my_information' => $request->my_information,
+                                                // 'life_partner_info' => $request->life_partner_info,
+                                                // 'my_information' => $request->my_information,
+                                                
+                                                'life_partner_info' => $request->has('life_partner_info') ? $request->life_partner_info : null,
+                                        'my_information' => $request->has('my_information') ? $request->my_information : null,
+
                                             ]);
 
-                // if($request->hasFile('images'))
-                if (is_array($request->images))
+                if($request->hasFile('images'))
                 {
-                    $i=0;
-                    foreach($request->file('images') as $image)
+                    if (is_array($request->images))
                     {
-                        $fileimage = $this->handle('images.'.$i, 'users');
-                        Image::create([
-                                        'user_id' => $user->id,
-                                        'image' => $fileimage,
-                                    ]);
-                        $i++;
+                        $i=0;
+                        foreach($request->file('images') as $image)
+                        {
+                            $fileimage = $this->handle('images.'.$i, 'users');
+                            Image::create([
+                                            'user_id' => $user->id,
+                                            'image' => $fileimage,
+                                        ]);
+                            $i++;
+                        }
                     }
                 }
                 else
@@ -673,11 +681,30 @@ class UserAuthController extends Controller
 
     public function storeImage(Request $request)
     {
+        
         $request->validate([
                                 'images' => 'required|array',
                                 'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                             ]);
+        
         $user = User::find(auth()->user()->id);
+        $user_image = image::where('user_id',$user->id)->first();
+        if($user->type == 'زوج' && $user->images->count() == 1 && $user_image->image == 'storage/users/boy.png')
+        {
+            foreach($user->images as $im)
+            {
+                $im->delete();
+            }
+        }
+        if($user->type == 'زوجه' && $user->images->count() == 1 && $user_image->image == 'storage/users/girl.png')
+        {
+            foreach($user->images as $im)
+            {
+                $im->delete();
+            }
+            
+        }
+        
         if (is_array($request->images))
         {
             $i=0;
@@ -699,5 +726,27 @@ class UserAuthController extends Controller
         $user = User::find(auth()->user()->id);
         $user->delete();
         return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
+    }
+    
+    public function changeOline()
+    {
+        $olduser = User::find(auth()->user()->id);
+        $olduser->update(['is_online' => 1 , 'last_seen' => Carbon::now()]);
+        
+        $users = \App\Models\User::all();
+        foreach ($users as $user)
+        {
+            if ($user->id == $olduser->id)
+            {
+                continue;
+            }
+            if($user->last_seen !== Carbon::now()->format('Y-m-d'))
+            {
+                $user->is_online = 0;
+                $user->save();
+            }
+        }
+        
+        return $this->returnData('data',__('site.User_Profile_Updated'),__('site.User_Profile_Updated'));
     }
 }

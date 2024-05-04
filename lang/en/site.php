@@ -28,6 +28,7 @@ return [
     'Bank_Acccount_Created' => 'Bank Acccount Created',
     'Phone_IS_Exist' => 'Phone Is Exist',
     'The_Message_Is_Sent' => 'The Message Is Sent',
+    'this_user_not_active' => 'This User Not Active',
     'User_Not_have_Permission' => 'User Not have Permission',
     'Row_Is_Canceled' => 'Ticket Is Canceled',
     'Row_Is_Actived' => 'Ticket Is Actived',
@@ -55,5 +56,4 @@ return [
     'Image_deleted' => 'Image Deleted',
     'request_reject' => 'request_reject',
     'request_accept' => 'request_accept',
-    'this_user_not_active' => 'This User Not Active',
 ];

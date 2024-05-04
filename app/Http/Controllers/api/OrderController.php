@@ -20,10 +20,15 @@ class OrderController extends Controller
     {
         try
         {
+            
             $user = User::find(auth()->user()->id);
             if($user->type == 'خاطبه')
             {
                 return $this->returnError('',__('site.this_account_can_not_do_request'));
+            }
+            if($user->is_ordered == 1)
+            {
+                return $this->returnError('','لديك طلب معلق لا يمكن عمل طلب اخر');
             }
             $old_order = Order::where('from',auth()->user()->id)->where('status',0)->first();
             if($old_order)
@@ -35,10 +40,30 @@ class OrderController extends Controller
             {
                 return $this->returnError('',__('site.can_not_do_another_request'));
             }
+            $old_order_from_one = Order::where('from',auth()->user()->id)->where('status',1)->first();
+            $old_order_to_one = Order::where('to',auth()->user()->id)->where('status',1)->first();
+            $old_order_from_two = Order::where('from',$request->to_user)->where('status',1)->first();
+            $old_order_to_two = Order::where('to',$request->to_user)->where('status',1)->first();
+            if($old_order_from_one)
+            {
+                return $this->returnError('','لديك طلب مكتمل لا يمكن عمل طلب مره اخرى');
+            }
+            if($old_order_to_one)
+            {
+                return $this->returnError('','لديك طلب مكتمل لا يمكن عمل طلب مره اخرى');
+            }
+            if($old_order_from_two)
+            {
+                return $this->returnError('','لديها طلب مكتمل لا يمكن عمل طلب مره اخرى');
+            }
+            if($old_order_to_two)
+            {
+                return $this->returnError('','لديها طلب مكتمل لا يمكن عمل طلب مره اخرى');
+            }
             $to_userData = User::find($request->to_user);
             if($to_userData->is_active_order == 0)
             {
-                return $this->returnError('',__('site.this_user_not_active'));
+                return $this->returnError('',__('هذا المستخدم غير مفعل'));
             }
             Order::create([
                                 'from' => auth()->user()->id,
@@ -50,8 +75,11 @@ class OrderController extends Controller
             $touser->update(['is_ordered' => 1]);
             $devicetokens = User::where('id',$request->to_user)->pluck('fcm')->toArray();
             $title = "طلب خطبه جديد";
-            $this->notify($devicetokens,$title,$request->message);          
-            return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
+            $content = "طلب خطبه جديد";
+            $this->notify($devicetokens,$title,$content); 
+            $message2 = 'تم إرسال الطلب بنجاح
+سوف يقوم فريق سٌكنة بالتواصل مع الطرف الاخر والرد عليك ومن ثم تحديد موعد للرؤية الشرعية عبر زووم';
+            return $this->returnData('data',__('dashboard.recored created successfully.'),$message2);
         }
         catch (\Exception $e)
         {

@@ -64,6 +64,7 @@ class AdminController extends Controller
         })
         ->orderBy('created_at', 'desc')
         ->paginate(15);
+        // ->get();
         $admins_data = AdminResource::collection($admins)->response()->getData(true);;
         return $this->returnData('data',$admins_data);
     }

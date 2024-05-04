@@ -135,10 +135,15 @@ class User extends Authenticatable implements JWTSubject
         $lastMembershipNumber = static::max('membership_num') ?? 999;
         return $lastMembershipNumber + 1;
     }
-
+    
     public function chats()
     {
         return $this->hasMany(User::class, 'from_user');
+    }
+    
+    public function privateChats()
+    {
+        return $this->hasMany(PrivatChat::class, 'from_user');
     }
 
 }

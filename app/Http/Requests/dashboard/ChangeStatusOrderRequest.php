@@ -23,6 +23,8 @@ class ChangeStatusOrderRequest extends FormRequest
     {
         return [
                     'status' => 'required',
+                    'message_from' => 'required|in:1,2',
+                    'message' => 'nullable',
                 ];
     }    
 }

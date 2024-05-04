@@ -36,8 +36,8 @@ class StandardController extends Controller
     {
         $ages = Age::all();
         $beards = Beard::all();
-        $countries = Country::all();
-        $nationalities = DB::table('all_countries')->get();
+        $countries = Country::orderBy('is_arab', 'desc')->orderBy('is_saudi', 'desc')->get();
+        $nationalities = DB::table('all_countries')->orderBy('is_arab', 'desc')->orderBy('is_saudi', 'desc')->get();
         $educationalLevels = EducationalLevel::all();
         $employments = Employment::all();
         $familySituations = FamilySituation::all();
@@ -45,7 +45,7 @@ class StandardController extends Controller
         $halthStatuses = HealthStatus::all();
         $heights = Height::all();
         $hijabs = Hijab::all();
-        $monthlyIncomes = MonthlyIncome::all();
+        $monthlyIncomes = MonthlyIncome::get();
         $physiques = Physique::all();
         $prayers = Prayer::all();
         $religiosities = Religiosity::all();
@@ -65,7 +65,7 @@ class StandardController extends Controller
         $halthStatuses_data = AgeResource::collection($halthStatuses);
         $heights_data = AgeResource::collection($heights);
         $hijabs_data = AgeResource::collection($hijabs);
-        $monthlyIncomes_data = CountryResource::collection($monthlyIncomes);
+        $monthlyIncomes_data = AgeResource::collection($monthlyIncomes);
         $physiques_data = AgeResource::collection($physiques);
         $prayers_data = AgeResource::collection($prayers);
         $religiosities_data = AgeResource::collection($religiosities);
@@ -103,5 +103,12 @@ class StandardController extends Controller
         $cities = City::where('country_id',$id)->get();
         $cities_data = CountryResource::collection($cities);
         return $this->returnData('data',$cities_data);
+    }
+    
+    public function getAllCountries()
+    {
+        $countries = Country::orderBy('is_arab', 'desc')->orderBy('is_saudi', 'desc')->get();
+        $countries_data = CountryResource::collection($countries);
+        return $this->returnData('data',$countries_data);
     }
 }

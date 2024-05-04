@@ -12,7 +12,7 @@ class SiteController extends Controller
 {
     use GeneralTrait;
 
-    public function getAllUsers()
+    public function getAllUsers(Request $request)
     {
         $user = User::find(auth()->user()->id);
         $type = ($user->type == 'زوج') ? 'زوجه' : 'زوج';
@@ -20,6 +20,11 @@ class SiteController extends Controller
                         ->where('is_showprofile',1)
                         ->where('block',0)
                         ->where('is_active',1)
+                        ->when($request->has('country'), function ($query) use ($request) {
+                $query->whereHas('location', function ($subQuery) use ($request) {
+                    $subQuery->where('country', $request->input('country'));
+                });
+            })
                         ->get();
         $users_data = UserResource::collection($users);
         return $this->returnData('data',$users_data);

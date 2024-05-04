@@ -54,10 +54,10 @@ class RegisterRequest extends FormRequest
                     'employment' => 'required_if:type,زوج,زوجه',
                     'job' => 'required_if:type,زوج,زوجه',
                     'monthly_income' => 'required_if:type,زوج,زوجه',
-                    'life_partner_info' => 'required_if:type,زوج,زوجه',
-                    'my_information' => 'required_if:type,زوج,زوجه',
-                    'images' => 'required_if:type,ذكر,أنثى|array',
-                    'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+                    // 'life_partner_info' => 'required_if:type,زوج,زوجه',
+                    // 'my_information' => 'required_if:type,زوج,زوجه',
+                    // 'images' => 'required_if:type,ذكر,أنثى|array',
+                    // 'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
                 ];
     }
 }

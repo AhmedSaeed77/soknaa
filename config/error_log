@@ -1,0 +1,192 @@
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/database.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/logging.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/logging.php on line 21
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/database.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/filesystems.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/filesystems.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/jwt.php:28
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/jwt.php on line 28
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/database.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/jwt.php:28
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/jwt.php on line 28
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/app.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/app.php on line 19
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/app.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/app.php on line 19
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/queue.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/queue.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/jwt.php:28
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/jwt.php on line 28
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/app.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/app.php on line 19
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/logging.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/logging.php on line 21
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/queue.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/queue.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/filesystems.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/filesystems.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/hashing.php:32
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/hashing.php on line 32
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/mail.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/mail.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/mail.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/mail.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/database.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/database.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/cache.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/cache.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/cache.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/cache.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/broadcasting.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/broadcasting.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/filesystems.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/filesystems.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/filesystems.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/filesystems.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/broadcasting.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/broadcasting.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/hashing.php:32
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/hashing.php on line 32
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/app.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/app.php on line 19
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/cache.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/cache.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/queue.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/queue.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/broadcasting.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/broadcasting.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/broadcasting.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/broadcasting.php on line 18
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/jwt.php:28
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/jwt.php on line 28
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/hashing.php:32
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/hashing.php on line 32
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/mail.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/mail.php on line 16
+[21-Mar-2024 00:43:58 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/mail.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/mail.php on line 16
+[21-Mar-2024 00:43:59 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/cache.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/cache.php on line 18
+[21-Mar-2024 00:43:59 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/logging.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/logging.php on line 21
+[21-Mar-2024 00:43:59 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/logging.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/logging.php on line 21
+[21-Mar-2024 00:44:02 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/mail.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/mail.php on line 16
+[21-Mar-2024 00:44:02 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/hashing.php:32
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/hashing.php on line 32
+[21-Mar-2024 00:44:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/cache.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/cache.php on line 18
+[21-Mar-2024 00:44:05 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/queue.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/queue.php on line 16
+[21-Mar-2024 00:44:09 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/logging.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/logging.php on line 21
+[21-Mar-2024 00:44:14 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/mail.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/mail.php on line 16
+[21-Mar-2024 00:44:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/app.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/app.php on line 19
+[21-Mar-2024 00:44:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/queue.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/queue.php on line 16
+[21-Mar-2024 00:44:50 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/hashing.php:32
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/hashing.php on line 32
+[21-Mar-2024 00:44:56 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/sokntoie/back.soknaa.com/config/app.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/config/app.php on line 19

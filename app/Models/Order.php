@@ -40,6 +40,11 @@ class Order extends Model
         elseif($this->attributes['status'] == 2)
             return 'مرفوض';
     }
+    
+    public function chats()
+    {
+        return $this->hasMany(Chat::class,'order_id');
+    }
 
     public function fromUser()
     {

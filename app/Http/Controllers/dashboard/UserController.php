@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function getRequestsToJoin(Request $request)
     {
-        $users = User::where('is_active',0)
+        $users = User::where('is_active',1)->where('is_active_order',0)
                         ->when($request->search, function ($query) use ($request) {
                             return $query->where('name', 'like', '%' . $request->search . '%');
                         })
@@ -38,8 +38,16 @@ class UserController extends Controller
                         ->when($request->date == 3, function ($query) {
                             return $query->whereMonth('created_at', now()->month);
                         })
+                        ->when($request->country, function ($query) use ($request) {
+                                $country = $request->country;
+                                $query->whereHas('location', function ($subquery) use ($country) {
+                                    
+                                        $subquery->where('country', 'like', '%' . $country . '%');
+                                });
+                            })
                         ->orderBy('created_at', 'desc')
                         ->paginate(15);
+                        // ->get();
         $users_data = UserResource::collection($users)->response()->getData(true);
         return $this->returnData('data',$users_data);
     }
@@ -65,10 +73,10 @@ class UserController extends Controller
             $user = User::find($request->user_id);
             if($user)
             {
-                $user->update(['status' => $request->accept]);
+                $user->update(['status' => $request->accept , 'is_active_order' => 1]);
                 if($request->accept == 1)
                 {
-                    $user->update(['is_active' => 1]);
+                    $user->update(['is_active' => 1,'is_showprofile' => 1]);
                     return $this->returnData('data',__('site.request_accept'), __('site.request_accept'));
                 }
                 return $this->returnData('data',__('site.request_reject'), __('site.request_reject'));
@@ -116,8 +124,16 @@ class UserController extends Controller
                             ->when($request->date == 3, function ($query) {
                                 return $query->whereMonth('created_at', now()->month);
                             })
+                            ->when($request->country, function ($query) use ($request) {
+                                $country = $request->country;
+                                $query->whereHas('location', function ($subquery) use ($country) {
+                                    
+                                        $subquery->where('country', 'like', '%' . $country . '%');
+                                });
+                            })
                             ->orderBy('created_at', 'desc')
-                            ->paginate(15);
+                            // ->paginate(15);
+                            ->get();
             $users_data = UserResource::collection($users)->response()->getData(true);
             return $this->returnData('data',$users_data);
         }

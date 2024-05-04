@@ -17,6 +17,7 @@ class UserResource extends JsonResource
         // return parent::toArray($request);
         return [
                     'id' => $this->id,
+                    'is_ordered' => $this->is_ordered,
                     'name' => $this->name,
                     'nickname' => $this->nickname,
                     'type' => $this->type,
@@ -25,6 +26,7 @@ class UserResource extends JsonResource
                     'country' => $this->location->country ?? null,
                     'membership_num' => $this->membership_num,
                     'is_showprofile' => $this->is_showprofile,
+                    'is_online' => $this->is_online,
                     // 'image' => url($this->images->first()->image),
                     'image' => $this->images->first() ? url($this->images->first()->image) : null,
                 ];

@@ -30,6 +30,7 @@ class OneUserResource extends JsonResource
                     'sex' => $this->sex,
                     'typemerrage' => $this->typemerrage,
                     'familysitiation' => $this->familysitiation,
+                    'is_online' => $this->is_online,
 
                     'country' => $this->location->country ?? null,
                     'nationality' => $this->location->nationality ?? null,

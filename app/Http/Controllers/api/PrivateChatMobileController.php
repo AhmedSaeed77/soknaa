@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\api;
-use App\Models\Chat;
+use App\Models\PrivatChat;
 use App\Models\User;
 use App\Models\Admin;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use App\Http\Resources\dashboard\ToMessageResource;
 
 use App\Traits\GeneralTrait;
 
-class ChatMobileController extends Controller
+class PrivateChatMobileController extends Controller
 {
     use GeneralTrait;
 
@@ -20,16 +20,29 @@ class ChatMobileController extends Controller
         $request->validate([
                                 'message' => 'required',
                                 // 'from_user' => 'required',
+                                'type' => 'required|in:0,1',
                             ]
                         );
         try
         {
-            Chat::create([
-                            'to_admin' => Admin::first()->id , 
-                            'from_user' => auth()->user()->id , 
-                            'message' => $request->message,
-                            'order_id' => $request->order_id
-                        ]);
+            if($request->type == 0)
+            {
+                PrivatChat::create([
+                                    'to_admin' => Admin::first()->id , 
+                                    'from_user' => auth()->user()->id , 
+                                    'message' => $request->message,
+                                    'type' => $request->type
+                                ]);
+            }
+            else
+            {
+                PrivatChat::create([
+                                    'to_admin' => Admin::first()->id , 
+                                    'from_user' => auth()->user()->id , 
+                                    'message' =>  $this->handle('message', 'privatechat'),
+                                        'type' => $request->type
+                                ]);
+            }
             return $this->returnData('data',__('dashboard.item_is_added'),__('dashboard.item_is_added'));
         }
         catch (\Exception $e)
@@ -38,10 +51,10 @@ class ChatMobileController extends Controller
         }
     }
 
-    public function getAllMessagesForUser($order_id)
+    public function getAllMessagesForUser()
     {
-        $fromMessages = Chat::where('from_user', auth()->user()->id)->where('order_id',$order_id)->get();
-        $toMessages = Chat::where('to_user', auth()->user()->id)->where('order_id',$order_id)->get();
+        $fromMessages = PrivatChat::where('from_user', auth()->user()->id)->get();
+        $toMessages = PrivatChat::where('to_user', auth()->user()->id)->get();
 
         $allMessages = collect([]);
 

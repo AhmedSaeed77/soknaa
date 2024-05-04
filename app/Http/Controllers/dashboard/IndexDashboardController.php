@@ -91,22 +91,15 @@ class IndexDashboardController extends Controller
             ->orderBy('created_at', 'desc')->take(10)->get();
             
             $orders_data = OrdersIndexResource::collection($orders);
-
-            $chats = Chat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
-            foreach($chats as $chat)
+            
+             $chats = Chat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
+             foreach($chats as $chat)
             {
                 $chat->flag = $this->getTypeOrder($chat->fromUser->id);
-                // if($chat->flag == 1)
-                // {
-                    $chat->order_id = $this->getOrderIdFrom($chat->fromUser->id);
-                // }
-                // else
-                // {
-                //     $chat->order_id = $this->getOrderIdTo($chat->toUser->id);
-                // }
-                
+                // $chat->order_id = $this->getOrderIdFrom($chat->fromUser->id);
             }
             $chats_data = ChatIndexResource::collection($chats);
+
             $data = [
                         'allusers' => $allusers,
                         'malecounter' => $malecounter,
@@ -117,6 +110,7 @@ class IndexDashboardController extends Controller
                         'orders_data' => $orders_data,
                         'chats_data' => $chats_data,
                     ];
+            // $orders_data = DashboardOrderResource::collection($orders);
             return $this->returnData('data',$data);
         }
         catch (\Exception $e)
@@ -124,8 +118,7 @@ class IndexDashboardController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
+    
     public function getTypeOrder($id)
     {
         $userId = $id;
@@ -164,7 +157,8 @@ class IndexDashboardController extends Controller
         }
         return $receiverType;
     }
-
+    
+    
     public function getOrderIdFrom($id)
     {
         $userId = $id;

@@ -12,6 +12,9 @@ use App\Http\Controllers\dashboard\UserController;
 use App\Http\Controllers\dashboard\OrderDashboardController;
 use App\Http\Controllers\dashboard\IndexDashboardController;
 use App\Http\Controllers\dashboard\ChatController;
+use App\Http\Controllers\dashboard\PrivateChatController;
+use App\Http\Controllers\dashboard\MailController;
+use App\Http\Controllers\api\PrivateChatMobileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +36,8 @@ Route::group(['middleware' => 'cors'], function () {
 
     Route::group(['middleware' => 'Lang','prefix' => 'admin'], function () {
 
+
+        Route::post('sendMail', [MailController::class, 'sendMail']);
 
         Route::post('login', [AdminController::class, 'login']);
 
@@ -56,7 +61,11 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('index', [IndexDashboardController::class, 'index']);
 
             Route::post('create/message', [ChatController::class, 'create']);
-            Route::get('getAllMessagesForUser/{id}', [ChatController::class, 'getAllMessagesForUser']);
+            Route::get('getAllMessagesForUser/{id}/{order_id}', [ChatController::class, 'getAllMessagesForUser']);
+            
+            Route::get('getAllPrivateCaht', [PrivateChatController::class, 'getAllPrivateCaht']);
+            Route::get('getAllPrivateMessagesForUser/{id}', [PrivateChatController::class, 'getAllPrivateMessagesForUser']);
+            Route::post('createPrivateMessagesForUser', [PrivateChatController::class, 'createPrivateMessagesForUser']);
 
 
         });
@@ -78,6 +87,7 @@ Route::group(['middleware' => 'Lang'], function () {
     Route::post('/changePassword', [UserAuthController::class, 'changePassword']);
 
     Route::get('standard', [StandardController::class, 'standard']);
+    Route::get('getAllCountries', [StandardController::class, 'getAllCountries']);
     Route::get('getAllCitiesByCountry/{id}', [StandardController::class, 'getAllCitiesByCountry']);
 
     Route::get('/getAllUsersNotAut', [SiteController::class, 'getAllUsersNotAut']);
@@ -92,6 +102,7 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::post('/showProfile', [UserAuthController::class, 'isShowProfile']);
 
         Route::get('getUser', [UserAuthController::class, 'getUser']);
+        Route::get('changeOline', [UserAuthController::class, 'changeOline']);
         Route::post('updateUserName', [UserAuthController::class, 'updateUserName']);
         Route::post('updateUserPhone', [UserAuthController::class, 'updateUserPhone']);
         Route::post('updateUserEmail', [UserAuthController::class, 'updateUserEmail']);
@@ -121,7 +132,10 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::get('getAllOrdersSuccess', [OrderController::class, 'getAllOrdersSuccess']);
 
         Route::post('createmessage', [ChatMobileController::class, 'createmessage']);
-        Route::get('getAllMessagesForUser', [ChatMobileController::class, 'getAllMessagesForUser']);
+        Route::get('getAllMessagesForUser/{order_id}', [ChatMobileController::class, 'getAllMessagesForUser']);
+        
+        Route::post('createprivatemessage', [PrivateChatMobileController::class, 'createmessage']);
+        Route::get('getAllPrivateMessagesForUser', [PrivateChatMobileController::class, 'getAllMessagesForUser']);
 
     });
 

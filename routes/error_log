@@ -1,0 +1,84 @@
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/api.php:27
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/api.php on line 27
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/api.php:27
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/api.php on line 27
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Broadcast" not found in /home/sokntoie/back.soknaa.com/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/channels.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/web.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/web.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Broadcast" not found in /home/sokntoie/back.soknaa.com/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/channels.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Artisan" not found in /home/sokntoie/back.soknaa.com/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/console.php on line 17
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Broadcast" not found in /home/sokntoie/back.soknaa.com/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/channels.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/web.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/web.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Broadcast" not found in /home/sokntoie/back.soknaa.com/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/channels.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/web.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/web.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/web.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/web.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/api.php:27
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/api.php on line 27
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/api.php:27
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/api.php on line 27
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Artisan" not found in /home/sokntoie/back.soknaa.com/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/console.php on line 17
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Broadcast" not found in /home/sokntoie/back.soknaa.com/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/channels.php on line 16
+[21-Mar-2024 00:43:54 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/api.php:27
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/api.php on line 27
+[21-Mar-2024 00:43:55 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Artisan" not found in /home/sokntoie/back.soknaa.com/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/console.php on line 17
+[21-Mar-2024 00:43:55 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/web.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/web.php on line 16
+[21-Mar-2024 00:43:55 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Broadcast" not found in /home/sokntoie/back.soknaa.com/routes/channels.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/channels.php on line 16
+[21-Mar-2024 00:43:56 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Route" not found in /home/sokntoie/back.soknaa.com/routes/api.php:27
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/api.php on line 27
+[21-Mar-2024 00:44:55 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Support\Facades\Artisan" not found in /home/sokntoie/back.soknaa.com/routes/console.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/sokntoie/back.soknaa.com/routes/console.php on line 17

@@ -20,6 +20,7 @@ class OrderDashboardController extends Controller
         try
         {
             $search = $request->search;
+            $country = $request->country;
             $orders = Order::when($search, function ($query) use ($search) {
                 $query->whereHas('fromUser', function ($subquery) use ($search) {
                     $subquery->where('name', 'like', '%' . $search . '%');
@@ -30,6 +31,22 @@ class OrderDashboardController extends Controller
                     $subquery->where('nickname', 'like', '%' . $search . '%');
                 });
             })
+            ->when($country, function ($query) use ($country) {
+                $query->whereHas('fromUser', function ($subquery) use ($country) {
+                    $subquery->whereHas('location', function($subquery2) use ($country)
+                    {
+                        $subquery2->where('country', 'like', '%' . $country . '%');
+                    });
+                });
+            })
+            // ->when($country, function ($query) use ($country) {
+            //     $query->whereHas('toUser', function ($subquery) use ($country) {
+            //         $subquery->whereHas('location', function($subquery2) use ($country)
+            //         {
+            //             $subquery2->where('country', 'like', '%' . $country . '%');
+            //         });
+            //     });
+            // })
             ->orderBy('created_at', 'desc')
             ->paginate(15);
             $orders_data = DashboardOrderResource::collection($orders)->response()->getData(true);
@@ -62,9 +79,21 @@ class OrderDashboardController extends Controller
             $order = Order::find($id);
             if($order)
             {
-                $order->update([ 'status' => $request->status]);
-                $user = User::find($order->from);
-                $user->update(['is_ordered' => 0]);
+                $order->update([ 'status' => $request->status,'message' => $request->message,'message_from' => $request->message_from]);
+                $user1 = User::find($order->from);
+                $user1->update(['is_ordered' => 0]);
+                $user2 = User::find($order->to);
+                $user2->update(['is_ordered' => 0]);
+                if($request->status == 1)
+                {
+                    $user1->update(['is_showprofile' => 0]);
+                    $user2->update(['is_showprofile' => 0]);
+                }
+                if($request->status == 2)
+                {
+                    $user1->update(['is_showprofile' => 1]);
+                    $user2->update(['is_showprofile' => 1]);
+                }
                 return $this->returnData('data',__('dashboard.married_accept'),__('dashboard.married_accept'));
             }
             return $this->returnError('',__('site.Order_Not_Found'));
