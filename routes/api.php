@@ -59,6 +59,8 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('getOneOrder/{id}', [OrderDashboardController::class, 'getOneOrder']);
             Route::post('changestatus/{id}', [OrderDashboardController::class, 'changestatus']);
 
+            Route::get('order/close/{id}', [OrderDashboardController::class, 'OrderClose']);
+
             Route::get('index', [IndexDashboardController::class, 'index']);
 
             Route::post('create/message', [ChatController::class, 'create']);

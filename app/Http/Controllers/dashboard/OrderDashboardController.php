@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\dashboard;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\ChatRoom;
+use App\Models\ChatRoomMessage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\dashboard\ChangeStatusOrderRequest;
 use App\Http\Resources\dashboard\DashboardOrderResource;
 use App\Http\Resources\dashboard\DashboardOneOrderResource;
+use App\Http\Resources\api\ChatMessageResource;
 
 use App\Traits\GeneralTrait;
 
@@ -63,8 +66,54 @@ class OrderDashboardController extends Controller
         try
         {
             $order = Order::find($id);
-            $order_data = new DashboardOneOrderResource($order);
-            return $this->returnData('data',$order_data);
+            if($order)
+            {
+                $chats = ChatRoom::where('order_id', $order->id)->first();
+                $messages_data = ChatMessageResource::collection($this->getRoomMessages($chats->id));
+                $order_data = new DashboardOneOrderResource($order);
+                // return $this->returnData('data',$order_data);
+
+                $data = [
+                            'messages_data' => $messages_data,
+                            'order_data' => $order_data,
+                        ];
+            return $this->returnData('data',$data);
+            }
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getRoomMessages($room_id, $after_message_id = null)
+    {
+        return ChatRoomMessage::where('chat_room_id', $room_id)
+            ->where(function ($query) use ($after_message_id) {
+                if ($after_message_id !== null)
+                    $query->where('id', '<', $after_message_id);
+            })
+            ->orderByDesc('id')
+            ->limit(20)
+            ->get()
+            ->sortBy('id');
+    }
+
+    public function OrderClose($id)
+    {
+        try
+        {
+            $order = Order::find($id);
+            if($order)
+            {
+                $chat = ChatRoom::where('order_id', $order->id)->first();
+                if($chat)
+                {
+                    $chat->update(['status' => 'CLOSE']);
+                }
+                return $this->returnData('data',__('dashboard.chat_closed'),__('dashboard.chat_closed'));
+            }
+            return $this->returnError('',__('site.Order_Not_Found'));
         }
         catch (\Exception $e)
         {
