@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Resources\api;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -29,6 +29,7 @@ class UserResource extends JsonResource
                     'is_online' => $this->is_online,
                     // 'image' => url($this->images->first()->image),
                     'image' => $this->images->first() ? url($this->images->first()->image) : null,
+                    'flag' => $this->location->country ? url(DB::table('all_countries')->where('country_arName', $this->location->country)->select('image')->first()->image) : null,
                 ];
     }
 }

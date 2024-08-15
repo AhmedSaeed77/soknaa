@@ -23,6 +23,8 @@ class PrivateChatResource extends JsonResource
                     'email' => $this->email,
                     'phone' => $this->phone,
                     'country' => $this->location?->country,
+                    'message' => $this->latestPrivateChat()?->message,
+                    'date' => $this->latestPrivateChat()?->created_at->format('h:i A'),
                 ];
     }
 }

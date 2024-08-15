@@ -38,6 +38,16 @@ class UserController extends Controller
                         ->when($request->date == 3, function ($query) {
                             return $query->whereMonth('created_at', now()->month);
                         })
+                        ->when($request->type, function ($query) use ($request) {
+                                return $query->where(function ($query) use ($request) {
+                                    if ($request->type == 'خاطبه') {
+                                        $query->where('type', '=', 'خاطبه');
+                                    } elseif ($request->type == 'عادى') {
+                                        $query->where('type', 'like', '%زوج%')
+                                            ->orWhere('type', 'like', '%زوجه%');
+                                    }
+                                });
+                            })
                         ->when($request->country, function ($query) use ($request) {
                                 $country = $request->country;
                                 $query->whereHas('location', function ($subquery) use ($country) {

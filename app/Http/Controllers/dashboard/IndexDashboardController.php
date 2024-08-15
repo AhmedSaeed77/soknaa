@@ -4,6 +4,7 @@ namespace App\Http\Controllers\dashboard;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Chat;
+use App\Models\PrivatChat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\dashboard\ChangeStatusOrderRequest;
@@ -22,6 +23,7 @@ class IndexDashboardController extends Controller
     {
         try
         {
+            
             $allusers = User::
             when($request->date == 1, function ($query) {
                 return $query->whereDate('created_at', now()->toDateString());
@@ -61,6 +63,7 @@ class IndexDashboardController extends Controller
                 return $query->whereMonth('created_at', now()->month);
             })
             ->count();
+            
             $financecounter = User::where('type','خاطبه')->count();
 
             $ordercounter = Order::
@@ -75,6 +78,7 @@ class IndexDashboardController extends Controller
             ->when($request->date == 3, function ($query) {
                 return $query->whereMonth('created_at', now()->month);
             })->count();
+            
             $ordersuccesscounter = Order::where('status',1)->count();
 
             $orders = Order::when($request->date == 1, function ($query) {
@@ -90,15 +94,30 @@ class IndexDashboardController extends Controller
             })
             ->orderBy('created_at', 'desc')->take(10)->get();
             
+            
+            
             $orders_data = OrdersIndexResource::collection($orders);
             
              $chats = Chat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
+             
+             
              foreach($chats as $chat)
             {
-                $chat->flag = $this->getTypeOrder($chat->fromUser->id);
+                $chat->flag = $this->getTypeOrder($chat->fromUser?->id);
                 // $chat->order_id = $this->getOrderIdFrom($chat->fromUser->id);
             }
+            
             $chats_data = ChatIndexResource::collection($chats);
+           
+             $private_chats = PrivatChat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
+             
+             foreach($private_chats as $chat)
+            {
+                $chat->flag = $this->getTypeOrder($chat->fromUser?->id);
+                // $chat->order_id = $this->getOrderIdFrom($chat->fromUser->id);
+            }
+            
+            $private_chats_data = ChatIndexResource::collection($private_chats);
 
             $data = [
                         'allusers' => $allusers,
@@ -109,6 +128,7 @@ class IndexDashboardController extends Controller
                         'ordersuccesscounter' => $ordersuccesscounter,
                         'orders_data' => $orders_data,
                         'chats_data' => $chats_data,
+                        'private_chats_data' => $private_chats_data,
                     ];
             // $orders_data = DashboardOrderResource::collection($orders);
             return $this->returnData('data',$data);

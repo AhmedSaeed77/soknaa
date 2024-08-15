@@ -86,6 +86,7 @@ return [
     'Map' => 'الخريطه',
     'About_En' => 'عن الموقع بالانجليزى',
     'About_Ar' => 'عن الموقع بالعربى',
+    'user_is_removed' => 'هذا المستخدم تم حذفه',
     'Message_En' => 'الرساله بالانجليزى',
     'Message_Ar' => 'الرساله بالعربى',
     'Vision_En' => 'الرؤيه بالانجليزى',
@@ -137,5 +138,5 @@ return [
     'unactive' => 'محظور',
     'Incorrect nickname or password' => 'اسم المستخدم او كله المرور غير صحيحه',
     'married_accept' => 'تم الزواج بنجاح',
-    
+
 ];

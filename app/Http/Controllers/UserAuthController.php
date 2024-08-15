@@ -104,7 +104,7 @@ class UserAuthController extends Controller
                         'is_active_order' => 0,
                     ]);
                 }
-                
+
 
                 Location::create([
                                     'user_id' => $user->id,
@@ -133,7 +133,7 @@ class UserAuthController extends Controller
                                                 'monthly_income' => $request->monthly_income,
                                                 // 'life_partner_info' => $request->life_partner_info,
                                                 // 'my_information' => $request->my_information,
-                                                
+
                                                 'life_partner_info' => $request->has('life_partner_info') ? $request->life_partner_info : null,
                                         'my_information' => $request->has('my_information') ? $request->my_information : null,
 
@@ -171,7 +171,7 @@ class UserAuthController extends Controller
                                             'image' => 'storage/users/girl.png',
                                         ]);
                     }
-                    
+
                 }
             }
 
@@ -195,6 +195,10 @@ class UserAuthController extends Controller
             if (\auth('web')->user()->is_active == 0)
             {
                 return $this->returnError(422,__('dashboard.admin_not_active'));
+            }
+            if (\auth('web')->user()->is_removed == 1)
+            {
+                return $this->returnError(422,__('dashboard.user_is_removed'));
             }
             $user->update(['fcm' => $request->fcm]);
             return $this->returnData('data',['user_data' => $user , 'token' => $token] , __('dashboard.admin_Is_Login'));
@@ -681,12 +685,12 @@ class UserAuthController extends Controller
 
     public function storeImage(Request $request)
     {
-        
+
         $request->validate([
                                 'images' => 'required|array',
                                 'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                             ]);
-        
+
         $user = User::find(auth()->user()->id);
         $user_image = image::where('user_id',$user->id)->first();
         if($user->type == 'زوج' && $user->images->count() == 1 && $user_image->image == 'storage/users/boy.png')
@@ -702,9 +706,9 @@ class UserAuthController extends Controller
             {
                 $im->delete();
             }
-            
+
         }
-        
+
         if (is_array($request->images))
         {
             $i=0;
@@ -718,21 +722,27 @@ class UserAuthController extends Controller
                 $i++;
             }
         }
-        return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));                   
+        return $this->returnData('data',__('dashboard.recored created successfully.'),__('dashboard.recored created successfully.'));
     }
 
-    public function deleteaccount()
+    public function deleteaccount(Request $request)
     {
         $user = User::find(auth()->user()->id);
-        $user->delete();
+        if($user)
+        {
+            $user->update(['is_removed' => 1 , 'reason' => $request->reason]);
+            // $user->delete();
+            auth()->logout();
+        }
+
         return $this->returnData('data',__('dashboard.item_is_deleted'),__('dashboard.item_is_deleted'));
     }
-    
+
     public function changeOline()
     {
         $olduser = User::find(auth()->user()->id);
         $olduser->update(['is_online' => 1 , 'last_seen' => Carbon::now()]);
-        
+
         $users = \App\Models\User::all();
         foreach ($users as $user)
         {
@@ -746,7 +756,7 @@ class UserAuthController extends Controller
                 $user->save();
             }
         }
-        
+
         return $this->returnData('data',__('site.User_Profile_Updated'),__('site.User_Profile_Updated'));
     }
 }

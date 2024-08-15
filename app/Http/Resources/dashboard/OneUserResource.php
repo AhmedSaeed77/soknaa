@@ -17,6 +17,7 @@ class OneUserResource extends JsonResource
         // return parent::toArray($request);
         return [
                     'id' => $this->id,
+                    'is_active' => $this->is_active,
                     'name' => $this->name,
                     'email' => $this->email,
                     'nickname' => $this->nickname,

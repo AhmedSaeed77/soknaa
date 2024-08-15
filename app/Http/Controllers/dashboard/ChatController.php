@@ -4,10 +4,12 @@ namespace App\Http\Controllers\dashboard;
 use App\Models\Chat;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\dashboard\FromMesageResource;
 use App\Http\Resources\dashboard\ToMessageResource;
+use App\Http\Resources\dashboard\ChatIndexResource;
 
 use App\Traits\GeneralTrait;
 
@@ -112,6 +114,96 @@ class ChatController extends Controller
         $allMessages = $allMessages->values();
         $allMessages = FromMesageResource::collection($allMessages);
         return $this->returnData('data', $allMessages);
+    }
+    
+    public function getAllMessagesOrders(Request $request)
+    {
+        // $chats = Chat::whereNotNull('from_user')->orderBy('created_at', 'desc')->take(5)->get();
+        
+        $name = $request->input('name', '');
+
+        // Query chats with a related user and optionally filter by user's name
+        $chats = Chat::whereNotNull('from_user')
+            ->when($name !== '', function ($query) use ($name) {
+                $query->whereHas('fromUser', function ($query) use ($name) {
+                    $query->where('name', 'like', '%' . $name . '%');
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+            
+             foreach($chats as $chat)
+            {
+                $chat->flag = $this->getTypeOrder($chat->fromUser->id);
+                // $chat->order_id = $this->getOrderIdFrom($chat->fromUser->id);
+            }
+            $chats_data = ChatIndexResource::collection($chats);
+            return $this->returnData('data',$chats_data);
+    }
+    
+    public function getTypeOrder($id)
+    {
+        $userId = $id;
+        $lastOrder = Order::latest()->first();
+        $receiverType = null;
+        if ($lastOrder)
+        {
+            if ($lastOrder->from == $userId)
+            {
+                $receiverType = 1;
+            }
+            elseif ($lastOrder->to == $userId)
+            {
+                $receiverType = 2;
+            }
+        }
+        if($lastOrder)
+        {
+            if (!$receiverType)
+            {
+                $previousOrders = Order::where('id', '<', $lastOrder->id)->latest()->get();
+                foreach ($previousOrders as $order) 
+                {
+                    if ($order->from == $userId)
+                    {
+                        $receiverType = 1;
+                        break;
+                    }
+                    elseif ($order->to == $userId)
+                    {
+                        $receiverType = 2;
+                        break;
+                    }
+                }
+            }
+        }
+        return $receiverType;
+    }
+    
+    public function changeAllMessagesForUser($id,$order_id)
+    {
+        $fromMessages = Chat::where('from_user', $id)->where('order_id',$order_id)->get();
+        $toMessages = Chat::where('to_user', $id)->where('order_id',$order_id)->get();
+
+        if($fromMessages->count() > 0)
+        {
+            foreach($fromMessages as $fromMessage)
+            {
+                $fromMessage->is_seen = 1;
+                $fromMessage->save();
+            }
+        }
+
+        if($toMessages->count() > 0)
+        {
+            foreach($toMessages as $toMessage)
+            {
+                $toMessage->is_seen = 1;
+                $toMessage->save();
+            }
+        }
+        return "done";
     }
   
 }

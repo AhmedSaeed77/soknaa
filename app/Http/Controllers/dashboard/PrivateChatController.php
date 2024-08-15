@@ -19,15 +19,34 @@ class PrivateChatController extends Controller
 
     public function getAllPrivateCaht(Request $request)
     {
+        // $allchats = User::when($request->name, function ($query) use ($request) {
+        //             return $query->where('name', 'like', '%' . $request->name . '%');
+        //         })
+        //         ->leftJoin('privat_chats as pc1', 'users.id', '=', 'pc1.from_user')
+        //         ->leftJoin('privat_chats as pc2', 'users.id', '=', 'pc2.to_user')
+        //         ->select('users.id', 'users.name','users.nickname','users.membership_num','users.email','users.phone', DB::raw('COUNT(pc1.id) + COUNT(pc2.id) as private_chats_count'))
+        //         ->groupBy('users.id', 'users.name','users.nickname','users.membership_num','users.email','users.phone')
+        //         ->orderBy('private_chats_count', 'desc')
+        //         ->paginate(15);
+        
         $allchats = User::when($request->name, function ($query) use ($request) {
-                    return $query->where('name', 'like', '%' . $request->name . '%');
-                })
-                ->leftJoin('privat_chats as pc1', 'users.id', '=', 'pc1.from_user')
-                ->leftJoin('privat_chats as pc2', 'users.id', '=', 'pc2.to_user')
-                ->select('users.id', 'users.name','users.nickname','users.membership_num','users.email','users.phone', DB::raw('COUNT(pc1.id) + COUNT(pc2.id) as private_chats_count'))
-                ->groupBy('users.id', 'users.name','users.nickname','users.membership_num','users.email','users.phone')
-                ->orderBy('private_chats_count', 'desc')
-                ->paginate(15);
+        return $query->where('name', 'like', '%' . $request->name . '%');
+    })
+    ->leftJoin('privat_chats as pc1', 'users.id', '=', 'pc1.from_user')
+    ->leftJoin('privat_chats as pc2', 'users.id', '=', 'pc2.to_user')
+    ->select(
+        'users.id',
+        'users.name',
+        'users.nickname',
+        'users.membership_num',
+        'users.email',
+        'users.phone',
+        DB::raw('COUNT(pc1.id) + COUNT(pc2.id) as private_chats_count'),
+        DB::raw('MAX(pc1.created_at) as last_private_chat_date') // Get the latest created_at date from pc1
+    )
+    ->groupBy('users.id', 'users.name', 'users.nickname', 'users.membership_num', 'users.email', 'users.phone')
+    ->orderBy('last_private_chat_date', 'desc') // Order by the latest private chat date in descending order
+    ->paginate(15);
 
         $allchats_data = PrivateChatResource::collection($allchats)->response()->getData(true);
         return $this->returnData('data', $allchats_data);
@@ -144,6 +163,31 @@ class PrivateChatController extends Controller
         $allMessages = $allMessages->values();
         $allMessages = FromMesageResource::collection($allMessages);
         return $this->returnData('data', $allMessages);
+    }
+    
+    public function changeAllPrivateMessagesForUser($id)
+    {
+        $fromMessages = PrivatChat::where('from_user', $id)->get();
+        $toMessages = PrivatChat::where('to_user', $id)->get();
+
+        if($fromMessages->count() > 0)
+        {
+            foreach($fromMessages as $fromMessage)
+            {
+                $fromMessage->is_seen = 1;
+                $fromMessage->save();
+            }
+        }
+
+        if($toMessages->count() > 0)
+        {
+            foreach($toMessages as $toMessage)
+            {
+                $toMessage->is_seen = 1;
+                $toMessage->save();
+            }
+        }
+        return "done";
     }
   
 }

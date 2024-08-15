@@ -20,6 +20,7 @@ class FromMesageResource extends JsonResource
             return [
                     'id' => $this->resource['message']['id'],
                     'type' => $this->resource['type'],
+                    'is_seen' => $this->resource['message']['is_seen'],
                     'image' => 0,
                     'date' => $this->resource['message']['created_at']->format('l, H:i'),
                     'message' => $this->resource['message']['message'],
@@ -30,6 +31,7 @@ class FromMesageResource extends JsonResource
             return [
                     'id' => $this->resource['message']['id'],
                     'type' => $this->resource['type'],
+                    'is_seen' => $this->resource['message']['is_seen'],
                     'image' => 1,
                     'date' => $this->resource['message']['created_at']->format('l, H:i'),
                     'message' => url($this->resource['message']['message']),

@@ -145,5 +145,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(PrivatChat::class, 'from_user');
     }
+    
+     public function latestPrivateChat()
+    {
+        return $this->privateChats()->latest('created_at')->first();
+    }
 
 }

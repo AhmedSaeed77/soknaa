@@ -20,6 +20,7 @@ class DashboardOneOrderResource extends JsonResource
                     'order_num' => $this->order_num,
                     'from' => $this->from,
                     'from_name' => $this->fromUser->name,
+                    'from_is_active' => $this->fromUser->is_active,
                     'from_membership_num' => $this->fromUser->membership_num,
                     'from_email' => $this->fromUser->email,
                     'from_type' => $this->fromUser->type,
@@ -56,6 +57,7 @@ class DashboardOneOrderResource extends JsonResource
                     'from_images' => ImageUserResource::collection($this->fromUser->images),
 
                     'to' => $this->to,
+                    'to_is_active' => $this->toUser->is_active,
                     'to_name' => $this->toUser->name,
                     'to_membership_num' => $this->toUser->membership_num,
                     'to_email' => $this->toUser->email,

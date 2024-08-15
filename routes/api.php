@@ -14,6 +14,7 @@ use App\Http\Controllers\dashboard\IndexDashboardController;
 use App\Http\Controllers\dashboard\ChatController;
 use App\Http\Controllers\dashboard\PrivateChatController;
 use App\Http\Controllers\dashboard\MailController;
+use App\Http\Controllers\api\ChatPusherController;
 use App\Http\Controllers\api\PrivateChatMobileController;
 
 /*
@@ -62,10 +63,14 @@ Route::group(['middleware' => 'cors'], function () {
 
             Route::post('create/message', [ChatController::class, 'create']);
             Route::get('getAllMessagesForUser/{id}/{order_id}', [ChatController::class, 'getAllMessagesForUser']);
-            
+
+            Route::get('getAllMessagesOrders', [ChatController::class, 'getAllMessagesOrders']);
+            Route::get('changeAllMessagesForUser/{id}/{order_id}', [ChatController::class, 'changeAllMessagesForUser']);
+
             Route::get('getAllPrivateCaht', [PrivateChatController::class, 'getAllPrivateCaht']);
             Route::get('getAllPrivateMessagesForUser/{id}', [PrivateChatController::class, 'getAllPrivateMessagesForUser']);
             Route::post('createPrivateMessagesForUser', [PrivateChatController::class, 'createPrivateMessagesForUser']);
+            Route::get('changeAllPrivateMessagesForUser/{id}', [PrivateChatController::class, 'changeAllPrivateMessagesForUser']);
 
 
         });
@@ -133,9 +138,12 @@ Route::group(['middleware' => 'Lang'], function () {
 
         Route::post('createmessage', [ChatMobileController::class, 'createmessage']);
         Route::get('getAllMessagesForUser/{order_id}', [ChatMobileController::class, 'getAllMessagesForUser']);
-        
+
         Route::post('createprivatemessage', [PrivateChatMobileController::class, 'createmessage']);
         Route::get('getAllPrivateMessagesForUser', [PrivateChatMobileController::class, 'getAllMessagesForUser']);
+
+        Route::post('chats/provide', [ChatPusherController::class,'provide']);
+        Route::post('chats/rooms/{rooms:id}/send', [ChatPusherController::class,'send']);
 
     });
 
