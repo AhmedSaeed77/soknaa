@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function getRequestsToJoin(Request $request)
     {
-        $users = User::where('is_active',1)->where('is_active_order',0)
+        $users = User::where('is_active',1)->where('is_active_order',0)->where('is_removed',0)
                         ->when($request->search, function ($query) use ($request) {
                             return $query->where('name', 'like', '%' . $request->search . '%');
                         })
@@ -51,7 +51,7 @@ class UserController extends Controller
                         ->when($request->country, function ($query) use ($request) {
                                 $country = $request->country;
                                 $query->whereHas('location', function ($subquery) use ($country) {
-                                    
+
                                         $subquery->where('country', 'like', '%' . $country . '%');
                                 });
                             })
@@ -106,7 +106,59 @@ class UserController extends Controller
     {
         try
         {
-            $users = User::where('is_active',1)->
+            $users = User::where('is_active',1)
+                            ->where('is_removed',0)
+                            ->when($request->gender, function ($query) use ($request) {
+                                return $query->where('sex', 'like', '%' . $request->gender . '%');
+                            })
+                            ->when($request->type, function ($query) use ($request) {
+                                return $query->where(function ($query) use ($request) {
+                                    if ($request->type == 'خاطبه') {
+                                        $query->where('type', '=', 'خاطبه');
+                                    } elseif ($request->type == 'عادى') {
+                                        $query->where('type', 'like', '%زوج%')
+                                            ->orWhere('type', 'like', '%زوجه%');
+                                    }
+                                });
+                            })
+                            ->when($request->name, function ($query) use ($request) {
+                                return $query->where('name', 'like', '%' . $request->name . '%');
+                            })
+                            ->when($request->date == 1, function ($query) {
+                                return $query->whereDate('created_at', now()->toDateString());
+                            })
+                            ->when($request->date == 2, function ($query) {
+                                $startOfWeek = now()->startOfWeek();
+                                $endOfWeek = now()->endOfWeek();
+                                return $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+                            })
+                            ->when($request->date == 3, function ($query) {
+                                return $query->whereMonth('created_at', now()->month);
+                            })
+                            ->when($request->country, function ($query) use ($request) {
+                                $country = $request->country;
+                                $query->whereHas('location', function ($subquery) use ($country) {
+
+                                        $subquery->where('country', 'like', '%' . $country . '%');
+                                });
+                            })
+                            ->orderBy('created_at', 'desc')
+                            // ->paginate(15);
+                            ->get();
+            $users_data = UserResource::collection($users)->response()->getData(true);
+            return $this->returnData('data',$users_data);
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getAllMembersRemoved(Request $request)
+    {
+        try
+        {
+            $users = User::where('is_removed',1)->
                             when($request->gender, function ($query) use ($request) {
                                 return $query->where('sex', 'like', '%' . $request->gender . '%');
                             })
@@ -137,7 +189,7 @@ class UserController extends Controller
                             ->when($request->country, function ($query) use ($request) {
                                 $country = $request->country;
                                 $query->whereHas('location', function ($subquery) use ($country) {
-                                    
+
                                         $subquery->where('country', 'like', '%' . $country . '%');
                                 });
                             })

@@ -743,19 +743,19 @@ class UserAuthController extends Controller
         $olduser = User::find(auth()->user()->id);
         $olduser->update(['is_online' => 1 , 'last_seen' => Carbon::now()]);
 
-        $users = \App\Models\User::all();
-        foreach ($users as $user)
-        {
-            if ($user->id == $olduser->id)
-            {
-                continue;
-            }
-            if($user->last_seen !== Carbon::now()->format('Y-m-d'))
-            {
-                $user->is_online = 0;
-                $user->save();
-            }
-        }
+        // $users = \App\Models\User::all();
+        // foreach ($users as $user)
+        // {
+        //     if ($user->id == $olduser->id)
+        //     {
+        //         continue;
+        //     }
+        //     if($user->last_seen !== Carbon::now()->format('Y-m-d'))
+        //     {
+        //         $user->is_online = 0;
+        //         $user->save();
+        //     }
+        // }
 
         return $this->returnData('data',__('site.User_Profile_Updated'),__('site.User_Profile_Updated'));
     }

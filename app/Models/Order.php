@@ -40,7 +40,7 @@ class Order extends Model
         elseif($this->attributes['status'] == 2)
             return 'مرفوض';
     }
-    
+
     public function chats()
     {
         return $this->hasMany(Chat::class,'order_id');
@@ -49,6 +49,11 @@ class Order extends Model
     public function fromUser()
     {
         return $this->belongsTo(User::class,'from');
+    }
+    
+    public function chatRoom()
+    {
+        return $this->hasOne(ChatRoom::class);
     }
 
     public function toUser()

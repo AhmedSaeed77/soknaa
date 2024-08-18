@@ -50,6 +50,7 @@ class OrderDashboardController extends Controller
             //         });
             //     });
             // })
+            ->whereHas('chatRoom')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
             $orders_data = DashboardOrderResource::collection($orders)->response()->getData(true);

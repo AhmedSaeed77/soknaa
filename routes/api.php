@@ -15,7 +15,9 @@ use App\Http\Controllers\dashboard\ChatController;
 use App\Http\Controllers\dashboard\PrivateChatController;
 use App\Http\Controllers\dashboard\MailController;
 use App\Http\Controllers\api\ChatPusherController;
+use App\Http\Controllers\api\ComplaintController;
 use App\Http\Controllers\api\PrivateChatMobileController;
+use App\Http\Controllers\dashboard\ComplaintDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +52,8 @@ Route::group(['middleware' => 'cors'], function () {
             Route::get('getOneRequestToJoin/{id}', [UserController::class, 'getOneRequestToJoin']);
             Route::post('acceptReject', [UserController::class, 'acceptReject']);
 
+            Route::get('getAllMembersRemoved', [UserController::class, 'getAllMembersRemoved']);
+
             Route::get('getAllMembers', [UserController::class, 'getAllMembers']);
             Route::get('getOneMember/{id}', [UserController::class, 'getOneMember']);
             Route::get('block/{id}', [UserController::class, 'block']);
@@ -60,6 +64,9 @@ Route::group(['middleware' => 'cors'], function () {
             Route::post('changestatus/{id}', [OrderDashboardController::class, 'changestatus']);
 
             Route::get('order/close/{id}', [OrderDashboardController::class, 'OrderClose']);
+
+            Route::get('getAllComplaints', [ComplaintDashboardController::class, 'getAllComplaints']);
+            Route::get('getOneComplaint/{id}', [ComplaintDashboardController::class, 'getOneComplaint']);
 
             Route::get('index', [IndexDashboardController::class, 'index']);
 
@@ -146,6 +153,8 @@ Route::group(['middleware' => 'Lang'], function () {
 
         Route::post('chats/provide', [ChatPusherController::class,'provide']);
         Route::post('chats/rooms/{rooms:id}/send', [ChatPusherController::class,'send']);
+
+        Route::post('complaints', [ComplaintController::class,'store']);
 
     });
 

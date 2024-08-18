@@ -55,7 +55,7 @@ class OneUserResource extends JsonResource
                     'monthly_income' => $this->personalInformation?->monthly_income,
                     'life_partner_info' => $this->personalInformation?->life_partner_info,
                     'my_information' => $this->personalInformation?->my_information,
-                    
+                    'reason' => $this->reason,
                     'images' => ImageUserResource::collection($this->images),
                 ];
     }

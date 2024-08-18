@@ -44,11 +44,12 @@ class ChatPusherController extends Controller
     {
         return ChatRoom::where('order_id', $order_id)
             // ->whereHas('members', function ($query) {
+            //     $query->where('user_id', auth()->user()->id);
+            // })
+            // ->whereHas('members', function ($query) use ($user_id) {
             //     $query->where('user_id', $user_id);
             // })
-            ->whereHas('members', function ($query) use ($user_id) {
-                $query->where('user_id', $user_id);
-            })->with('messages');
+            ->with('messages');
     }
 
     public function provideModel($first_user, $order_id, $status = 'OPEN')
@@ -98,25 +99,38 @@ class ChatPusherController extends Controller
     {
         $request->validate([
                                 'user_id' => ['required', Rule::exists('users', 'id')],
-                                // 'order_id' => ['required', Rule::exists('orders', 'id')],
-                                'status' => ['required', 'in:OPEN,CLOSE'],
-                                // 'first_user' => ['required'],
-                                // 'second_user' => ['required'],
+                                'order_id' => ['nullable', Rule::exists('orders', 'id')],
                             ]);
-        // $order_id = 43;
-        $order = Order::create([
-                                    'from' => auth()->user()->id,
-                                    'to' => $request->user_id,
-                                ]);
-        $chats = $this->provideModel($request->user_id , $order->id);
-        $chats_data = new ChatProvideResource($chats);
+        $order = Order::find($request->order_id);
+        if($order)
+        {
+            $chats = $this->provideModel($request->user_id, $order->id);
+            $chats_data = new ChatProvideResource($chats);
+            $messages_data = ChatMessageResource::collection($this->getRoomMessages($chats->id));
+            $data = [
+                        'chats' => $chats_data,
+                        'messages' => $messages_data,
+                    ];
+            return $data;
 
-        $messages_data = ChatMessageResource::collection($this->getRoomMessages($chats->id));
-        $data = [
-                    'chats' => $chats_data,
-                    'messages' => $messages_data,
-                ];
-        return $data;
+        }
+        else
+        {
+            $order = Order::create([
+                                        'from' => auth()->user()->id,
+                                        'to' => $request->user_id,
+                                    ]);
+            $chats = $this->provideModel($request->user_id , $order->id);
+            $chats_data = new ChatProvideResource($chats);
+
+            $messages_data = ChatMessageResource::collection($this->getRoomMessages($chats->id));
+            $data = [
+                        'chats' => $chats_data,
+                        'messages' => $messages_data,
+                    ];
+            return $data;
+        }
+
     }
 
     public function getRooms()
