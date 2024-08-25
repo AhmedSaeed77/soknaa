@@ -4,6 +4,7 @@ namespace App\Http\Controllers\dashboard;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\Chat;
+use App\Models\Complaint;
 use App\Models\PrivatChat;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Http\Requests\dashboard\ChangeStatusOrderRequest;
 use App\Http\Resources\dashboard\DashboardOrderResource;
 use App\Http\Resources\dashboard\DashboardOneOrderResource;
 use App\Http\Resources\dashboard\OrdersIndexResource;
+use App\Http\Resources\dashboard\ComplaintIndexResource;
 use App\Http\Resources\dashboard\ChatIndexResource;
 
 use App\Traits\GeneralTrait;
@@ -121,6 +123,9 @@ class IndexDashboardController extends Controller
 
             $private_chats_data = ChatIndexResource::collection($private_chats);
 
+            $complaints = Complaint::orderBy('created_at', 'desc')->take(5)->get();
+            $complaints_data = ComplaintIndexResource::collection($complaints);
+
             $data = [
                         'allusers' => $allusers,
                         'malecounter' => $malecounter,
@@ -131,7 +136,8 @@ class IndexDashboardController extends Controller
                         'orders_data' => $orders_data,
                         'chats_data' => $chats_data,
                         'private_chats_data' => $private_chats_data,
-                        'latestUsers' => $latestUsers
+                        'latestUsers' => $latestUsers,
+                        'complaints_data' => $complaints_data,
                     ];
             // $orders_data = DashboardOrderResource::collection($orders);
             return $this->returnData('data',$data);

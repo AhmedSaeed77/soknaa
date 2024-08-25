@@ -35,7 +35,7 @@ class ChatPusherController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth:api-app');
+        // $this->middleware('auth:api');
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ class ChatPusherController extends Controller
     public function getRoomsModel()
     {
         return ChatRoom::whereHas('members', function ($query) {
-                $query->where('user_id', auth('api-app')->id());
+                $query->where('user_id', auth()->user()->id);
             })
             ->orderByDesc('updated_at')
             ->get();
@@ -90,7 +90,7 @@ class ChatPusherController extends Controller
 
     public function resetUnread($room_id)
     {
-        return ChatRoomMember::where('chat_room_id', $room_id)->where('user_id', auth('api-app')->id())->update(['unread_count' => 0]);
+        return ChatRoomMember::where('chat_room_id', $room_id)->where('user_id', auth()->user()->id)->update(['unread_count' => 0]);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -158,14 +158,7 @@ class ChatPusherController extends Controller
     public function getMessages($room_id)
     {
         $room = ChatRoom::find($room_id);
-        if (Gate::allows('access-room', $room))
-        {
-            return ChatMessageResource::collection($this->getRoomMessages($room_id));
-        }
-        else
-        {
-            return $this->responseCustom(401, __('messages.You are not allowed to access this resource'));
-        }
+        return ChatMessageResource::collection($this->getRoomMessages($room_id));
     }
 
     public function loadMoreMessages(Request $request, $room_id)
@@ -264,18 +257,18 @@ class ChatPusherController extends Controller
 
     public function goOnline()
     {
-        $this->userRepository->update(auth('api-app')->id(), ['is_online' => true]);
+        $this->userRepository->update(auth()->user()->id, ['is_online' => true]);
 
-        broadcast(new OnlineStateEvent(auth('api-app')->user(), auth('api-app')->id()));
+        broadcast(new OnlineStateEvent(auth()->user(), auth()->user()->id));
 
         return $this->responseSuccess();
     }
 
     public function goOffline()
     {
-        $this->userRepository->update(auth('api-app')->id(), ['is_online' => false]);
+        $this->userRepository->update(auth()->user()->id, ['is_online' => false]);
 
-        broadcast(new OnlineStateEvent(auth('api-app')->user(), auth('api-app')->id()));
+        broadcast(new OnlineStateEvent(auth()->user(), auth()->user()->id));
 
         return $this->responseSuccess();
     }

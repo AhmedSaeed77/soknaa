@@ -14,6 +14,25 @@ class OneUserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $isHaveChat = \App\Models\Order::where(function ($query) {
+            $query->where('from', $this->id)
+                  ->orWhere('to', $this->id);
+        })
+        ->where(function ($query) {
+            $query->where('from', auth()->user()->id)
+                  ->orWhere('to', auth()->user()->id);
+        })
+        ->exists() ? 1 : 0;
+        $order = \App\Models\Order::where(function ($query) {
+            $query->where('from', $this->id)
+                  ->orWhere('to', $this->id);
+        })
+        ->where(function ($query) {
+            $query->where('from', auth()->user()->id)
+                  ->orWhere('to', auth()->user()->id);
+        })
+        ->latest()->first();
+
         // return parent::toArray($request);
         return [
                     'id' => $this->id,
@@ -55,6 +74,8 @@ class OneUserResource extends JsonResource
                     'monthly_income' => $this->personalInformation->monthly_income ?? null,
                     'life_partner_info' => $this->personalInformation->life_partner_info ?? null,
                     'my_information' => $this->personalInformation->my_information ?? null,
+                    'is_have_chat' => $isHaveChat,
+                    'order_id' => $order ? $order->id : null,
                     'flag' => $this->location->country ? url(DB::table('all_countries')->where('country_arName', $this->location->country)->select('image')->first()->image) : null,
                     'images' => ImageUserResource::collection($this->images),
                     // 'image' => $this->images->first() ? url($this->images->first()->image) : null,

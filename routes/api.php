@@ -67,6 +67,7 @@ Route::group(['middleware' => 'cors'], function () {
 
             Route::get('getAllComplaints', [ComplaintDashboardController::class, 'getAllComplaints']);
             Route::get('getOneComplaint/{id}', [ComplaintDashboardController::class, 'getOneComplaint']);
+            Route::post('block/user/{id}', [ComplaintDashboardController::class, 'blockUser']);
 
             Route::get('index', [IndexDashboardController::class, 'index']);
 
@@ -106,7 +107,7 @@ Route::group(['middleware' => 'Lang'], function () {
 
     Route::get('/getAllUsersNotAut', [SiteController::class, 'getAllUsersNotAut']);
 
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['auth' , 'check.blocked']], function () {
 
         Route::post('/deleteaccount', [UserAuthController::class, 'deleteaccount']);
 
@@ -153,6 +154,8 @@ Route::group(['middleware' => 'Lang'], function () {
 
         Route::post('chats/provide', [ChatPusherController::class,'provide']);
         Route::post('chats/rooms/{rooms:id}/send', [ChatPusherController::class,'send']);
+        Route::get('chats/rooms/getRooms', [ChatPusherController::class,'getRooms']);
+        Route::get('chats/rooms/{id}/getMessages', [ChatPusherController::class,'getMessages']);
 
         Route::post('complaints', [ComplaintController::class,'store']);
 

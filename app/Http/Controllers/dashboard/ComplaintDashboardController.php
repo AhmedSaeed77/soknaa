@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\dashboard;
 use App\Models\Complaint;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\dashboard\DashboardOneComplaintResource;
@@ -83,5 +84,23 @@ class ComplaintDashboardController extends Controller
         }
     }
 
+    public function blockUser($id)
+    {
+        try
+        {
+            $user = User::find($id);
+            if($user)
+            {
+                $user->tokens()->delete();
+                $user->is_removed = 1;
+                $user->save();
+                return $this->returnData('data',__('site.profile_blocked'), __('site.profile_blocked'));
+            }
+        }
+        catch (\Exception $e)
+        {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 }

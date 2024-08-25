@@ -70,11 +70,11 @@ class ChatRoom extends Model
 
     public function otherParty()
     {
-        return $this->hasOne(ChatRoomMember::class)->where('user_id', '!=', auth('api-app')->id())->limit(1);
+        return $this->hasOne(ChatRoomMember::class)->where('user_id', '!=', auth()->user()->id)->limit(1);
     }
 
     public function currentMember()
     {
-        return $this->hasOne(ChatRoomMember::class)->where('user_id', auth('api-app')->id())->limit(1);
+        return $this->hasOne(ChatRoomMember::class)->where('user_id', auth()->user()->id)->limit(1);
     }
 }

@@ -75,6 +75,7 @@ class OrderDashboardController extends Controller
                 // return $this->returnData('data',$order_data);
 
                 $data = [
+                            // 'is_seen' => 1,
                             'messages_data' => $messages_data,
                             'order_data' => $order_data,
                         ];

@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\CheckIfUserIsBlocked::class,
     ];
 
     /**
@@ -66,5 +67,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'Lang' => \App\Http\Middleware\Language::class,
         'cors' => \App\Http\Middleware\Cors::class,
+        'check.blocked' => \App\Http\Middleware\CheckIfUserIsBlocked::class,
     ];
 }

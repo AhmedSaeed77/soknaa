@@ -27,6 +27,7 @@ class UserResource extends JsonResource
                     'date' => $this->created_at->format('Y-m-d'),
                     'status' => $this->status,
                     'reason' => $this->reason,
+                    'message' => $this->message,
                     'block' => $this->block == 0 ? 'مفعل' : 'غير مفعل' ,
                 ];
     }

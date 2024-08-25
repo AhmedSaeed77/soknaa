@@ -730,7 +730,7 @@ class UserAuthController extends Controller
         $user = User::find(auth()->user()->id);
         if($user)
         {
-            $user->update(['is_removed' => 1 , 'reason' => $request->reason]);
+            $user->update(['is_removed' => 1 , 'reason' => $request->reason, 'message' => $request->message]);
             // $user->delete();
             auth()->logout();
         }
