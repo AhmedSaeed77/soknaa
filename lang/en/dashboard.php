@@ -141,4 +141,5 @@ return [
     'Old_password_does_not_matched' => 'Old Password Does Not Matched',
     'user_is_removed' => 'User Is Removed',
     'chat_closed' => 'Chat Closed',
+    'recored blocked successfully.' => 'recored blocked successfully.',
 ];

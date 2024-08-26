@@ -186,38 +186,45 @@ class ChatPusherController extends Controller
                             ]);
 
         $room = ChatRoom::find($room_id);
-        DB::beginTransaction();
-        try
+        if($room->status == 'OPEN')
         {
-            $data = $request->input();
-            if ($request->type != 'TEXT')
+            DB::beginTransaction();
+            try
             {
-                $data['content'] = $this->uploadNotTextMessage($request->file);
-                unset($data['file']);
+                $data = $request->input();
+                if ($request->type != 'TEXT')
+                {
+                    $data['content'] = $this->uploadNotTextMessage($request->file);
+                    unset($data['file']);
+                }
+                $message = ChatRoomMessage::create([
+                                                        'chat_room_id' => $room_id,
+                                                        'user_id' => auth()->user()->id,
+                                                        'content' => $data['content'],
+                                                        'type' => $data['type']
+                                                    ]);
+
+                $room->update(['updated_at' => Carbon::now()]);
+
+                $chatroommemeber = ChatRoomMember::where('chat_room_id', $room_id)
+                                                    ->where('user_id', '!=', auth()->user()->id)
+                                                    ->increment('unread_count');
+
+                broadcast(new PushChatMessageEvent($message))->toOthers();
+                DB::commit();
+                $data = new ChatMessageResource($message);
+                return $data;
             }
-            $message = ChatRoomMessage::create([
-                                                    'chat_room_id' => $room_id,
-                                                    'user_id' => auth()->user()->id,
-                                                    'content' => $data['content'],
-                                                    'type' => $data['type']
-                                                ]);
-
-            $room->update(['updated_at' => Carbon::now()]);
-
-            $chatroommemeber = ChatRoomMember::where('chat_room_id', $room_id)
-                                                ->where('user_id', '!=', auth()->user()->id)
-                                                ->increment('unread_count');
-
-            broadcast(new PushChatMessageEvent($message))->toOthers();
-            DB::commit();
-            $data = new ChatMessageResource($message);
-            return $data;
+            catch (Exception $e)
+            {
+                DB::rollBack();
+                Log::warning('send chat error: ' . $e);
+                return $this->responseFail(message: __('messages.Something went wrong'));
+            }
         }
-        catch (Exception $e)
+        else
         {
-            DB::rollBack();
-            Log::warning('send chat error: ' . $e);
-            return $this->responseFail(message: __('messages.Something went wrong'));
+            return $this->responseCustom(401, __('messages.You are not allowed to access this resource'));
         }
     }
 
@@ -282,4 +289,14 @@ class ChatPusherController extends Controller
 
         return $this->returnData('data',__('dashboard.recored deleted successfully.'),__('dashboard.recored deleted successfully.'));
     }
+
+    public function blockRoom($id)
+    {
+        $room = ChatRoom::find($id);
+        $room->update(['status' => 'CLOSE']);
+        $room->save();
+        return $this->returnData('data',__('dashboard.recored blocked successfully.'),__('dashboard.recored blocked successfully.'));
+    }
+
+
 }

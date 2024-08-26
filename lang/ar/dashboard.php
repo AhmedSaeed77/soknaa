@@ -29,6 +29,7 @@ return [
     'recored created successfully.' => 'تم الانشاء بنجاح',
     'recored updated successfully.' => 'تم التعديل بنجاح',
     'recored deleted successfully.' => 'تم الحذف بنجاح',
+    'recored blocked successfully.' => 'تم الحظر بنجاح',
     'Event Details' => 'تفاصيل الفعاليه',
     'Event Boxes' => 'المربعات',
     'Event subcategory' => 'الفئات',
