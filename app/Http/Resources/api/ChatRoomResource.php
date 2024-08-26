@@ -18,6 +18,7 @@ class ChatRoomResource extends JsonResource
         return [
             'id' => $this->id,
             'other_party' => $this->otherParty?->user,
+            'image' => $this->otherParty?->user->images->first() ? url($this->otherParty?->user->images->first()->image) : null,
             'content' => $this->latestMessageContent,
             'sent_at' => Carbon::parse($this->last_seen?->created_at)->format('d M Y h:ia'),
             'unread_count' => $this->unreadCount,

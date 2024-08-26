@@ -15,10 +15,11 @@ class ChatMessageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-    
+
         return [
             'id' => $this->id,
             'sender' => $this->user,
+            'image' => $this->user->images->first() ? url($this->user->images->first()->image) : null,
             'content' => $this->contentValue,
             'type' => $this->type,
             'sent_at' => Carbon::parse($this->created_at)->format('d M Y h:ia'),

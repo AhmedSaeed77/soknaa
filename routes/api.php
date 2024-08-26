@@ -157,6 +157,8 @@ Route::group(['middleware' => 'Lang'], function () {
         Route::get('chats/rooms/getRooms', [ChatPusherController::class,'getRooms']);
         Route::get('chats/rooms/{id}/getMessages', [ChatPusherController::class,'getMessages']);
 
+        Route::get('chats/rooms/delete/{id}', [ChatPusherController::class,'deleteRoome']);
+
         Route::post('complaints', [ComplaintController::class,'store']);
 
     });

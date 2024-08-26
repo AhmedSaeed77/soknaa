@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\api\ChatProvideResource;
 use App\Http\Resources\api\ChatMessageResource;
 use App\Http\Resources\api\ChatRoomResource;
+use App\Traits\GeneralTrait;
 
 use App\Events\PushChatMessageEvent;
 use Auth;
@@ -25,6 +26,7 @@ class ChatPusherController extends Controller
 {
 
     use Responser;
+    use GeneralTrait;
 
     private $file = [
                         'TEXT' =>
@@ -271,5 +273,13 @@ class ChatPusherController extends Controller
         broadcast(new OnlineStateEvent(auth()->user(), auth()->user()->id));
 
         return $this->responseSuccess();
+    }
+
+    public function deleteRoome($id)
+    {
+        $room = ChatRoom::find($id);
+        $room->delete();
+
+        return $this->returnData('data',__('dashboard.recored deleted successfully.'),__('dashboard.recored deleted successfully.'));
     }
 }
