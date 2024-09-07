@@ -35,6 +35,8 @@ return [
     'Event subcategory' => 'الفئات',
     'Tickts' => 'التذاكر',
     'Users' => 'المستخدمين',
+    'this_user_have_blocked_you' => 'هذا المستخدم قام بحظرك',
+    'you_have_blocked_this_member' => 'لقد قمت بحظر هذا العضو',
     'User_Details' => 'تفاصيل المستخدم',
     'Address En' => 'العنوان بالانجليزيه',
     'Address Ar' => 'العنوان بالعربيه',

@@ -160,6 +160,8 @@ class ChatPusherController extends Controller
     public function getMessages($room_id)
     {
         $room = ChatRoom::find($room_id);
+        $room_member = ChatRoomMember::where('user_id', auth()->user()->id)->where('chat_room_id', $room->id)->first();
+        $room_member->update(['unread_count' => 0]);
         return ChatMessageResource::collection($this->getRoomMessages($room_id));
     }
 
@@ -188,6 +190,20 @@ class ChatPusherController extends Controller
         $room = ChatRoom::find($room_id);
         if($room->status == 'OPEN')
         {
+            if($room->members->count() != 0)
+            {
+                foreach($room->members as $member)
+                {
+
+                    if($member->user->is_removed == 1)
+                    {
+                        return $this->responseCustom(401,'لا يمكن التواصل مع هذا العضو ف الوقت الحالي');
+                    }
+                }
+            }
+            {
+
+            }
             DB::beginTransaction();
             try
             {
@@ -224,7 +240,14 @@ class ChatPusherController extends Controller
         }
         else
         {
-            return $this->responseCustom(401, __('messages.You are not allowed to access this resource'));
+            if($room->block_from == auth()->user()->id)
+            {
+                return $this->responseCustom(401, __('dashboard.you_have_blocked_this_member'));
+            }
+            else
+            {
+                return $this->responseCustom(401, __('dashboard.this_user_have_blocked_you'));
+            }
         }
     }
 
@@ -293,7 +316,7 @@ class ChatPusherController extends Controller
     public function blockRoom($id)
     {
         $room = ChatRoom::find($id);
-        $room->update(['status' => 'CLOSE']);
+        $room->update(['status' => 'CLOSE' , 'block_from' => auth()->user()->id]);
         $room->save();
         return $this->returnData('data',__('dashboard.recored blocked successfully.'),__('dashboard.recored blocked successfully.'));
     }

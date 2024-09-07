@@ -20,12 +20,14 @@ class SiteController extends Controller
                         ->where('is_showprofile',1)
                         ->where('block',0)
                         ->where('is_active',1)
+                        ->where('is_removed',0)
                         ->when($request->has('country'), function ($query) use ($request) {
                 $query->whereHas('location', function ($subQuery) use ($request) {
                     $subQuery->where('country', $request->input('country'));
                 });
             })
-                        ->get();
+            ->orderBy('is_online','desc')
+            ->get();
         $users_data = UserResource::collection($users);
         return $this->returnData('data',$users_data);
     }
@@ -38,6 +40,7 @@ class SiteController extends Controller
                         ->where('is_showprofile',1)
                         ->where('block',0)
                         ->where('is_active',1)
+                        ->where('is_removed',0)
                         ->latest()
                         ->limit(12)
                         ->get();
@@ -51,6 +54,7 @@ class SiteController extends Controller
                         ->where('type','!=','خاطبه')
                         ->where('is_showprofile',1)
                         ->where('block',0)
+                        ->where('is_removed',0)
                         ->latest()
                         ->limit(10)
                         ->get();
@@ -80,6 +84,7 @@ class SiteController extends Controller
             $users = User::where('parent_id',$olduser->id)
             ->where('is_active',1)
             ->where('block',0)
+            ->where('is_removed',0)
             ->when($request->has('name'), function ($query) use ($request) {
                     $query->where('name', 'like', '%' . $request->input('name') . '%');
             })
@@ -135,6 +140,7 @@ class SiteController extends Controller
             $users = User::where('type','!=',$olduser->type)
                 ->where('is_active',1)
                 ->where('block',0)
+                ->where('is_removed',0)
                 ->when($request->has('name'), function ($query) use ($request) {
                         $query->where('name', 'like', '%' . $request->input('name') . '%');
                 })
@@ -150,7 +156,7 @@ class SiteController extends Controller
                 ->when($request->has('min_age') && $request->has('max_age'), function ($query) use ($request) {
                     $minAge = $request->input('min_age');
                     $maxAge = $request->input('max_age');
-    
+
                     // Adjust the condition to include the specified age range
                     $query->where(function ($subQuery) use ($minAge, $maxAge) {
                         $subQuery->whereBetween('age', [$minAge, $maxAge])
@@ -185,7 +191,7 @@ class SiteController extends Controller
                 })
                 ->get();
         }
-        
+
 
         $users_data = UserResource::collection($users);
         return $this->returnData('data',$users_data);

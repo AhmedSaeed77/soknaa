@@ -99,6 +99,7 @@ class UserAuthController extends Controller
                         'familysitiation' => $request->familysitiation,
                         'fcm' => $request->fcm,
                         'is_active' => 1,
+                        'status' => 1,
                         // 'block' => 0,
                         'is_showprofile' => 0,
                         'is_active_order' => 0,
@@ -196,10 +197,10 @@ class UserAuthController extends Controller
             {
                 return $this->returnError(422,__('dashboard.admin_not_active'));
             }
-            if (\auth('web')->user()->is_removed == 1)
-            {
-                return $this->returnError(422,__('dashboard.user_is_removed'));
-            }
+            // if (\auth('web')->user()->is_removed == 1)
+            // {
+            //     return $this->returnError(422,__('dashboard.user_is_removed'));
+            // }
             $user->update(['fcm' => $request->fcm]);
             return $this->returnData('data',['user_data' => $user , 'token' => $token] , __('dashboard.admin_Is_Login'));
         }
@@ -732,6 +733,10 @@ class UserAuthController extends Controller
         {
             $user->update(['is_removed' => 1 , 'reason' => $request->reason, 'message' => $request->message]);
             // $user->delete();
+            if($request->reason == 'توفيقي من التطبيق والحمد لله')
+            {
+                
+            }
             auth()->logout();
         }
 

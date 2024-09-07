@@ -18,6 +18,8 @@ return [
     'events' => 'Events',
     'Dashboard' => 'Dashboard',
     'Place Ar' => 'Place Arabic ',
+    'this_user_have_blocked_you' => 'this user have blocked you',
+    'you_have_blocked_this_member' => 'You have blocked this member',
     'Place En' => ' Place English ',
     'belong Ar' => 'Belong Arabic',
     'belong En' => 'Belong English',

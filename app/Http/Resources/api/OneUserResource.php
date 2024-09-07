@@ -5,6 +5,8 @@ namespace App\Http\Resources\api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 class OneUserResource extends JsonResource
 {
     /**
@@ -32,6 +34,32 @@ class OneUserResource extends JsonResource
                   ->orWhere('to', auth()->user()->id);
         })
         ->latest()->first();
+
+
+        $lastSeen = $this->last_seen; // assuming it's a timestamp or datetime object
+        $lastRegistered = $this->created_at; // assuming it's a timestamp or datetime object
+
+        // Set locale to Arabic
+        \Carbon\Carbon::setLocale('ar');
+
+        // Calculate the difference and format it
+        $lastSeenCarbon = Carbon::parse($lastSeen);
+        $lastRegisteredCarbon = Carbon::parse($lastRegistered);
+
+        if ($lastSeenCarbon->diffInDays() > 0) {
+            // If the difference is more than or equal to 1 day
+            $lastSeenFormatted = $lastSeenCarbon->diffForHumans(null, true, false, 2); // "منذ يوم" or "منذ 7 أيام"
+        } else {
+            // If the difference is less than a day, return "منذ 3 ساعات" etc.
+            $lastSeenFormatted = $lastSeenCarbon->diffForHumans(null, true, false, 3);
+        }
+
+        if ($lastRegisteredCarbon->diffInDays() > 0) {
+            $lastRegisteredFormatted = $lastRegisteredCarbon->diffForHumans(null, true, false, 2);
+        } else {
+            $lastRegisteredFormatted = $lastRegisteredCarbon->diffForHumans(null, true, false, 3);
+        }
+
 
         // return parent::toArray($request);
         return [
@@ -75,6 +103,8 @@ class OneUserResource extends JsonResource
                     'life_partner_info' => $this->personalInformation->life_partner_info ?? null,
                     'my_information' => $this->personalInformation->my_information ?? null,
                     'is_have_chat' => $isHaveChat,
+                    'last_seen' => $lastSeenFormatted ?? null,
+                    'last_registered' => $lastRegisteredFormatted ?? null,
                     'order_id' => $order ? $order->id : null,
                     'flag' => $this->location->country ? url(DB::table('all_countries')->where('country_arName', $this->location->country)->select('image')->first()->image) : null,
                     'images' => ImageUserResource::collection($this->images),
