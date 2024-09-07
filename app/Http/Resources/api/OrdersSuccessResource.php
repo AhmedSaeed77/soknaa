@@ -35,7 +35,7 @@ class OrdersSuccessResource extends JsonResource
                     'message' => $this->message ? $this->message : '',
                 ];
         }
-        else
+        elseif($this->message_from == 1)
         {
              return [
                         'id' => $this->id,
@@ -53,8 +53,28 @@ class OrdersSuccessResource extends JsonResource
                         'from_image' => $this->fromUser->images->first() ? url($this->fromUser->images->first()->image) : null,
                         'date' => $this->updated_at->format('Y-m-d'),
                         'message' => $this->message ? $this->message : '',
-                    ];   
+                    ];
         }
-        
+        else
+        {
+            return [
+                'id' => $this->id,
+                'order_num' => null,
+                'from' => $this->id,
+                'from_name' => $this->name,
+                'from_membership_num' => $this->membership_num,
+                'from_email' => $this->email,
+                'from_country' => $this->location->country,
+                'from_type' => $this->type,
+                'from_sex' => $this->sex,
+                'from_phone' => $this->phone,
+                'from_familysitiation' => $this->familysitiation,
+                // 'from_image' => url($this->fromUser->images->first()->image),
+                'from_image' => $this->images->first() ? url($this->images->first()->image) : null,
+                'date' => $this->updated_at->format('Y-m-d'),
+                'message' => $this->reason ? $this->reason : '',
+            ];
+        }
+
     }
 }
