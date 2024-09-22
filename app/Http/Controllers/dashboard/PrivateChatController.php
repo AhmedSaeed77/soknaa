@@ -10,7 +10,8 @@ use App\Http\Resources\dashboard\FromMesageResource;
 use App\Http\Resources\dashboard\ToMessageResource;
 use App\Http\Resources\dashboard\PrivateChatResource;
 use Illuminate\Support\Facades\DB;
-
+use Google\Client as GoogleClient;
+use Illuminate\Support\Facades\Http;
 use App\Traits\GeneralTrait;
 
 class PrivateChatController extends Controller
@@ -63,14 +64,20 @@ class PrivateChatController extends Controller
                         );
         try
         {
+            $user = User::find($request->to_user);
+            
             if($request->type == 0)
             {
+                
                  PrivatChat::create([
                                     'to_user' => $request->to_user , 
                                     'from_admin' => auth()->user()->id , 
                                     'message' => $request->message,
                                     'type' => $request->type
                                 ]);
+                $title = "تحذير من الادمن";
+                $content = $request->message;
+                $this->sendNotificationCheck($title,$content,$user);
             }
             else
             {
@@ -188,6 +195,58 @@ class PrivateChatController extends Controller
             }
         }
         return "done";
+    }
+    
+    public function sendNotificationCheck($title,$description,$user)
+    {
+        $credentialsFilePath = Http::get(asset('json/sknoaa-app-2024-fa6a3cebd295.json'));
+    
+        $client = new GoogleClient();
+        $client->setAuthConfig($credentialsFilePath);
+        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+        $client->refreshTokenWithAssertion();
+        $token = $client->getAccessToken();
+    
+        $access_token = $token['access_token'];
+    
+        $headers = [
+            "Authorization: Bearer $access_token",
+            'Content-Type: application/json'
+        ];
+    
+        $data = [
+            "message" => [
+                "token" => $user->fcm,
+                "notification" => [
+                    "title" => $title,
+                    "body" => $description,
+                ],
+            ]
+        ];
+        $payload = json_encode($data);
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/v1/projects/sknoaa-app-2024/messages:send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_VERBOSE, true); // Enable verbose output for debugging
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+    
+        if ($err) {
+            return response()->json([
+                'message' => 'Curl Error: ' . $err
+            ], 500);
+        } else {
+            return response()->json([
+                'message' => 'Notification has been sent',
+                'response' => json_decode($response, true)
+            ]);
+        }
     }
   
 }

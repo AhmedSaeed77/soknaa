@@ -20,7 +20,7 @@ class OrderController extends Controller
     {
         try
         {
-
+            
             $user = User::find(auth()->user()->id);
             if($user->type == 'خاطبه')
             {
@@ -76,7 +76,7 @@ class OrderController extends Controller
             $devicetokens = User::where('id',$request->to_user)->pluck('fcm')->toArray();
             $title = "طلب خطبه جديد";
             $content = "طلب خطبه جديد";
-            $this->notify($devicetokens,$title,$content);
+            $this->notify($devicetokens,$title,$content); 
             $message2 = 'تم إرسال الطلب بنجاح
 سوف يقوم فريق سٌكنة بالتواصل مع الطرف الاخر والرد عليك ومن ثم تحديد موعد للرؤية الشرعية عبر زووم';
             return $this->returnData('data',__('dashboard.recored created successfully.'),$message2);
@@ -91,7 +91,7 @@ class OrderController extends Controller
     {
         $notification = $this->notificationScheme($deviceTokens,$title,$content);
         $serverApiKey = 'AAAA5TQDlA8:APA91bE6PDdJigtCOwjLW9eTxZ4aOZNlBNo9GEbrle3zH6i5E8V8O5av3fZVEv_YvZSSvkhSggelHPR5qmCYzIdhxdEEqV_ftLz9_EicHprFKCufQJPcC4HTgM31VmjAr6yMD69xqBAt';
-
+        
         $headers = [
                         'Authorization: key=' .$serverApiKey,
                         'Content-Type: application/json',
@@ -115,7 +115,7 @@ class OrderController extends Controller
                                 'notification'      => [
                                                             'title' => $title,
                                                             'body' => $content,
-                                                        ],
+                                                        ],                 
                             ]);
     }
 

@@ -92,8 +92,16 @@ class ComplaintDashboardController extends Controller
             if($user)
             {
                 $user->tokens()->delete();
-                $user->is_removed = 1;
-                $user->save();
+                // $user->is_removed = 1;
+                // $user->save();
+                if($user->block == 1)
+                {
+                    $user->update(['block' => 0]);
+                }
+                else
+                {
+                    $user->update(['block' => 1]);
+                }
                 return $this->returnData('data',__('site.profile_blocked'), __('site.profile_blocked'));
             }
         }

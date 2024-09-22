@@ -22,7 +22,7 @@ class ChatMessageResource extends JsonResource
             'image' => $this->user->images->first() ? url($this->user->images->first()->image) : null,
             'content' => $this->contentValue,
             'type' => $this->type,
-            'sent_at' => Carbon::parse($this->created_at)->format('d M Y h:ia'),
+            'sent_at' => $this->sent_at ? Carbon::parse($this->sent_at)->format('d M Y h:ia') : Carbon::parse($this->created_at)->format('d M Y h:ia'),
             'is_seen' => 1,
         ];
     }

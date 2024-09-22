@@ -15,6 +15,16 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         // return parent::toArray($request);
+        $countryName = $this->location->country;
+
+        if ($countryName)
+        {
+            $country = DB::table('all_countries')
+                ->where('country_arName', $countryName)
+                ->select('image')
+                ->first();
+        }
+        
         return [
                     'id' => $this->id,
                     'is_ordered' => $this->is_ordered,
@@ -29,7 +39,7 @@ class UserResource extends JsonResource
                     'is_online' => $this->is_online,
                     // 'image' => url($this->images->first()->image),
                     'image' => $this->images->first() ? url($this->images->first()->image) : null,
-                    'flag' => $this->location->country ? url(DB::table('all_countries')->where('country_arName', $this->location->country)->select('image')->first()->image) : null,
+                    'flag' => $country ? url($country->image) : null,
                 ];
     }
 }

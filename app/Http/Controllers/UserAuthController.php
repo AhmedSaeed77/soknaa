@@ -197,10 +197,16 @@ class UserAuthController extends Controller
             {
                 return $this->returnError(422,__('dashboard.admin_not_active'));
             }
-            // if (\auth('web')->user()->is_removed == 1)
-            // {
-            //     return $this->returnError(422,__('dashboard.user_is_removed'));
-            // }
+            if (\auth('web')->user()->block == 1)
+            {
+                // return $this->returnError(422,__('dashboard.user_is_removed'));
+                return $this->returnError(422,__('dashboard.user_is_blocked'));
+            }
+            if (\auth('web')->user()->block == "1")
+            {
+                // return $this->returnError(422,__('dashboard.user_is_removed'));
+                return $this->returnError(422,__('dashboard.user_is_blocked'));
+            }
             $user->update(['fcm' => $request->fcm]);
             return $this->returnData('data',['user_data' => $user , 'token' => $token] , __('dashboard.admin_Is_Login'));
         }

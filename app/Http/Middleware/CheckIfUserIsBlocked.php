@@ -17,13 +17,7 @@ class CheckIfUserIsBlocked
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // if (Auth::check() && Auth::user()->is_removed)
-        // {
-        //     Auth::logout();
-        //     return $this->returnError(422,__('dashboard.user_is_removed'));
-        // }
-        // if (Auth::check())
-        // {
+        // if (Auth::check() && Auth::user()->is_removed) {
         //     Auth::logout();
         //     return $this->returnError(422,__('dashboard.user_is_removed'));
         // }

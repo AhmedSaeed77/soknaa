@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Resources\api\UserResource;
 use App\Http\Resources\api\OneUserResource;
 use App\Traits\GeneralTrait;
+use Google\Client as GoogleClient;
+use Illuminate\Support\Facades\Http;
+use App\Models\ChatRoomMessage;
+use Illuminate\Support\Facades\Auth;
 
 class SiteController extends Controller
 {
@@ -28,8 +32,45 @@ class SiteController extends Controller
             })
             ->orderBy('is_online','desc')
             ->get();
+        $user->update(['last_seen' => \Carbon\Carbon::now(),'is_online' => 1]);
+        User::where('is_online', 1)
+        ->where('updated_at', '<', now()->subMinutes(3))
+        ->update(['is_online' => 0]);
+        // if($user->block == 1)
+        // {
+        //     $user->logout();
+        // }
+        $title = "تحذير";
+        $content1 = 'لقد قمت بإرسال رقم هاتفك لاكثر من 5 مرات سوف يتم حظرك';
+        $content2 = 'لقد قمت بإرسال رقم هاتفك لاكثر من 10 مرات سوف يتم حظرك';
+        $content3 = 'لقد تم بإرسال رقم هاتفك لاكثر من 15 مرات لقد يتم حظرك';
+        
+        
+        
+        
+        
+        // if(!$this->checkPhoneMessagesToday($user,15))
+        // {
+        //     $this->sendNotificationCheck($title,$content3,$user);
+        //     $user->update(['block' => 1]);
+        //     Auth::logout();
+        // }
+        // elseif(!$this->checkPhoneMessagesToday($user,10))
+        // {
+        //     $this->sendNotificationCheck($title,$content2,$user);
+            
+        // }
+        // elseif(!$this->checkPhoneMessagesToday($user,5))
+        // {
+        //     $this->sendNotificationCheck($title,$content1,$user);
+        // }
+        
         $users_data = UserResource::collection($users);
-        return $this->returnData('data',$users_data);
+        $data = [
+            'message_counter' => $user->chatRoomsCount(),
+            'users_data' => $users_data,
+            ];
+        return $this->returnData('data',$data);
     }
 
     public function getAllUsersHome()
@@ -44,8 +85,45 @@ class SiteController extends Controller
                         ->latest()
                         ->limit(12)
                         ->get();
+        $user->update(['last_seen' => \Carbon\Carbon::now(),'is_online' => 1]);
+         User::where('is_online', 1)
+        ->where('updated_at', '<', now()->subMinutes(3))
+        ->update(['is_online' => 0]);
+        // if($user->block == 1)
+        // {
+        //     $user->logout();
+        // }
+        $title = "تحذير";
+        $content1 = 'لقد قمت بإرسال رقم هاتفك لاكثر من 5 مرات سوف يتم حظرك';
+        $content2 = 'لقد قمت بإرسال رقم هاتفك لاكثر من 10 مرات سوف يتم حظرك';
+        $content3 = 'لقد قمت بإرسال رقم هاتفك لاكثر من 15 مرات لقد يتم حظرك';
+        
+        
+        
+        
+        
+        // if(!$this->checkPhoneMessagesToday($user,15))
+        // {
+        //     $this->sendNotificationCheck($title,$content3,$user);
+        //     $user->update(['block' => 1]);
+        //     Auth::logout();
+        // }
+        // elseif(!$this->checkPhoneMessagesToday($user,10))
+        // {
+        //     $this->sendNotificationCheck($title,$content2,$user);
+            
+        // }
+        // elseif(!$this->checkPhoneMessagesToday($user,5))
+        // {
+        //     $this->sendNotificationCheck($title,$content1,$user);
+        // }
+        
         $users_data = UserResource::collection($users);
-        return $this->returnData('data',$users_data);
+        $data = [
+            'message_counter' => $user->chatRoomsCount(),
+            'users_data' => $users_data,
+            ];
+        return $this->returnData('data',$data);
     }
 
     public function getAllUsersNotAut()
@@ -60,6 +138,86 @@ class SiteController extends Controller
                         ->get();
         $users_data = UserResource::collection($users);
         return $this->returnData('data',$users_data);
+    }
+    
+    public function checkPhoneMessagesToday($user,$num)
+    {
+        // Regular expression to detect phone numbers (6 or more digits)
+        $phoneRegex = '/\d{6,}/';
+    
+        // Get the current date
+        $today = now()->format('Y-m-d');
+    
+        // Get all previous messages of the user that contain a phone number sent today
+        $messagesToday = ChatRoomMessage::where('user_id', $user->id)
+            ->whereDate('created_at', $today) // Filter by today's date
+            ->get()
+            ->filter(function ($message) use ($phoneRegex) {
+                return preg_match($phoneRegex, $message->content);
+            });
+    
+        // Count how many messages with phone numbers have been sent today
+        $phoneMessageCountToday = $messagesToday->count();
+    
+        // Check if the user has sent more than 5 messages with phone numbers today
+        if ($phoneMessageCountToday >= $num) {
+            return false; // User has exceeded the limit for today
+        }
+    
+        // If the user hasn't exceeded the limit, return true
+        return true; // User is allowed to send the message
+    }
+    
+    public function sendNotificationCheck($title,$description,$user)
+    {
+        $credentialsFilePath = Http::get(asset('json/sknoaa-app-2024-fa6a3cebd295.json'));
+    
+        $client = new GoogleClient();
+        $client->setAuthConfig($credentialsFilePath);
+        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+        $client->refreshTokenWithAssertion();
+        $token = $client->getAccessToken();
+    
+        $access_token = $token['access_token'];
+    
+        $headers = [
+            "Authorization: Bearer $access_token",
+            'Content-Type: application/json'
+        ];
+    
+        $data = [
+            "message" => [
+                "token" => $user->fcm,
+                "notification" => [
+                    "title" => $title,
+                    "body" => $description,
+                ],
+            ]
+        ];
+        $payload = json_encode($data);
+    
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/v1/projects/sknoaa-app-2024/messages:send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_VERBOSE, true); // Enable verbose output for debugging
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
+    
+        if ($err) {
+            return response()->json([
+                'message' => 'Curl Error: ' . $err
+            ], 500);
+        } else {
+            return response()->json([
+                'message' => 'Notification has been sent',
+                'response' => json_decode($response, true)
+            ]);
+        }
     }
 
     public function getOneUserSite($id)
